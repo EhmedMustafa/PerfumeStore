@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfumeStore.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfumeStore.WebUI", "PerfumeStore.WebUI\PerfumeStore.WebUI.csproj", "{FD7AAC42-1467-43B6-928E-58483FE19B60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfumeStore.API", "PerfumeStore.API\PerfumeStore.API.csproj", "{86854EAB-F535-428F-8454-16840D11639A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FD7AAC42-1467-43B6-928E-58483FE19B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD7AAC42-1467-43B6-928E-58483FE19B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD7AAC42-1467-43B6-928E-58483FE19B60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86854EAB-F535-428F-8454-16840D11639A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86854EAB-F535-428F-8454-16840D11639A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86854EAB-F535-428F-8454-16840D11639A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86854EAB-F535-428F-8454-16840D11639A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
