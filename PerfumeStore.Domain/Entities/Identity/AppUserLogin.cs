@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PerfumeStore.Domain.Entities.Identity
 {
-   public class AppUserLogin : IdentityUserLogin<int>
+   public class AppUserLogin:IdentityUserLogin<int>
     {
+
     }
 }

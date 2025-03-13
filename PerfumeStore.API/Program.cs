@@ -2,11 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using PerfumeStore.Application;
 using PerfumeStore.Application.Services;
+using PerfumeStore.Domain.Entities.Identity;
 using PerfumeStore.Infrastructure;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var con = builder.Configuration;
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(con);
@@ -15,10 +17,20 @@ builder.Services.AddInfrastructure(con);
 builder.Services.AddScoped<IProductService, ProductService>();
 
 // ✅ Identity Konfiqurasiyası
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
 
+    options.User.RequireUniqueEmail = true;
+
+    options.SignIn.RequireConfirmedEmail = false;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
 
 // ✅ Authentication və Authorization üçün JWT Token Konfiqurasiyası
 builder.Services.AddAuthentication(options =>
