@@ -46,6 +46,20 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations.Identity
 
             // Each User can have many entries in the UserRole join table
             builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+            //var superadmin = new AppUser
+            //{
+            //    Id = 1,
+            //    UserName = "Ehmed Mustafa",
+            //    NormalizedUserName = "EHMED MUSTAFA",
+            //    Email = "Prince.1987@mail.ru",
+            //    NormalizedEmail = "PRINCE.1987@MAIL.RU",
+            //    PhoneNumber = "+994502330644",
+            //    FirstName = "Ehmed",
+            //    LastName = "Mustafa",
+            //    PhoneNumberConfirmed = false,
+            //    EmailConfirmed = false,
+            //    SecurityStamp = 1.ToString(),
+            //};
         }
     }
 }

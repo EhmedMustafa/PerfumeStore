@@ -22,43 +22,39 @@ builder.Services.AddScoped<IProductService, ProductService>();
 // ✅ Identity Konfiqurasiyası
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
 {
-    options.Password.RequireDigit = false;
-    options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;//Şifrədə ən azı 1 rəqəm olmalıdır.
+    options.Password.RequiredLength = 6;// Minimum 6 simvol uzunluğunda olmalıdır.
+    options.Password.RequireNonAlphanumeric = false;//Xüsusi simvollar (@, #, !) tələb olunmur.
+    options.Password.RequireUppercase = false;//Böyük hərf məcburi deyil.
     options.Password.RequireLowercase = false;
 
     options.User.RequireUniqueEmail = true;
 
     options.SignIn.RequireConfirmedEmail = false;
 })
-.AddEntityFrameworkStores<AppDbContext>()
-.AddDefaultTokenProviders();
+.AddEntityFrameworkStores<AppDbContext>()// Identity verilənlər bazası AppDbContext vasitəsilə saxlanılır.
+.AddDefaultTokenProviders();// Şifrə yeniləmə, email təsdiqi üçün tokenlər yaradacaq.
+
 
 // JWT Authentication
-var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        RequireExpirationTime = true,
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
-    };
-});
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "yourdomain.com",
+            ValidAudience = "yourdomain.com",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSuperSecretKey1234567890!@#$%^&*()"))
+        };
+    });
+
+
+
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
@@ -84,6 +80,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+using var scope = app.Services.CreateScope();
+
+var dbCpntext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+dbCpntext.Database.Migrate();
+
 
 app.MapControllers();
 
