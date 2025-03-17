@@ -13,7 +13,10 @@ namespace PerfumeStore.Application.Interfaces
         Task<T> GetByIdAsync(int id);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(T entity);
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<int> SaveChangesAsync();  // <-- Bunu əlavə edirik
+        Task<List<T>> GetTakeAsync(int count);
+
     }
 }

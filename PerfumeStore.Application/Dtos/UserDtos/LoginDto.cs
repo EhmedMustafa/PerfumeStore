@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfumeStore.Application.Dtos
+namespace PerfumeStore.Application.Dtos.UserDtos
 {
     public class LoginDto
     {

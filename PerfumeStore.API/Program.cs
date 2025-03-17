@@ -18,6 +18,10 @@ builder.Services.AddInfrastructure(con);
 
 // Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IProductFeatureService, ProductFeatureService>();
 
 // ✅ Identity Konfiqurasiyası
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -76,17 +80,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    // Apply any pending migrations
+    context.Database.Migrate();
+}
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-using var scope = app.Services.CreateScope();
-
-var dbCpntext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-dbCpntext.Database.Migrate();
-
-
 app.MapControllers();
+
+
+
 
 app.Run();

@@ -12,26 +12,53 @@ namespace PerfumeStore.Infrastructure.Repositories
 {
    public class GenericRepository <T>:IGenericRepository<T> where T : class
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly AppDbContext _context;
         private readonly DbSet<T> _dbSet;
+
         public GenericRepository(AppDbContext context)
         {
-            _appDbContext = context;
-            _dbSet = _appDbContext.Set<T>();
+            _context = context;
+            _dbSet = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
-        public async Task<T> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
-        public async Task AddAsync(T entity) { await _dbSet.AddAsync(entity); await _appDbContext.SaveChangesAsync(); }
-        public async Task UpdateAsync(T entity) { _dbSet.Update(entity); await _appDbContext.SaveChangesAsync(); }
-
-        public async Task DeleteAsync(int id)
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            var entity = await GetByIdAsync(id);
-            if (entity != null) { _dbSet.Remove(entity); await _appDbContext.SaveChangesAsync(); }
+            return await _dbSet.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate) => await _dbSet.Where(predicate).ToListAsync();
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+        }
+
+        public async Task DeleteAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+        }
+
+        public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).ToListAsync();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+        public async Task<List<T>> GetTakeAsync(int count)
+        {
+            return await _context.Set<T>().Take(count).ToListAsync();
+        }
     }
 }
 

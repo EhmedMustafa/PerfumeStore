@@ -12,7 +12,7 @@ using PerfumeStore.Infrastructure.Data;
 namespace PerfumeStore.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250313175708_initol")]
+    [Migration("20250317071243_initol")]
     partial class initol
     {
         /// <inheritdoc />
