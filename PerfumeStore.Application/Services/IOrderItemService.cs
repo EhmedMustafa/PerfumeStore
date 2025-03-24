@@ -14,5 +14,6 @@ namespace PerfumeStore.Application.Services
         Task AddAsync(OrderItem orderItem);
         Task UpdateAsync(OrderItem orderItem);
         Task DeleteAsync(int id);
+        Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(int orderId);// Bir sifarişə aid olan bütün məhsulları qaytarır
     }
 }

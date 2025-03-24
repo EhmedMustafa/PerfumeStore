@@ -63,7 +63,7 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task UpdateAsync(ProductUpdateDto model)
         {
-            var products = await _productRepository.GetByIdAsync(model.ProductId);
+            var products = await _productRepository.GetByIdAsync(model.Id);
             products.Name = model.Name;
             products.ImageUrl = model.ImageUrl;
             products.Price = model.Price;

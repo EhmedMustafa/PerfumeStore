@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Repositories;
+using PerfumeStore.Infrastructure.Repositories.ProductRepository;
 
 namespace PerfumeStore.Infrastructure
 {
@@ -21,6 +23,7 @@ namespace PerfumeStore.Infrastructure
 
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IProductRepository), typeof(ProductsRepository));
             return services;
         }
     }

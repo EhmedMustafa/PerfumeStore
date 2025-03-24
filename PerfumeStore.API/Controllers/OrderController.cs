@@ -1,22 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Services;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IGenericRepository<Order> _orderRepository;
+        private readonly IOrderService _orderService;
 
-        public OrderController(IGenericRepository<Order> orderRepository)
+        public OrderController(IGenericRepository<Order> orderRepository, IOrderService orderService)
         {
             _orderRepository = orderRepository;
+            _orderService = orderService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetAll()
         {
             var orders = await _orderRepository.GetAllAsync();
@@ -39,6 +47,17 @@ namespace PerfumeStore.API.Controllers
             await _orderRepository.AddAsync(order);
             await _orderRepository.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
+        }
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateOrder([FromBody] List<OrderItemDto> orderItems)
+        {
+            if (orderItems == null || orderItems.Count == 0)
+                return BadRequest("Sifariş boş ola bilməz!");
+
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var order = await _orderService.CreateOrderAsync(userId, orderItems);
+
+            return Ok(order);
         }
 
         [HttpPut("{id}")]

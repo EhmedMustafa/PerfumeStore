@@ -55,5 +55,9 @@ namespace PerfumeStore.Infrastructure.Services
         {
             return await _orderItemRepository.FindAsync(predicate);
         }
+        public async Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(int orderId)
+        {
+            return await _orderItemRepository.FindAsync(oi => oi.OrderId == orderId);
+        }
     }
 }

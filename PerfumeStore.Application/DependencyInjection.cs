@@ -17,7 +17,7 @@ namespace PerfumeStore.Application
         {
             //services.AddScoped<IProductService,ProductService>();
 
-            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
         }
     }

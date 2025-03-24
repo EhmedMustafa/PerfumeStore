@@ -8,7 +8,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
 {
     public class ProductUpdateDto
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
         public decimal Price { get; set; }

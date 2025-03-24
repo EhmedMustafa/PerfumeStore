@@ -48,15 +48,15 @@ namespace PerfumeStore.API.Controllers
             await _genericRepository.SaveChangesAsync();
             return Ok();
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Product product) 
-        {
-            var products= await _genericRepository.GetByIdAsync(id);
-            if (products==null)
-            {
-                return NotFound();
-            }
-            products.
-        }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Update(int id, [FromBody] Product product) 
+        //{
+        //    var products= await _genericRepository.GetByIdAsync(id);
+        //    if (products==null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    products.
+        //}
     }
 }
