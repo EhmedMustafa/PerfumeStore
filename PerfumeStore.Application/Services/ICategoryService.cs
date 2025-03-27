@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PerfumeStore.Application.Dtos.CategoryDtos;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Services
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<Category>> GetAllAsync();
-        Task<Category> GetByIdAsync(int id);
-        Task AddAsync(Category category);
-        Task UpdateAsync(Category category);
-        Task DeleteAsync(int id);
+        Task<IEnumerable<ResultCategoryDto>> GetAllCategoryAsync();
+        Task<GetByIdGategoryDto> GetByIdCategoryAsync(int id);
+        Task AddCategoryAsync(CreateCategoryDto createCategoryDto);
+        Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
+        Task DeleteCategoryAsync(int id);
     }
 }

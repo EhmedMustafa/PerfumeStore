@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using PerfumeStore.Application.Dtos.CategoryDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Services;
 using PerfumeStore.Domain.Entities;
@@ -13,35 +15,42 @@ namespace PerfumeStore.Infrastructure.Services
     public class CategoryService:ICategoryService
     {
         private readonly IGenericRepository<Category> _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoryService(IGenericRepository<Category> categoryRepository)
+        public CategoryService(IGenericRepository<Category> categoryRepository,IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Category>> GetAllAsync()
+        public async Task<IEnumerable<ResultCategoryDto>> GetAllCategoryAsync()
         {
-            return await _categoryRepository.GetAllAsync();
+            var getall= await _categoryRepository.GetAllAsync();
+            var map = _mapper.Map<IEnumerable<ResultCategoryDto>>(getall);
+            return map;
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<GetByIdGategoryDto> GetByIdCategoryAsync(int id)
         {
-            return await _categoryRepository.GetByIdAsync(id);
+            var values= await _categoryRepository.GetByIdAsync(id);
+            var map= _mapper.Map<GetByIdGategoryDto>(values);
+            return map;
+
         }
 
-        public async Task AddAsync(Category category)
+        public async Task AddCategoryAsync(CreateCategoryDto createCategoryDto )
         {
-            await _categoryRepository.AddAsync(category);
+            await _categoryRepository.AddAsync(createCategoryDto);
             await _categoryRepository.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Category category)
+        public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
-            await _categoryRepository.UpdateAsync(category);
+            await _categoryRepository.UpdateAsync(updateCategoryDto);
             await _categoryRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteCategoryAsync(int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
             if (category != null)
