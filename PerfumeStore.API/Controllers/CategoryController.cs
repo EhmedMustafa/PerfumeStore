@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PerfumeStore.Application.Dtos.CategoryDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Services.CategoryServices;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.API.Controllers
@@ -9,24 +11,25 @@ namespace PerfumeStore.API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IGenericRepository<Category> _categoryRepository;
+       
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(IGenericRepository<Category> categoryRepository)
+        public CategoryController(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _categoryRepository.GetAllAsync();
+            var categories = await _categoryService.GetAllCategoryAsync();
             return Ok(categories);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var category = await _categoryRepository.GetByIdAsync(id);
+            var category = await _categoryService.GetByIdCategoryAsync(id);
             if (category == null)
                 return NotFound();
 
@@ -34,41 +37,27 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Category category)
+        public async Task<IActionResult> Create([FromBody] CreateCategoryDto category)
         {
             if (category == null)
                 return BadRequest();
 
-            await _categoryRepository.AddAsync(category);
-            await _categoryRepository.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+            await _categoryService.AddCategoryAsync(category);
+            return Ok("Kateqoriya elave olundu");
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Category category)
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateCategoryDto category)
         {
-            var existingCategory = await _categoryRepository.GetByIdAsync(id);
-            if (existingCategory == null)
-                return NotFound();
-
-            existingCategory.Name = category.Name;
-            await _categoryRepository.UpdateAsync(existingCategory);
-            await _categoryRepository.SaveChangesAsync();
-
-            return NoContent();
+            await _categoryService.UpdateCategoryAsync(category);
+            return Ok ("Kateqoriya yenilendi");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var category = await _categoryRepository.GetByIdAsync(id);
-            if (category == null)
-                return NotFound();
-
-            await _categoryRepository.DeleteAsync(category);
-            await _categoryRepository.SaveChangesAsync();
-
-            return NoContent();
+            await _categoryService.DeleteCategoryAsync(id);
+            return Ok("Kateqoriya silindi");
         }
     }
 }

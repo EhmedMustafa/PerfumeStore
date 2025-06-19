@@ -13,7 +13,10 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.HasKey(o => o.Id);
+            builder.HasKey(o => o.OrderId);
+
+
+            builder.ToTable("Orders");
 
             builder.Property(o => o.OrderDate)
                 .IsRequired()
@@ -23,12 +26,26 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
+            builder.Property(o => o.Status)
+                .IsRequired()
+                .HasConversion<string>()
+                .HasMaxLength(50);
+
+            // Foreign Key (Order ↔ AppUser)
+
             builder.HasOne(o => o.User)
-                .WithMany()
+                .WithMany(u => u.Orders)
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable("Orders");
+
+
+
+            builder.HasMany(o =>o.OrderItems)
+                .WithOne(oi=>oi.Order)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

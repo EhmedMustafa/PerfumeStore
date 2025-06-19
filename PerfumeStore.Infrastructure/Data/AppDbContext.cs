@@ -1,4 +1,4 @@
-﻿
+﻿ 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.Extensions.Msal;
@@ -28,6 +28,13 @@ namespace PerfumeStore.Infrastructure.Data
         public DbSet<ProductFeature> ProductFeatures { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<FragranceFamily> FragranceFamilies { get; set; }
+        public DbSet<FragranceNote> FragranceNotes { get; set; }
+        public DbSet<ProductNote> ProductNotes { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

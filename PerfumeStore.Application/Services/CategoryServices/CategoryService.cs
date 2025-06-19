@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using PerfumeStore.Application.Dtos.CategoryDtos;
 using PerfumeStore.Application.Interfaces;
-using PerfumeStore.Application.Services;
+using PerfumeStore.Application.Services.CategoryServices;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Infrastructure.Services
@@ -38,15 +38,20 @@ namespace PerfumeStore.Infrastructure.Services
 
         }
 
-        public async Task AddCategoryAsync(CreateCategoryDto createCategoryDto )
+        public async Task AddCategoryAsync(CreateCategoryDto createCategoryDto)
         {
-            await _categoryRepository.AddAsync(createCategoryDto);
+            await _categoryRepository.AddAsync(new Category
+            { 
+              Name = createCategoryDto.Name,
+            });
             await _categoryRepository.SaveChangesAsync();
         }
 
         public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
-            await _categoryRepository.UpdateAsync(updateCategoryDto);
+            var category= await _categoryRepository.GetByIdAsync(updateCategoryDto.Id);
+            category.Name = updateCategoryDto.Name;
+            await _categoryRepository.UpdateAsync(category);
             await _categoryRepository.SaveChangesAsync();
         }
 

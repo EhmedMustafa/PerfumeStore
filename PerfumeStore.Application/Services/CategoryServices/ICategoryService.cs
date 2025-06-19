@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using PerfumeStore.Application.Dtos.CategoryDtos;
 using PerfumeStore.Domain.Entities;
 
-namespace PerfumeStore.Application.Services
+namespace PerfumeStore.Application.Services.CategoryServices
 {
     public interface ICategoryService
     {

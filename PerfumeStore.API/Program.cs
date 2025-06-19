@@ -9,6 +9,7 @@ using PerfumeStore.Domain.Entities.Identity;
 using PerfumeStore.Infrastructure;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Services;
+using PerfumeStore.Application.Services.CategoryServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,11 +18,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(con);
 
 // Add services to the container.
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IOrderItemService, OrderItemService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IProductFeatureService, ProductFeatureService>();
+
 
 // ✅ Identity Konfiqurasiyası
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
