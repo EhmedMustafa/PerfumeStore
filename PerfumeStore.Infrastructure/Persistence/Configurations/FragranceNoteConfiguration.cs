@@ -28,18 +28,17 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
 
             // 3. Çoxa çox əlaqə (FragranceNote ↔ Product)
 
-            builder.HasMany(p => p.products)
-                .WithMany(b => b.notes)
-                .UsingEntity<Dictionary<string, object>>(
-                "ProductFragranceNotes",
-                j => j.HasOne<Product>().WithMany().HasForeignKey("ProductId"),
-                j => j.HasOne<FragranceNote>().WithMany().HasForeignKey("NoteId")
-                );
+            
 
-            builder.HasIndex(p => p.Name)
-                .IsUnique();
+            builder.HasIndex(p => p.Name).IsUnique();
+            builder.HasIndex(p => p.Type);  // Type'a görə axtarışı sürətləndirmək üçün
 
-                
+            builder.HasMany(fn => fn.ProductNotes)
+                   .WithOne(pn => pn.Note)
+                   .HasPrincipalKey(pn => pn.NoteId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+
         }
     }
 }

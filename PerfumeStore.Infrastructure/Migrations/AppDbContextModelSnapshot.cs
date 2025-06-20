@@ -22,6 +22,32 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("LogoUrl")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Brands", (string)null);
+                });
+
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -38,6 +64,79 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceFamily", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("FragranceFamilies", (string)null);
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNote", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NoteId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("NoteId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("FragranceNote", (string)null);
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Identity.AppRole", b =>
@@ -262,22 +361,21 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
@@ -285,9 +383,7 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
+                    b.HasKey("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -296,90 +392,100 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.OrderItem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
-                    b.HasKey("Id");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderItemId");
 
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<string>("BaseNotes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Brand")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("CurrentPrice")
+                        .HasColumnType("decimal(18.2)");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Disclaimer")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("FamilyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("MiddleNotes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsBestseller")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsNew")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18.2)");
 
                     b.Property<string>("Size")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("StockQuantity")
-                        .HasColumnType("int");
+                    b.HasKey("ProductId");
 
-                    b.Property<string>("TopNotes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("FamilyId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -408,6 +514,25 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductFeatures");
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.ProductNote", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NoteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ProductId", "NoteId", "Type");
+
+                    b.HasIndex("NoteId");
+
+                    b.ToTable("ProductNotes", (string)null);
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Identity.AppRoleClaim", b =>
@@ -463,12 +588,8 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("PerfumeStore.Domain.Entities.Identity.AppUser", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("PerfumeStore.Domain.Entities.Identity.AppUser", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -497,19 +618,35 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Product", b =>
                 {
+                    b.HasOne("PerfumeStore.Domain.Entities.Brand", "Brand")
+                        .WithMany("products")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PerfumeStore.Domain.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("PerfumeStore.Domain.Entities.FragranceFamily", "Family")
+                        .WithMany("products")
+                        .HasForeignKey("FamilyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Family");
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.ProductFeature", b =>
                 {
                     b.HasOne("PerfumeStore.Domain.Entities.Product", "Product")
-                        .WithMany("Features")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -517,9 +654,43 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.ProductNote", b =>
+                {
+                    b.HasOne("PerfumeStore.Domain.Entities.FragranceNote", "Note")
+                        .WithMany("ProductNotes")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PerfumeStore.Domain.Entities.Product", "Product")
+                        .WithMany("ProductNotes")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Note");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.Brand", b =>
+                {
+                    b.Navigation("products");
+                });
+
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceFamily", b =>
+                {
+                    b.Navigation("products");
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNote", b =>
+                {
+                    b.Navigation("ProductNotes");
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Identity.AppUser", b =>
@@ -534,7 +705,7 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Product", b =>
                 {
-                    b.Navigation("Features");
+                    b.Navigation("ProductNotes");
                 });
 #pragma warning restore 612, 618
         }

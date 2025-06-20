@@ -34,27 +34,27 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] OrderItem orderItem)
-        {
-            await _orderItemRepository.AddAsync(orderItem);
-            await _orderItemRepository.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = orderItem.Id }, orderItem);
-        }
+        //public async Task<IActionResult> Create([FromBody] OrderItem orderItem)
+        //{
+        //    await _orderItemRepository.AddAsync(orderItem);
+        //    await _orderItemRepository.SaveChangesAsync();
+        //    return CreatedAtAction(nameof(GetById), new { id = orderItem.Id }, orderItem);
+        //}
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] OrderItem orderItem)
-        {
-            var existingOrderItem = await _orderItemRepository.GetByIdAsync(id);
-            if (existingOrderItem == null)
-                return NotFound();
+        //public async Task<IActionResult> Update(int id, [FromBody] OrderItem orderItem)
+        //{
+        //    var existingOrderItem = await _orderItemRepository.GetByIdAsync(id);
+        //    if (existingOrderItem == null)
+        //        return NotFound();
 
-            existingOrderItem.Quantity = orderItem.Quantity;
-            existingOrderItem.Price = orderItem.Price;
-            await _orderItemRepository.UpdateAsync(existingOrderItem);
-            await _orderItemRepository.SaveChangesAsync();
+        //    existingOrderItem.Quantity = orderItem.Quantity;
+        //    existingOrderItem.Price = orderItem.Price;
+        //    await _orderItemRepository.UpdateAsync(existingOrderItem);
+        //    await _orderItemRepository.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

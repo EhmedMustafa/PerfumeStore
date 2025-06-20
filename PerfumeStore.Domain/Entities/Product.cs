@@ -33,8 +33,8 @@ namespace PerfumeStore.Domain.Entities
         public FragranceFamily Family { get; set; }
         public Category Category { get; set; }
 
-        public ICollection<FragranceNote> notes { get; set; }
+       // public ICollection<FragranceNote> notes { get; set; }
        
-
+        public ICollection<ProductNote> ProductNotes { get; set; }
     }
 }

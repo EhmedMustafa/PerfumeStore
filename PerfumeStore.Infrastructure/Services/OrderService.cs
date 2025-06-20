@@ -83,14 +83,14 @@ namespace PerfumeStore.Infrastructure.Services
                 // 2.2. Yeni OrderItem (Sifariş Məhsulu) obyekti yaradılır.
                 var orderItem = new OrderItem
                 {
-                    ProductId = product.Id,   // Məhsulun ID-si
+                    ProductId = product.ProductId,   // Məhsulun ID-si
                     Quantity = item.Quantity, // Sifariş olunan miqdar
-                    Price = product.Price,    // Məhsulun cari qiyməti
+                    TotalPrice = product.OriginalPrice,    // Məhsulun cari qiyməti
                     Order = order             // Sifarişə bağlanır
                 };
 
                 // 2.3. Sifarişin ümumi məbləği yenilənir.
-                order.TotalAmount += orderItem.Quantity * orderItem.Price;
+                order.TotalAmount += orderItem.Quantity * orderItem.TotalPrice;
 
                 // 2.4. Sifariş məhsulu siyahıya əlavə edilir.
                 orderItemsList.Add(orderItem);

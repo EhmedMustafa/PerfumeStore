@@ -16,10 +16,10 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
             builder.HasKey(pf => pf.Id);
 
             // Product ilə əlaqə
-            builder.HasOne(pf => pf.Product)
-                .WithMany(p => p.Features)
-                .HasForeignKey(pf => pf.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+        //    builder.HasOne(pf => pf.Product)
+        //        .WithMany(p => p.Features)
+        //        .HasForeignKey(pf => pf.ProductId)
+        //        .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

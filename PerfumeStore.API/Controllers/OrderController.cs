@@ -42,12 +42,12 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Order order)
-        {
-            await _orderRepository.AddAsync(order);
-            await _orderRepository.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
-        }
+        //public async Task<IActionResult> Create([FromBody] Order order)
+        //{
+        //    await _orderRepository.AddAsync(order);
+        //    await _orderRepository.SaveChangesAsync();
+        //    return CreatedAtAction(nameof(GetById), new { id = order.Id }, order);
+        //}
         [HttpPost("create")]
         public async Task<IActionResult> CreateOrder([FromBody] List<OrderItemDto> orderItems)
         {

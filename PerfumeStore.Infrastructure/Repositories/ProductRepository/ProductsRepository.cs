@@ -18,19 +18,34 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
         {
             _context = Context;
         }
-        public async Task<List<Product>> GetProductByCategory(int categoryId)
+
+        public Task<List<Product>> GetProductByCategory(int categoryId)
         {
-            return await _context.Products.Where(x => x.CategoryId == categoryId).ToListAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
+        public Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
         {
-            return await _context.Products.Where(x => x.Price >= minprice && x.Price <= maxprice).ToListAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<List<Product>> GetProductBySearch(string search)
+        public Task<List<Product>> GetProductBySearch(string search)
         {
-            return await _context.Products.Where(x => x.Name.Contains(search) || x.Description.Contains(search)).ToListAsync();
+            throw new NotImplementedException();
         }
+        //public async Task<List<Product>> GetProductByCategory(int categoryId)
+        //{
+        //    return await _context.Products.Where(x => x.CategoryId == categoryId).ToListAsync();
+        //}
+
+        //public async Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
+        //{
+        //    return await _context.Products.Where(x => x.OriginalPrice >= minprice && x.OriginalPrice <= maxprice).ToListAsync();
+        //}
+
+        //public async Task<List<Product>> GetProductBySearch(string search)
+        //{
+        //    return await _context.Products.Where(x => x.Name.Contains(search) || x.Description.Contains(search)).ToListAsync();
+        //}
     }
 }
