@@ -4,9 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using PerfumeStore.Application.Dtos.OrderDto;
+using PerfumeStore.Application.Dtos.OrderDtos;
 using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
-using PerfumeStore.Application.Services;
+using PerfumeStore.Application.Services.OrderServices;
 using PerfumeStore.Domain.Entities;
 using PerfumeStore.Domain.Enums;
 
@@ -17,49 +20,23 @@ namespace PerfumeStore.Infrastructure.Services
         private readonly IGenericRepository<Order> _orderRepository;
         private readonly IGenericRepository<OrderItem> _orderItemRepository;
         private readonly IGenericRepository<Product> _productRepository;
+        private readonly IMapper _mapper;
 
         public OrderService(IGenericRepository<Order> orderRepository, IGenericRepository<OrderItem> orderItemRepository,
-        IGenericRepository<Product> productRepository)
+        IGenericRepository<Product> productRepository,IMapper mapper)
         {
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
             _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Order>> GetAllAsync()
-        {
-            return await _orderRepository.GetAllAsync();
-        }
-
-      
-
-        public async Task AddAsync(Order order)
-        {
-            await _orderRepository.AddAsync(order);
-            await _orderRepository.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Order order)
-        {
-            await _orderRepository.UpdateAsync(order);
-            await _orderRepository.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var order = await _orderRepository.GetByIdAsync(id);
-            if (order != null)
-            {
-                await _orderRepository.DeleteAsync(order);
-                await _orderRepository.SaveChangesAsync();
-            }
-        }
 
         public async Task<IEnumerable<Order>> FindAsync(Expression<Func<Order, bool>> predicate)
         {
             return await _orderRepository.FindAsync(predicate);
         }
-        public async Task<Order> CreateOrderAsync(int userId, List<OrderItemDto> orderItems)
+        public async Task<Order> CreateOrderAsync(int userId, List<ResultOrderItemDto> orderItems)
         {
             // 1️⃣ Yeni sifariş obyekti yaradılır.
             var order = new Order
@@ -106,10 +83,7 @@ namespace PerfumeStore.Infrastructure.Services
             // 5️⃣ Yaradılmış sifariş qaytarılır.
             return order;
         }
-        public async Task<Order> GetOrderByIdAsync(int orderId)
-        {
-            return await _orderRepository.GetByIdAsync(orderId);
-        }
+      
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _orderRepository.FindAsync(o => o.UserId == userId);
@@ -127,5 +101,52 @@ namespace PerfumeStore.Infrastructure.Services
             return true;
         }
 
+        public async Task CreateOrderAsync(CreateOrderDto createOrderDto)
+        {
+            await _orderRepository.AddAsync(new Order
+            {
+                OrderDate = createOrderDto.OrderDate,
+                TotalAmount=createOrderDto.TotalAmount,
+                Status=createOrderDto.Status,
+                UserId=createOrderDto.UserId
+            });
+            await _orderRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ResultOrderDto>> GetAllOrderAsync()
+        {
+            var vallues= await _orderRepository.GetAllAsync();
+            var map = _mapper.Map<IEnumerable<ResultOrderDto>>(vallues);
+            return map;
+        }
+
+        async Task<GetByIdOrderDto> IOrderService.GetOrderByIdAsync(int Id)
+        {
+            var values = await _orderRepository.GetByIdAsync(Id);
+            var map= _mapper.Map<GetByIdOrderDto>(values);
+            return map;
+        }
+
+      
+
+        public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
+        {
+            var values = await _orderRepository.GetByIdAsync(updateOrderDto.OrderId);
+
+            values.OrderDate = updateOrderDto.OrderDate;
+            values.TotalAmount = updateOrderDto.TotalAmount;
+            values.Status=updateOrderDto.Status;
+            values.UserId = updateOrderDto.UserId;
+
+            await _orderRepository.UpdateAsync(values);
+            await _orderRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrderAsync(int Id)
+        {
+            var values= await _orderRepository.GetByIdAsync(Id);
+            await _orderRepository.DeleteAsync(values);
+            await _orderRepository.SaveChangesAsync();
+        }
     }
 }

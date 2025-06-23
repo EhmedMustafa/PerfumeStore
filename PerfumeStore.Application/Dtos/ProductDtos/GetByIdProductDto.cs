@@ -7,7 +7,7 @@ using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Dtos.ProductDtos
 {
-    public class ResultProductDto
+    public class GetByIdProductDto
     {
         public int ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -36,6 +36,5 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         // public ICollection<FragranceNote> notes { get; set; }
 
         public ICollection<ProductNote> ProductNotes { get; set; }
-
     }
 }

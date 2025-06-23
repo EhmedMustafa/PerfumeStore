@@ -2,15 +2,9 @@
 using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IProductRepository;
-using PerfumeStore.Application.Services;
+using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
-using PerfumeStore.Infrastructure.Repositories.ProductRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PerfumeStore.Infrastructure.Services
 {
@@ -27,28 +21,28 @@ namespace PerfumeStore.Infrastructure.Services
             _repository = _Repository;
         }
 
-        public async Task<IEnumerable<ResultProductDto>> GetAllAsync()
+        public async Task<IEnumerable<ResultProductDto>> GetAllProductAsync()
         {
             var product= await _productRepository.GetAllAsync();
             var dto=_mapper.Map<IEnumerable<ResultProductDto>>(product);
             return dto;
         }
 
-        public async Task<ResultProductDto> GetByIdAsync(int id)
+        public async Task<GetByIdProductDto> GetByIdProductAsync(int id)
         {
             var product= await _productRepository.GetByIdAsync(id);
-            var map = _mapper.Map<ResultProductDto>(product);
+            var map = _mapper.Map<GetByIdProductDto>(product);
             return map;
         }
 
-        public async Task AddAsync(ProductCreateDto productdto)
+        public async Task CreateProductAsync(CreateProductDto productdto)
         {
             await _productRepository.AddAsync(new Product
             {
-                Name = productdto.Name,
-                ImageUrl = productdto.ImageUrl,
-                OriginalPrice = productdto.Price,
-                Size = productdto.Size,
+                //Name = productdto.Name,
+                //ImageUrl = productdto.ImageUrl,
+                //Price = productdto.Price,
+                //Size = productdto.Size,
                 //Brand = productdto.Brand,
                 //TopNotes = productdto.TopNotes,
                 //MiddleNotes = productdto.MiddleNotes,
@@ -61,10 +55,10 @@ namespace PerfumeStore.Infrastructure.Services
             await _productRepository.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(ProductUpdateDto model)
+        public async Task UpdateProductAsync(UpdateProductDto model)
         {
-            var products = await _productRepository.GetByIdAsync(model.Id);
-            products.Name = model.Name;
+            //var products = await _productRepository.GetByIdAsync(model.Id);
+            //products.Name = model.Name;
             //products.ImageUrl = model.ImageUrl;
             //products.Price = model.Price;
             //products.Size = model.Size;
@@ -77,11 +71,11 @@ namespace PerfumeStore.Infrastructure.Services
             //products.Description = model.Description;
             
 
-            await _productRepository.UpdateAsync(products);
+            //wait _productRepository.UpdateAsync(products);
             await _productRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteProductAsync(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
             if (product != null)

@@ -7,7 +7,7 @@ using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Dtos.ProductDtos
 {
-    public class ResultProductDto
+    public class UpdateProductDto
     {
         public int ProductId { get; set; }
         public string Name { get; set; } = string.Empty;

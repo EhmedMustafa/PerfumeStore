@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using PerfumeStore.Application.Dtos.OrderItemDtos;
+using PerfumeStore.Domain.Entities.Identity;
+using PerfumeStore.Domain.Entities;
+using PerfumeStore.Domain.Enums;
+
+namespace PerfumeStore.Application.Dtos.OrderDto
+{
+    public class CreateOrderDto
+    {
+       
+        public int UserId { get; set; }
+        //public AppUser User { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public decimal TotalAmount { get; set; }
+        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+       
+        public ICollection<CreateOrderItemDto> createOrderItemDtos { get; set; }
+    }
+}

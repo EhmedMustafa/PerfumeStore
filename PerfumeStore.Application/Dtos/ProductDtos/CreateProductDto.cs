@@ -7,9 +7,8 @@ using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Dtos.ProductDtos
 {
-    public class ResultProductDto
+    public class CreateProductDto
     {
-        public int ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; }
         public string Size { get; set; }
@@ -29,13 +28,14 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
 
         // Navigation Properties - Digər cədvəllərlə əlaqəni təmin edən xüsusiyyətlər
 
-        public Brand Brand { get; set; }
-        public FragranceFamily Family { get; set; }
-        public Category Category { get; set; }
+        //public Brand Brand { get; set; }
+       // public FragranceFamily Family { get; set; }
+        //public Category Category { get; set; }
 
         // public ICollection<FragranceNote> notes { get; set; }
 
         public ICollection<ProductNote> ProductNotes { get; set; }
-
     }
+
 }
+

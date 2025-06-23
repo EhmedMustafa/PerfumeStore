@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Services.OrderItemServices;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.API.Controllers
@@ -9,24 +11,24 @@ namespace PerfumeStore.API.Controllers
     [ApiController]
     public class OrderItemController : ControllerBase
     {
-        private readonly IGenericRepository<OrderItem> _orderItemRepository;
+        private readonly IOrderItemService _orderItemService;
 
-        public OrderItemController(IGenericRepository<OrderItem> orderItemRepository)
+        public OrderItemController(IOrderItemService orderItemService)
         {
-            _orderItemRepository = orderItemRepository;
+            _orderItemService = orderItemService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var orderItems = await _orderItemRepository.GetAllAsync();
+            var orderItems = await _orderItemService.GetAllOrderItemAsync();
             return Ok(orderItems);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var orderItem = await _orderItemRepository.GetByIdAsync(id);
+            var orderItem = await _orderItemService.GetByIdOrderItemAsync(id);
             if (orderItem == null)
                 return NotFound();
 
@@ -34,39 +36,24 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
-        //public async Task<IActionResult> Create([FromBody] OrderItem orderItem)
-        //{
-        //    await _orderItemRepository.AddAsync(orderItem);
-        //    await _orderItemRepository.SaveChangesAsync();
-        //    return CreatedAtAction(nameof(GetById), new { id = orderItem.Id }, orderItem);
-        //}
+        public async Task<IActionResult> Create([FromBody] CreateOrderItemDto createOrderItemDto)
+        {
+            await _orderItemService.CreateOrderItemAsync(createOrderItemDto);
+            return Ok("OrderItem yüklendi");
+        }
 
-        [HttpPut("{id}")]
-        //public async Task<IActionResult> Update(int id, [FromBody] OrderItem orderItem)
-        //{
-        //    var existingOrderItem = await _orderItemRepository.GetByIdAsync(id);
-        //    if (existingOrderItem == null)
-        //        return NotFound();
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateOrderItemDto orderItem)
+        {
+            await _orderItemService.UpdateOrderItemAsync(orderItem);
+            return Ok("OrderItem yeniləndi");
+        }
 
-        //    existingOrderItem.Quantity = orderItem.Quantity;
-        //    existingOrderItem.Price = orderItem.Price;
-        //    await _orderItemRepository.UpdateAsync(existingOrderItem);
-        //    await _orderItemRepository.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var orderItem = await _orderItemRepository.GetByIdAsync(id);
-            if (orderItem == null)
-                return NotFound();
-
-            await _orderItemRepository.DeleteAsync(orderItem);
-            await _orderItemRepository.SaveChangesAsync();
-
-            return NoContent();
+            await _orderItemService.DeleteOrderItemAsync(id);
+            return Ok("OrderItem silindi");
         }
     }
 }

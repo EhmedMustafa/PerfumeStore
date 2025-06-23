@@ -7,15 +7,18 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PerfumeStore.Application.Services
+namespace PerfumeStore.Application.Services.ProductServices
 {
     public interface IProductService
     {
-        Task<IEnumerable<ResultProductDto>> GetAllAsync();
-        Task<ResultProductDto> GetByIdAsync(int id);
-        Task AddAsync(ProductCreateDto productdto);
-        Task UpdateAsync(ProductUpdateDto model);
-        Task DeleteAsync(int id);
+        Task<IEnumerable<ResultProductDto>> GetAllProductAsync();
+        Task<GetByIdProductDto> GetByIdProductAsync(int id);
+        Task CreateProductAsync(CreateProductDto productdto);
+        Task UpdateProductAsync(UpdateProductDto model);
+        Task DeleteProductAsync(int id);
+
+
+
         Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate);
         Task<List<ResultProductDto>> GetProductTake(int count);
         Task<List<ResultProductDto>> GetProductBySearch(string search);
