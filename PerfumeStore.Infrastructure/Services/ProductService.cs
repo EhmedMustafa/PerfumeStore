@@ -47,15 +47,15 @@ namespace PerfumeStore.Infrastructure.Services
             {
                 Name = productdto.Name,
                 ImageUrl = productdto.ImageUrl,
-                Price = productdto.Price,
+                OriginalPrice = productdto.Price,
                 Size = productdto.Size,
-                Brand = productdto.Brand,
-                TopNotes = productdto.TopNotes,
-                MiddleNotes = productdto.MiddleNotes,
-                BaseNotes = productdto.BaseNotes,
-                StockQuantity = productdto.StockQuantity,
-                Discount = productdto.Discount,
-                Description = productdto.Description
+                //Brand = productdto.Brand,
+                //TopNotes = productdto.TopNotes,
+                //MiddleNotes = productdto.MiddleNotes,
+                //BaseNotes = productdto.BaseNotes,
+                //StockQuantity = productdto.StockQuantity,
+                //Discount = productdto.Discount,
+                //Description = productdto.Description
             });
            // await _productRepository.AddAsync(product);
             await _productRepository.SaveChangesAsync();
@@ -65,16 +65,16 @@ namespace PerfumeStore.Infrastructure.Services
         {
             var products = await _productRepository.GetByIdAsync(model.Id);
             products.Name = model.Name;
-            products.ImageUrl = model.ImageUrl;
-            products.Price = model.Price;
-            products.Size = model.Size;
-            products.Brand = model.Brand;
-            products.TopNotes = model.TopNotes;
-            products.MiddleNotes = model.MiddleNotes;
-            products.BaseNotes = model.BaseNotes;
-            products.StockQuantity = model.StockQuantity;
-            products.Discount = model.Discount;
-            products.Description = model.Description;
+            //products.ImageUrl = model.ImageUrl;
+            //products.Price = model.Price;
+            //products.Size = model.Size;
+            //products.Brand = model.Brand;
+            //products.TopNotes = model.TopNotes;
+            //products.MiddleNotes = model.MiddleNotes;
+            //products.BaseNotes = model.BaseNotes;
+            //products.StockQuantity = model.StockQuantity;
+            //products.Discount = model.Discount;
+            //products.Description = model.Description;
             
 
             await _productRepository.UpdateAsync(products);

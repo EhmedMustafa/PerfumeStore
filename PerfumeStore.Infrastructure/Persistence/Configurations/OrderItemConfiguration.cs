@@ -13,8 +13,18 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.HasKey(oi => oi.Id);
-            builder.Property(oi => oi.Price).HasColumnType("decimal(18,2)");
+            builder.ToTable("OrderItems");
+
+            builder.HasKey(oi => oi.OrderItemId);
+
+            builder.Property(oi => oi.TotalPrice)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            builder.Property(oi => oi.Quantity)
+                .IsRequired()
+                .HasDefaultValue(1);
+
 
             // Order ilə əlaqə
             builder.HasOne(oi => oi.Order)

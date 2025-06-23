@@ -67,13 +67,10 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
 
             // Çoxa çox əlaqə (Product və FragranceNote)
 
-            builder.HasMany(p => p.notes)
-                .WithMany()
-                .UsingEntity<Dictionary<string, object>>(
-                "ProductFragranceNotes",
-                j => j.HasOne<FragranceNote>().WithMany().HasForeignKey("NoteId"),
-                j => j.HasOne<Product>().WithMany().HasForeignKey("ProductId")
-                );
+           builder.HasMany(p=>p.ProductNotes)
+                  .WithOne(pn=>pn.Product)
+                  .HasForeignKey(pn=>pn.ProductId)
+                  .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

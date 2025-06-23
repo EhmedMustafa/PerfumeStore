@@ -28,6 +28,7 @@ namespace PerfumeStore.Infrastructure.Data
         public DbSet<ProductFeature> ProductFeatures { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<FragranceFamily> FragranceFamilies { get; set; }

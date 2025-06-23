@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Services;
 using PerfumeStore.Application.Services.CategoryServices;
+using PerfumeStore.Application.Services.CustomerServices;
 using PerfumeStore.Domain.Entities;
 using PerfumeStore.Infrastructure.Services;
 
@@ -20,6 +21,7 @@ namespace PerfumeStore.Application
         {
            // services.AddSingleton<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
