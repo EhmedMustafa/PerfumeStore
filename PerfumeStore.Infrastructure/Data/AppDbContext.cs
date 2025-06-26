@@ -35,6 +35,8 @@ namespace PerfumeStore.Infrastructure.Data
         public DbSet<FragranceNote> FragranceNotes { get; set; }
         public DbSet<ProductNote> ProductNotes { get; set; }
 
+        public DbSet<FragranceNoteType> FragranceNoteTypes { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

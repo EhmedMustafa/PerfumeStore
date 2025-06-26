@@ -14,29 +14,32 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<FragranceNote> builder)
         {
-            builder.HasKey(p => p.NoteId);
+            builder.HasKey(p => p.Id);
 
             builder.ToTable("FragranceNote");
 
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
 
-            builder.Property(p => p.Type)
-                .IsRequired()
-                .HasConversion<string>();       // Enum'u string kimi saxlayır (SQL-də "Top", "Middle", "Base")
+           
 
             // 3. Çoxa çox əlaqə (FragranceNote ↔ Product)
 
             
 
             builder.HasIndex(p => p.Name).IsUnique();
-            builder.HasIndex(p => p.Type);  // Type'a görə axtarışı sürətləndirmək üçün
+
+
+            builder.HasMany(fn => fn.NoteTypes)
+             .WithOne(nt => nt.FragranceNote)
+             .HasForeignKey(nt => nt.FragranceNoteId)
+             .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(fn => fn.ProductNotes)
-                   .WithOne(pn => pn.Note)
-                   .HasPrincipalKey(pn => pn.NoteId)
-                   .OnDelete(DeleteBehavior.Cascade);
+             .WithOne(pn => pn.FragranceNote)
+             .HasForeignKey(pn => pn.FragranceNoteId);
+
 
 
         }

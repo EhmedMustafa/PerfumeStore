@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Services;
+using PerfumeStore.Application.Services.BrandServices;
 using PerfumeStore.Application.Services.CategoryServices;
 using PerfumeStore.Application.Services.CustomerServices;
+using PerfumeStore.Application.Services.FragranceFamilyService;
 using PerfumeStore.Application.Services.OrderItemServices;
 using PerfumeStore.Application.Services.OrderServices;
 using PerfumeStore.Application.Services.ProductServices;
@@ -28,6 +30,8 @@ namespace PerfumeStore.Application
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IOrderItemService, OrderItemService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IFragranceFamilyService, FragranceFamilyService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;

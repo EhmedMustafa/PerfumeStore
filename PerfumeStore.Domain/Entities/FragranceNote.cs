@@ -9,14 +9,12 @@ namespace PerfumeStore.Domain.Entities
 {
     public class FragranceNote //  notlar
     {
-        public int NoteId { get; set; }                    // Notun unikal identifikatoru
-        public string Name { get; set; }               // Notun adı (ingiliscə)
+        public int Id { get; set; }                         // Not ID
+        public string Name { get; set; }                    // Məsələn: Vanilla
 
-        public NoteType Type { get; set; }                // Notun növü (Top, Middle, Base)
+        public ICollection<FragranceNoteType> NoteTypes { get; set; } = new List<FragranceNoteType>();
+        public ICollection<ProductNote> ProductNotes { get; set; } = new List<ProductNote>();
 
-        // public ICollection<Product> products { get; set; }  // Bu notu olan məhsullar
-
-        public ICollection<ProductNote> ProductNotes { get; set; }
 
     }
 }

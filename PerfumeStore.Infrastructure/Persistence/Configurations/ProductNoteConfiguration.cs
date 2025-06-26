@@ -15,22 +15,20 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
         {
             builder.ToTable("ProductNotes");
 
-            builder.HasKey(pn => new { pn.ProductId, pn.NoteId, pn.Type });
+            builder.HasKey(pn => new { pn.ProductId, pn.FragranceNoteId, pn.Type });
 
-            builder.Property(p => p.Type)
-                .IsRequired()
-                .HasConversion<string>()
-                .HasMaxLength(50);
+           
 
             builder.HasOne(pn => pn.Product)
                 .WithMany(p=>p.ProductNotes)
                 .HasForeignKey(pn =>pn.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(pn=>pn.Note)
-                .WithMany(p=>p.ProductNotes)
-                .HasForeignKey(pn => pn.NoteId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.FragranceNote)
+                .WithMany(n => n.ProductNotes)
+                .HasForeignKey(n => n.ProductId);
+
+           
         }
     }
 }
