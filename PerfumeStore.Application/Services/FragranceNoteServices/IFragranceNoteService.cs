@@ -13,6 +13,7 @@ namespace PerfumeStore.Application.Services.FragranceNoteServices
         Task<GetByIdFragranceNoteDto> GetByIdFragranceNoteAsync(int id);
         Task AddFragranceNoteAsync(CreateFragranceNoteDto createFragranceNoteDto);
         Task UpdateFragranceNoteAsync(UpdateFragranceNoteDto updateFragranceNoteDto);
+        
         Task DeleteFragranceNoteAsync(int id);
     }
 }

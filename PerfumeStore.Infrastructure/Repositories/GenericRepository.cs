@@ -59,6 +59,16 @@ namespace PerfumeStore.Infrastructure.Repositories
         {
             return await _context.Set<T>().Take(count).ToListAsync();
         }
+
+        public async Task<T> GetByIdWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            foreach (var include in includes) 
+            {
+                query = query.Include(include);
+            }
+            return await query.FirstOrDefaultAsync(predicate);
+        }
     }
 }
 

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace PerfumeStore.Domain.Enums
 {
-    public enum NoteType
-    {
-        Top,        // İlk hiss edilən notlar
-        Middle,     // Orta notlar
-        Base        // Son hiss edilən notlar
-    }
+   
+ public enum NoteType
+{
+    Top = 1,
+    Middle = 2,
+    Base = 3
+}
+    
 }

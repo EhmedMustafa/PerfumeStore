@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PerfumeStore.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addnewtables : Migration
+    public partial class initol : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,14 +113,13 @@ namespace PerfumeStore.Infrastructure.Migrations
                 name: "FragranceNote",
                 columns: table => new
                 {
-                    NoteId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FragranceNote", x => x.NoteId);
+                    table.PrimaryKey("PK_FragranceNote", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -294,6 +293,24 @@ namespace PerfumeStore.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FragranceNoteTypes",
+                columns: table => new
+                {
+                    FragranceNoteId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FragranceNoteTypes", x => new { x.FragranceNoteId, x.Type });
+                    table.ForeignKey(
+                        name: "FK_FragranceNoteTypes_FragranceNote_FragranceNoteId",
+                        column: x => x.FragranceNoteId,
+                        principalTable: "FragranceNote",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderItems",
                 columns: table => new
                 {
@@ -347,17 +364,17 @@ namespace PerfumeStore.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    NoteId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    FragranceNoteId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductNotes", x => new { x.ProductId, x.NoteId, x.Type });
+                    table.PrimaryKey("PK_ProductNotes", x => new { x.ProductId, x.FragranceNoteId, x.Type });
                     table.ForeignKey(
-                        name: "FK_ProductNotes_FragranceNote_NoteId",
-                        column: x => x.NoteId,
+                        name: "FK_ProductNotes_FragranceNote_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "FragranceNote",
-                        principalColumn: "NoteId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProductNotes_Products_ProductId",
@@ -425,11 +442,6 @@ namespace PerfumeStore.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_FragranceNote_Type",
-                table: "FragranceNote",
-                column: "Type");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
@@ -448,11 +460,6 @@ namespace PerfumeStore.Infrastructure.Migrations
                 name: "IX_ProductFeatures_ProductId",
                 table: "ProductFeatures",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductNotes_NoteId",
-                table: "ProductNotes",
-                column: "NoteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
@@ -490,6 +497,9 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "FragranceNoteTypes");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");

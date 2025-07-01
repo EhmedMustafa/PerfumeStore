@@ -12,8 +12,8 @@ using PerfumeStore.Infrastructure.Data;
 namespace PerfumeStore.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250620135834_addnewtables")]
-    partial class addnewtables
+    [Migration("20250701074014_initol")]
+    partial class initol
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,29 +117,36 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNote", b =>
                 {
-                    b.Property<int>("NoteId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NoteId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("NoteId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("Type");
-
                     b.ToTable("FragranceNote", (string)null);
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNoteType", b =>
+                {
+                    b.Property<int>("FragranceNoteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("FragranceNoteId", "Type");
+
+                    b.ToTable("FragranceNoteTypes", (string)null);
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Identity.AppRole", b =>
@@ -524,18 +531,26 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NoteId")
+                    b.Property<int>("FragranceNoteId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Type")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
-                    b.HasKey("ProductId", "NoteId", "Type");
-
-                    b.HasIndex("NoteId");
+                    b.HasKey("ProductId", "FragranceNoteId", "Type");
 
                     b.ToTable("ProductNotes", (string)null);
+                });
+
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNoteType", b =>
+                {
+                    b.HasOne("PerfumeStore.Domain.Entities.FragranceNote", "FragranceNote")
+                        .WithMany("NoteTypes")
+                        .HasForeignKey("FragranceNoteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FragranceNote");
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Identity.AppRoleClaim", b =>
@@ -659,9 +674,9 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.ProductNote", b =>
                 {
-                    b.HasOne("PerfumeStore.Domain.Entities.FragranceNote", "Note")
+                    b.HasOne("PerfumeStore.Domain.Entities.FragranceNote", "FragranceNote")
                         .WithMany("ProductNotes")
-                        .HasForeignKey("NoteId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -671,7 +686,7 @@ namespace PerfumeStore.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Note");
+                    b.Navigation("FragranceNote");
 
                     b.Navigation("Product");
                 });
@@ -693,6 +708,8 @@ namespace PerfumeStore.Infrastructure.Migrations
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNote", b =>
                 {
+                    b.Navigation("NoteTypes");
+
                     b.Navigation("ProductNotes");
                 });
 

@@ -10,13 +10,19 @@ using PerfumeStore.Infrastructure;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Services;
 using PerfumeStore.Application.Services.CategoryServices;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var con = builder.Configuration;
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(con);
-
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 // Add services to the container.
 
 

@@ -24,6 +24,7 @@ namespace PerfumeStore.Infrastructure
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IProductRepository), typeof(ProductsRepository));
+            services.AddScoped(typeof(IFragranceNoteRepository), typeof(FragranceNoteRepository));
             return services;
         }
     }

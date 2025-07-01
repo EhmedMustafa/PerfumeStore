@@ -17,6 +17,6 @@ namespace PerfumeStore.Application.Interfaces
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task<int> SaveChangesAsync();  // <-- Bunu əlavə edirik
         Task<List<T>> GetTakeAsync(int count);
-
+        Task<T> GetByIdWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
     }
 }

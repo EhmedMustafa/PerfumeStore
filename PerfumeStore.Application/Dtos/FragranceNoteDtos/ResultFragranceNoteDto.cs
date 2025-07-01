@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Domain.Entities;
 using PerfumeStore.Domain.Enums;
 
@@ -14,6 +15,6 @@ namespace PerfumeStore.Application.Dtos.FragranceNoteDtos
         public string Name { get; set; }
         public ICollection<NoteType> Types { get; set; }
 
-        public ICollection<Product> Products { get; set; }  // Bu not hansı məhsullardadır
+        public ICollection<ResultProductDto> Products { get; set; }  // Bu not hansı məhsullardadır
     }
 }
