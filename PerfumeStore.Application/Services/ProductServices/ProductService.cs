@@ -25,7 +25,7 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task<IEnumerable<ResultProductDto>> GetAllProductAsync()
         {
-            var product= await _productRepository.GetAllAsync();
+            var product= await _repository.GetAllWithNotesAsync();
             var dto=_mapper.Map<IEnumerable<ResultProductDto>>(product);
             return dto;
         }
@@ -124,9 +124,11 @@ namespace PerfumeStore.Infrastructure.Services
             return map;
         }
 
-        public async Task<List<Product>> GetAllWithNotesAsync()
+        public async Task<List<ResultProductDto>> GetAllWithNotesAsync()
         {
-            return await _repository.GetAllWithNotesAsync();
+            var values= await _repository.GetAllWithNotesAsync();
+            var map =_mapper.Map<List<ResultProductDto>>(values);
+            return map;
         }
     }
 

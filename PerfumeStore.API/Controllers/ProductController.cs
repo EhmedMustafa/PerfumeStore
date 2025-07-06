@@ -14,8 +14,8 @@ namespace PerfumeStore.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-       private readonly IProductService _productService;
-        private readonly IMapper _mapper;
+         private readonly IProductService _productService;
+         private readonly IMapper _mapper;
 
         public ProductController(IProductService productService,IMapper mapper)
         {
@@ -27,8 +27,7 @@ namespace PerfumeStore.API.Controllers
         public async Task<IActionResult> GetAll() 
         {
             var product= await _productService.GetAllWithNotesAsync();
-            var map = _mapper.Map<List<ResultProductDto>>(product);
-            return Ok(map);
+            return Ok(product);
         }
 
         [HttpGet("{id}")]

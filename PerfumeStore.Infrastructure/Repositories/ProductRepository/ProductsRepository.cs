@@ -22,6 +22,9 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
         public async Task<List<Product>> GetAllWithNotesAsync()
         {
             return await _context.Products
+               .Include(p => p.Brand)
+               .Include(p => p.Family)
+               .Include(p => p.Category)
                .Include(p => p.ProductNotes)
                .ThenInclude(pn => pn.FragranceNote).ToListAsync();
         }

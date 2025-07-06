@@ -17,7 +17,8 @@ namespace PerfumeStore.Application.Services.ProductServices
         Task UpdateProductAsync(UpdateProductDto model);
         Task DeleteProductAsync(int id);
 
-        Task<List<Product>> GetAllWithNotesAsync();
+        Task<List<ResultProductDto>> GetAllWithNotesAsync();
+
 
 
 

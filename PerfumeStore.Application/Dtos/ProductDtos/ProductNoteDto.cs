@@ -10,6 +10,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
    public class ProductNoteDto
     {
         public int FragranceNoteId { get; set; }
+        public string FragranceNoteName { get; set; }
         public NoteType Type { get; set; }  // Enum: Top, Middle, Base
     }
 }

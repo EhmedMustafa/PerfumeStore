@@ -20,20 +20,14 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public bool IsBestseller { get; set; }
         public string Disclaimer { get; set; }  // Şəkil haqqında qeyd (məs: "Şəkil tanıtım xarakteri daşıyır")
 
-        // Foreign Keys - Digər cədvəllərlə əlaqə üçün
-        public int BrandId { get; set; }  // Brend ID-si
-        public int FamilyId { get; set; }        // Ətri ailə ID-si
-        public int CategoryId { get; set; }     // Cins ID-si
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
 
+        public int FamilyId { get; set; }
+        public string FamilyName { get; set; }
 
-
-        // Navigation Properties - Digər cədvəllərlə əlaqəni təmin edən xüsusiyyətlər
-
-        public Brand Brand { get; set; }
-        public FragranceFamily Family { get; set; }
-        public Category Category { get; set; }
-
-        // public ICollection<FragranceNote> notes { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
 
         public ICollection<ProductNoteDto> ProductNotes { get; set; }
 
