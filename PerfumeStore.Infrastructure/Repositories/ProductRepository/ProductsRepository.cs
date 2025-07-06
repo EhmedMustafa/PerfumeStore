@@ -19,12 +19,19 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             _context = Context;
         }
 
+        public async Task<List<Product>> GetAllWithNotesAsync()
+        {
+            return await _context.Products
+               .Include(p => p.ProductNotes)
+               .ThenInclude(pn => pn.FragranceNote).ToListAsync();
+        }
+
         public Task<List<Product>> GetProductByCategory(int categoryId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
+        public async Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
         {
             throw new NotImplementedException();
         }

@@ -4,6 +4,7 @@ using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
+using System;
 using System.Linq.Expressions;
 
 namespace PerfumeStore.Infrastructure.Services
@@ -13,6 +14,7 @@ namespace PerfumeStore.Infrastructure.Services
         private readonly IGenericRepository<Product> _productRepository;
         private readonly IMapper _mapper;
         private readonly IProductRepository _repository;
+       
 
         public ProductService(IGenericRepository<Product> productRepository,IMapper mapper, IProductRepository _Repository)
         {
@@ -39,20 +41,27 @@ namespace PerfumeStore.Infrastructure.Services
         {
             await _productRepository.AddAsync(new Product
             {
-                //Name = productdto.Name,
-                //ImageUrl = productdto.ImageUrl,
-                //Price = productdto.Price,
-                //Size = productdto.Size,
-                //Brand = productdto.Brand,
-                //TopNotes = productdto.TopNotes,
-                //MiddleNotes = productdto.MiddleNotes,
-                //BaseNotes = productdto.BaseNotes,
-                //StockQuantity = productdto.StockQuantity,
-                //Discount = productdto.Discount,
-                //Description = productdto.Description
+                Name = productdto.Name,
+                Description = productdto.Description,
+                Size = productdto.Size,
+                CurrentPrice = productdto.CurrentPrice,
+                OriginalPrice = productdto.OriginalPrice,
+                ImageUrl = productdto.ImageUrl,
+                IsNew = productdto.IsNew,
+                IsBestseller = productdto.IsBestseller,
+                Disclaimer = productdto.Disclaimer,
+                BrandId = productdto.BrandId,
+                FamilyId = productdto.FamilyId,
+                CategoryId = productdto.CategoryId,
+                ProductNotes = productdto.ProductNotes.Select(n => new ProductNote
+                {
+                    FragranceNoteId = n.FragranceNoteId,
+                    Type = n.Type,
+                }).ToList()
             });
-           // await _productRepository.AddAsync(product);
+           
             await _productRepository.SaveChangesAsync();
+            
         }
 
         public async Task UpdateProductAsync(UpdateProductDto model)
@@ -113,6 +122,11 @@ namespace PerfumeStore.Infrastructure.Services
             var values=await _productRepository.GetTakeAsync(count);
             var map = _mapper.Map<List<ResultProductDto>>(values);
             return map;
+        }
+
+        public async Task<List<Product>> GetAllWithNotesAsync()
+        {
+            return await _repository.GetAllWithNotesAsync();
         }
     }
 

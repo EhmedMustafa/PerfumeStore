@@ -26,7 +26,7 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
 
             builder.HasOne(x => x.FragranceNote)
                 .WithMany(n => n.ProductNotes)
-                .HasForeignKey(n => n.ProductId);
+                .HasForeignKey(n => n.FragranceNoteId);
 
            
         }

@@ -25,16 +25,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public int CategoryId { get; set; }     // Cins ID-si
 
 
-
-        // Navigation Properties - Digər cədvəllərlə əlaqəni təmin edən xüsusiyyətlər
-
-        //public Brand Brand { get; set; }
-       // public FragranceFamily Family { get; set; }
-        //public Category Category { get; set; }
-
-        // public ICollection<FragranceNote> notes { get; set; }
-
-        public ICollection<ProductNote> ProductNotes { get; set; }
+        public ICollection<ProductNoteDto> ProductNotes { get; set; }
     }
 
 }

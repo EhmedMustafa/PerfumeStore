@@ -15,17 +15,20 @@ namespace PerfumeStore.API.Controllers
     public class ProductController : ControllerBase
     {
        private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService,IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll() 
         {
-            var product= await _productService.GetAllProductAsync();
-            return Ok(product);
+            var product= await _productService.GetAllWithNotesAsync();
+            var map = _mapper.Map<List<ResultProductDto>>(product);
+            return Ok(map);
         }
 
         [HttpGet("{id}")]

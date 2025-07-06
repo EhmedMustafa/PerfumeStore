@@ -56,22 +56,14 @@ namespace PerfumeStore.Application.Services.FragranceNoteServices
             //var map = _mapper.Map<GetByIdFragranceNoteDto>(values);
             //return map;
 
-            //var note = await _genericRepository.GetByIdWithIncludeAsync(
-            //   x => x.Id == id,
-            //   x => x.NoteTypes,
-            //   x => x.ProductNotes,
-            //   x => x.ProductNotes.Select(pn => pn.Product)  // ThenInclude üçün
-            // );
-
-
-            var note=await _fragranceNoteRepository.GetByIdWithDetailsAsync(id);
+            var note = await _fragranceNoteRepository.GetByIdWithDetailsAsync(id);
 
             if (note == null)
                 throw new KeyNotFoundException("Not tapılmadı.");
 
-             
-            var map=   _mapper.Map<GetByIdFragranceNoteDto>(note);
-            return  map;
+
+            var map = _mapper.Map<GetByIdFragranceNoteDto>(note);
+            return map;
         }
 
         public async Task UpdateFragranceNoteAsync(UpdateFragranceNoteDto updateFragranceNoteDto)

@@ -35,7 +35,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
 
         // public ICollection<FragranceNote> notes { get; set; }
 
-        public ICollection<ProductNote> ProductNotes { get; set; }
+        public ICollection<ProductNoteDto> ProductNotes { get; set; }
 
     }
 }
