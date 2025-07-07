@@ -15,24 +15,41 @@ namespace PerfumeStore.Infrastructure.Services
     public class OrderItemService : IOrderItemService
     {
         private readonly IGenericRepository<OrderItem> _orderItemRepository;
+        private readonly IGenericRepository<Order> _order;
+        private readonly IGenericRepository<Product> _product;
         private readonly IMapper _mapper;
 
-        public OrderItemService(IGenericRepository<OrderItem> orderItemRepository,IMapper mapper)
+        public OrderItemService(IGenericRepository<OrderItem> orderItemRepository,IMapper mapper,IGenericRepository<Order> order,IGenericRepository<Product> Product)
         {
             _orderItemRepository = orderItemRepository;
             _mapper = mapper;
+            _order = order;
+            _product = Product;
         }
 
-        public async Task CreateOrderItemAsync(CreateOrderItemDto orderItem)
+        public async Task CreateOrderItemAsync(int orderId, CreateOrderItemDto orderItem)
         {
-            await _orderItemRepository.AddAsync(new OrderItem
+            var order = await _order.GetByIdAsync(orderId);
+            if (order == null) throw new Exception("Sifariş tapılmadı");
+
+            var product = await _product.GetByIdAsync(orderItem.ProductId);
+            if (product == null)
+                throw new Exception("Məhsul tapılmadı");
+
+            var ordetitems = new OrderItem
             {
-               //OrderId = orderItem.OrderId,
-               ProductId = orderItem.ProductId,
-               Quantity = orderItem.Quantity,
-               TotalPrice = orderItem.TotalPrice,
-            });
+                OrderId = orderId,
+                ProductId = orderItem.ProductId,
+                Quantity = orderItem.Quantity,
+                TotalPrice = product.OriginalPrice * orderItem.Quantity
+            };
+
+            await _orderItemRepository.AddAsync(ordetitems);
+
+            order.TotalAmount += ordetitems.TotalPrice;
+          
             await _orderItemRepository.SaveChangesAsync();
+            await _order.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<ResultOrderItemDto>> GetAllOrderItemAsync()

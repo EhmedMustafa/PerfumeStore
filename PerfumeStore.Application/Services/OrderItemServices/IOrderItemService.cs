@@ -12,7 +12,7 @@ namespace PerfumeStore.Application.Services.OrderItemServices
     {
         Task<IEnumerable<ResultOrderItemDto>> GetAllOrderItemAsync();
         Task<GetByIdOrderItemDto> GetByIdOrderItemAsync(int id);
-        Task CreateOrderItemAsync(CreateOrderItemDto orderItem);
+        Task CreateOrderItemAsync(int orderId,CreateOrderItemDto orderItem);
         Task UpdateOrderItemAsync(UpdateOrderItemDto orderItem);
         Task DeleteOrderItemAsync(int id);
         Task<IEnumerable<OrderItem>> GetOrderItemsByOrderIdAsync(int orderId);// Bir sifarişə aid olan bütün məhsulları qaytarır

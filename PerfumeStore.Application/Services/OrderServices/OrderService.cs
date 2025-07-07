@@ -9,6 +9,7 @@ using PerfumeStore.Application.Dtos.OrderDto;
 using PerfumeStore.Application.Dtos.OrderDtos;
 using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Interfaces.IOrderRepository;
 using PerfumeStore.Application.Services.OrderServices;
 using PerfumeStore.Domain.Entities;
 using PerfumeStore.Domain.Enums;
@@ -20,15 +21,17 @@ namespace PerfumeStore.Infrastructure.Services
         private readonly IGenericRepository<Order> _orderRepository;
         private readonly IGenericRepository<OrderItem> _orderItemRepository;
         private readonly IGenericRepository<Product> _productRepository;
+        private readonly IOrderRepository _order;
         private readonly IMapper _mapper;
 
         public OrderService(IGenericRepository<Order> orderRepository, IGenericRepository<OrderItem> orderItemRepository,
-        IGenericRepository<Product> productRepository,IMapper mapper)
+        IGenericRepository<Product> productRepository,IMapper mapper,IOrderRepository order)
         {
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
             _productRepository = productRepository;
             _mapper = mapper;
+            _order = order;
         }
 
 
@@ -53,24 +56,24 @@ namespace PerfumeStore.Infrastructure.Services
             foreach (var item in orderItems)
             {
                 // 2.1. Məhsulun bazada olub-olmadığını yoxlayırıq.
-                var product = await _productRepository.GetByIdAsync(item.ProductId);
-                if (product == null)
-                    throw new Exception("Product not found!"); // Məhsul yoxdursa, xəta qaytarılır.
+                //var product = await _productRepository.GetByIdAsync(item.ProductId);
+                //if (product == null)
+                //    throw new Exception("Product not found!"); // Məhsul yoxdursa, xəta qaytarılır.
 
-                // 2.2. Yeni OrderItem (Sifariş Məhsulu) obyekti yaradılır.
-                var orderItem = new OrderItem
-                {
-                    ProductId = product.ProductId,   // Məhsulun ID-si
-                    Quantity = item.Quantity, // Sifariş olunan miqdar
-                    TotalPrice = product.OriginalPrice,    // Məhsulun cari qiyməti
-                    Order = order             // Sifarişə bağlanır
-                };
+                //// 2.2. Yeni OrderItem (Sifariş Məhsulu) obyekti yaradılır.
+                //var orderItem = new OrderItem
+                //{
+                //    ProductId = product.ProductId,   // Məhsulun ID-si
+                //    Quantity = item.Quantity, // Sifariş olunan miqdar
+                //    TotalPrice = product.OriginalPrice,    // Məhsulun cari qiyməti
+                //    Order = order             // Sifarişə bağlanır
+                //};
 
                 // 2.3. Sifarişin ümumi məbləği yenilənir.
-                order.TotalAmount += orderItem.Quantity * orderItem.TotalPrice;
+                //order.TotalAmount += orderItem.Quantity * orderItem.TotalPrice;
 
-                // 2.4. Sifariş məhsulu siyahıya əlavə edilir.
-                orderItemsList.Add(orderItem);
+                //// 2.4. Sifariş məhsulu siyahıya əlavə edilir.
+                //orderItemsList.Add(orderItem);
             }
 
             // 3️⃣ Sifariş məhsulları order obyektinə əlavə edilir.
@@ -103,13 +106,40 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task CreateOrderAsync(CreateOrderDto createOrderDto)
         {
-            await _orderRepository.AddAsync(new Order
+
+            var order = new Order
             {
-                OrderDate = createOrderDto.OrderDate,
-                TotalAmount=createOrderDto.TotalAmount,
-                Status=createOrderDto.Status,
-                UserId=createOrderDto.UserId
-            });
+                UserId = createOrderDto.UserId,
+                OrderDate = DateTime.Now,
+                Status = OrderStatus.Pending,
+                OrderItems = new List<OrderItem>()
+
+            };
+            decimal totalAmout = 0;
+            foreach (var item in createOrderDto.createOrderItemDtos)
+            {
+                if (item.Quantity <= 0) continue;
+                var product = await _productRepository.GetByIdAsync(item.ProductId);
+                if (product == null|| item.Quantity<=0) continue;
+                var orderitem = new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    TotalPrice = product.OriginalPrice * item.Quantity
+                };
+
+                totalAmout += orderitem.TotalPrice;
+                order.OrderItems.Add(orderitem);
+
+            }
+
+            if (!order.OrderItems.Any())
+                throw new Exception("Heç bir məhsul əlavə edilməyib.");
+
+            order.TotalAmount = totalAmout;
+
+            await _orderRepository.AddAsync(order);
+          
             await _orderRepository.SaveChangesAsync();
         }
 
@@ -122,7 +152,7 @@ namespace PerfumeStore.Infrastructure.Services
 
         async Task<GetByIdOrderDto> IOrderService.GetOrderByIdAsync(int Id)
         {
-            var values = await _orderRepository.GetByIdAsync(Id);
+            var values = await _order.GetOrderWithOrderItems(Id);
             var map= _mapper.Map<GetByIdOrderDto>(values);
             return map;
         }

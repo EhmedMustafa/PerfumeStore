@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Services.OrderItemServices;
+using PerfumeStore.Application.Services.OrderServices;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.API.Controllers
@@ -12,10 +13,12 @@ namespace PerfumeStore.API.Controllers
     public class OrderItemController : ControllerBase
     {
         private readonly IOrderItemService _orderItemService;
+        private readonly IOrderService _order;
 
-        public OrderItemController(IOrderItemService orderItemService)
+        public OrderItemController(IOrderItemService orderItemService,IOrderService order)
         {
             _orderItemService = orderItemService;
+            _order = order;
         }
 
         [HttpGet]
@@ -35,10 +38,11 @@ namespace PerfumeStore.API.Controllers
             return Ok(orderItem);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateOrderItemDto createOrderItemDto)
+        [HttpPost("{orderId}")]
+        public async Task<IActionResult> Create(int orderId, [FromBody] CreateOrderItemDto createOrderItemDto)
         {
-            await _orderItemService.CreateOrderItemAsync(createOrderItemDto);
+            
+            await _orderItemService.CreateOrderItemAsync(orderId, createOrderItemDto);
             return Ok("OrderItem yüklendi");
         }
 

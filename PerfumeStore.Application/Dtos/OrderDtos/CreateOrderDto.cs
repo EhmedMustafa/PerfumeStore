@@ -15,9 +15,9 @@ namespace PerfumeStore.Application.Dtos.OrderDto
        
         public int UserId { get; set; }
         //public AppUser User { get; set; }
-        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
-        public decimal TotalAmount { get; set; }
-        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+       // public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+       // public decimal TotalAmount { get; set; }
+        //public OrderStatus Status { get; set; } = OrderStatus.Pending;
        
         public ICollection<CreateOrderItemDto> createOrderItemDtos { get; set; }
     }
