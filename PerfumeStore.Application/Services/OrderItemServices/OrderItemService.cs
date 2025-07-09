@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Interfaces.IOrderItemRepository;
 using PerfumeStore.Application.Services.OrderItemServices;
 using PerfumeStore.Domain.Entities;
 
@@ -17,14 +18,16 @@ namespace PerfumeStore.Infrastructure.Services
         private readonly IGenericRepository<OrderItem> _orderItemRepository;
         private readonly IGenericRepository<Order> _order;
         private readonly IGenericRepository<Product> _product;
+        private readonly IOrderItemRepository _orderitem;
         private readonly IMapper _mapper;
 
-        public OrderItemService(IGenericRepository<OrderItem> orderItemRepository,IMapper mapper,IGenericRepository<Order> order,IGenericRepository<Product> Product)
+        public OrderItemService(IGenericRepository<OrderItem> orderItemRepository, IMapper mapper, IGenericRepository<Order> order, IGenericRepository<Product> Product, IOrderItemRepository orderitem)
         {
             _orderItemRepository = orderItemRepository;
             _mapper = mapper;
             _order = order;
             _product = Product;
+            _orderitem = orderitem;
         }
 
         public async Task CreateOrderItemAsync(int orderId, CreateOrderItemDto orderItem)
@@ -54,7 +57,7 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task<IEnumerable<ResultOrderItemDto>> GetAllOrderItemAsync()
         {
-            var values= await _orderItemRepository.GetAllAsync();
+            var values= await _orderitem.GetOrderItemWithDetails();
             var map = _mapper.Map<IEnumerable<ResultOrderItemDto>>(values);
             return map;
         }

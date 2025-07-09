@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using PerfumeStore.Application.Dtos.CartDtos;
+using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Domain.Entities;
+
+namespace PerfumeStore.Application.Services.CartServices
+{
+    public class CartService : ICartService
+    {
+        private readonly IGenericRepository<Cart> _genericRepository;
+        private readonly IGenericRepository<Product> _product;
+        private readonly IMapper _mapper;
+        public CartService(IGenericRepository<Cart> genericRepository, IGenericRepository<Product> product, IMapper mapper)
+        {
+            _genericRepository = genericRepository;
+            _product = product;
+            _mapper = mapper;
+        }
+
+        public async Task AddCartAsync(CreateCartDto createCartDto)
+        {
+
+            var cart = new Cart
+            {
+                CustomerId = createCartDto.CustomerId,
+                Createddate=DateTime.Now,
+                CartItems= new List<CartItem>()
+            };
+            decimal totalamount = 0;
+            foreach (var item in createCartDto.CartItems)
+            {
+                var product= await _product.GetByIdAsync(item.ProductId);
+                if (product == null) continue;
+
+                var cartitem = new CartItem
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    TotalPrice = product.OriginalPrice * item.Quantity
+                };
+
+                totalamount += cartitem.TotalPrice;
+                cart.CartItems.Add(cartitem);
+            }
+
+            cart.TotalAmount= totalamount;
+
+            await _genericRepository.AddAsync(cart);
+            await _genericRepository.SaveChangesAsync();
+            //await _product.SaveChangesAsync();  
+        }
+
+        public async Task DeleteCartAsync(int id)
+        {
+            var values = await _genericRepository.GetByIdAsync(id);
+            if (values == null)
+                throw new Exception("Səbət tapılmadı.");
+            await _genericRepository.DeleteAsync(values);
+            await _genericRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ResultCartDto>> GetAllCartAsync()
+        {
+            var values= await _genericRepository.GetAllAsync();
+            var map = _mapper.Map<IEnumerable<ResultCartDto>>(values);
+            return map;
+        }
+
+        public async Task<GetByIdCartDto> GetByIdCartAsync(int id)
+        {
+            var value= await _genericRepository.GetByIdAsync(id);
+            var map= _mapper.Map<GetByIdCartDto>(value);
+            return map;
+        }
+    }
+}

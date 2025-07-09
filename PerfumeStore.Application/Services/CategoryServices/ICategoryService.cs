@@ -11,7 +11,7 @@ namespace PerfumeStore.Application.Services.CategoryServices
     public interface ICategoryService
     {
         Task<IEnumerable<ResultCategoryDto>> GetAllCategoryAsync();
-        Task<GetByIdGategoryDto> GetByIdCategoryAsync(int id);
+        Task<GetByIdCategoryDto> GetByIdCategoryAsync(int id);
         Task AddCategoryAsync(CreateCategoryDto createCategoryDto);
         Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
         Task DeleteCategoryAsync(int id);

@@ -20,13 +20,19 @@ namespace PerfumeStore.Infrastructure.Repositories.OrderRepository
             _context = context;
         }
 
-        public async Task<Order> GetOrderWithOrderItems(int id)
+        public async Task<Order> GetOrderByIdWithOrderItems(int id)
         {
            return await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi=>oi.Product)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
 
+        }
+
+        public async Task<List<Order>> GetOrderWithOrderItems()
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems) .ThenInclude(oi=>oi.Product) .ToListAsync();
         }
     }
 }

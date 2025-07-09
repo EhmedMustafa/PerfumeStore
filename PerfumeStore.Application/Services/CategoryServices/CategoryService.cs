@@ -30,10 +30,10 @@ namespace PerfumeStore.Infrastructure.Services
             return map;
         }
 
-        public async Task<GetByIdGategoryDto> GetByIdCategoryAsync(int id)
+        public async Task<GetByIdCategoryDto> GetByIdCategoryAsync(int id)
         {
             var values= await _categoryRepository.GetByIdAsync(id);
-            var map= _mapper.Map<GetByIdGategoryDto>(values);
+            var map= _mapper.Map<GetByIdCategoryDto>(values);
             return map;
 
         }

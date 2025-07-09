@@ -145,14 +145,14 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task<IEnumerable<ResultOrderDto>> GetAllOrderAsync()
         {
-            var vallues= await _orderRepository.GetAllAsync();
+            var vallues= await _order.GetOrderWithOrderItems();
             var map = _mapper.Map<IEnumerable<ResultOrderDto>>(vallues);
             return map;
         }
 
         async Task<GetByIdOrderDto> IOrderService.GetOrderByIdAsync(int Id)
         {
-            var values = await _order.GetOrderWithOrderItems(Id);
+            var values = await _order.GetOrderByIdWithOrderItems(Id);
             var map= _mapper.Map<GetByIdOrderDto>(values);
             return map;
         }

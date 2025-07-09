@@ -10,6 +10,7 @@ namespace PerfumeStore.Application.Interfaces.IOrderRepository
 {
     public interface IOrderRepository
     {
-        Task <Order> GetOrderWithOrderItems(int id);
+        Task <Order> GetOrderByIdWithOrderItems(int id);
+        Task<List<Order>> GetOrderWithOrderItems();
     }
 }

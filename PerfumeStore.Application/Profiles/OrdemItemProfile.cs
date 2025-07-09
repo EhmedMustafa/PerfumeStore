@@ -13,8 +13,8 @@ namespace PerfumeStore.Application.Profiles
     {
         public OrdemItemProfile()
         {
-            CreateMap<OrderItem, ResultOrderItemDto>().ReverseMap()
-            .ForMember(dest => dest.Product, opt => opt.MapFrom(scr => scr.ProductName));
+            CreateMap<OrderItem, ResultOrderItemDto>()
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(scr => scr.Product.Name));
                 
                 CreateMap<OrderItem,GetByIdOrderItemDto>().ReverseMap();
         }

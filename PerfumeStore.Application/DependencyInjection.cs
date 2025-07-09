@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Services;
 using PerfumeStore.Application.Services.BrandServices;
+using PerfumeStore.Application.Services.CartItemItemServices;
+using PerfumeStore.Application.Services.CartItemServices;
+using PerfumeStore.Application.Services.CartServices;
 using PerfumeStore.Application.Services.CategoryServices;
 using PerfumeStore.Application.Services.CustomerServices;
 using PerfumeStore.Application.Services.FragranceFamilyService;
@@ -34,6 +37,8 @@ namespace PerfumeStore.Application
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IFragranceFamilyService, FragranceFamilyService>();
             services.AddScoped<IFragranceNoteService,FragranceNoteService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICartItemService, CartItemService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             return services;
