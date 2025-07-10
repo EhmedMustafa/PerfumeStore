@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using PerfumeStore.Application.Dtos.CartDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Interfaces.ICartRepository;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Services.CartServices
@@ -15,12 +16,17 @@ namespace PerfumeStore.Application.Services.CartServices
         private readonly IGenericRepository<Cart> _genericRepository;
         private readonly IGenericRepository<Product> _product;
         private readonly IMapper _mapper;
-        public CartService(IGenericRepository<Cart> genericRepository, IGenericRepository<Product> product, IMapper mapper)
+        private readonly ICartRepository _cartRepository;
+        public CartService(IGenericRepository<Cart> genericRepository, IGenericRepository<Product> product, IMapper mapper,ICartRepository cartRepository)
         {
             _genericRepository = genericRepository;
             _product = product;
             _mapper = mapper;
+            _cartRepository = cartRepository;
         }
+
+       
+
 
         public async Task AddCartAsync(CreateCartDto createCartDto)
         {
@@ -66,14 +72,14 @@ namespace PerfumeStore.Application.Services.CartServices
 
         public async Task<IEnumerable<ResultCartDto>> GetAllCartAsync()
         {
-            var values= await _genericRepository.GetAllAsync();
+            var values= await _cartRepository.GetAllCartWithItemAsync();
             var map = _mapper.Map<IEnumerable<ResultCartDto>>(values);
             return map;
         }
 
         public async Task<GetByIdCartDto> GetByIdCartAsync(int id)
         {
-            var value= await _genericRepository.GetByIdAsync(id);
+            var value = await _cartRepository.GetCartByIdWithItemsAsync(id);
             var map= _mapper.Map<GetByIdCartDto>(value);
             return map;
         }

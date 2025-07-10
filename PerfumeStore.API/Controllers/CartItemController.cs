@@ -46,10 +46,12 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCartItem(UpdateCartItemDto model) 
+        public async Task<IActionResult> UpdateCartItem([FromBody] UpdateCartItemDto model) 
         {
+            if (model == null)
+                return BadRequest("Data boşdur");
             await _cartItemService.UpdateCartItemAsync(model);
-            return Ok();
+            return Ok(new { message = "Updated" });
         }
     }
 

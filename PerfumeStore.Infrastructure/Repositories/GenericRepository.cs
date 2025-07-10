@@ -44,6 +44,7 @@ namespace PerfumeStore.Infrastructure.Repositories
         public async Task DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)

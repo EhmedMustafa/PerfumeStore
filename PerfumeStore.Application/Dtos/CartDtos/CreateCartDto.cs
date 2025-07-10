@@ -10,7 +10,7 @@ namespace PerfumeStore.Application.Dtos.CartDtos
 {
     public class CreateCartDto
     {
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
         public ICollection<CreateCartItemDto> CartItems { get; set; } = new List<CreateCartItemDto>();
     }

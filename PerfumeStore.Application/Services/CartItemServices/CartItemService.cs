@@ -20,17 +20,23 @@ namespace PerfumeStore.Application.Services.CartItemServices
         private readonly IGenericRepository<Cart> _cart;
         private readonly ICartRepository _cartRepository;
 
-        public CartItemService(IGenericRepository<CartItem> genericRepository, IMapper mapper, IGenericRepository<Cart> cart)
+        public CartItemService(IGenericRepository<CartItem> genericRepository, IMapper mapper, IGenericRepository<Cart> cart,ICartRepository cartRepository,IGenericRepository<Product> product)
         {
             _genericRepository = genericRepository;
             _mapper = mapper;
             _cart = cart;
+            _cartRepository = cartRepository;
+            _product = product;
         }
 
         public async Task AddCartItemAsync(int cartId, CreateCartItemDto createCartItemDto)
         {
+
+            var cart = await _cartRepository.GetCartByIdWithItemsAsync(cartId);
+
+
+
             
-            var cart = await _cartRepository.GetCartWithItemsAsync(cartId);
             if (cart == null) throw new Exception("Səbət tapılmadı.");
 
             var product = await _product.GetByIdAsync(createCartItemDto.ProductId);
@@ -104,7 +110,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
 
             await _genericRepository.UpdateAsync(cartItem);
 
-            var cart = await _cart.GetByIdAsync(cartItem.CartId);
+            var cart = await _cartRepository.GetCartByIdWithItemsAsync(cartItem.CartId);
             if (cart != null)
             {
                 cart.TotalAmount = cart.CartItems.Sum(x => x.TotalPrice);

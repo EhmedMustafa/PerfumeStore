@@ -19,19 +19,23 @@ namespace PerfumeStore.Infrastructure.Repositories.CartRepository
             _appDbContext = appDbContext;
         }
 
-        public async Task<Cart> GetCartWithItemsAsync(int cartId)
+        public async Task<List<Cart>> GetAllCartWithItemAsync()
+        {
+            return await _appDbContext.Carts
+                .Include(c => c.CartItems).ThenInclude(ci => ci.Product).ToListAsync();
+        }
+
+        public async Task<Cart> GetCartByIdWithItemsAsync(int cartId)
         {
             var cart = await _appDbContext.Carts
-                .Include(c => c.CartItems)
-                .FirstOrDefaultAsync(c => c.CartId == cartId);
-
-            if (cart == null)
-            {
-                // Debug və ya logla xəbərdarlıq yaz
-                Console.WriteLine($"Cart with ID {cartId} not found!");
-            }
+                .Include(c=>c.Customer)
+            .Include(c => c.CartItems)
+            
+                .ThenInclude(ci => ci.Product)
+            .FirstOrDefaultAsync(c => c.CartId == cartId);
 
             return cart;
+
         }
     }
 }
