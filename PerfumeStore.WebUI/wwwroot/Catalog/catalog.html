@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ətriyyat Kataloqu</title>
+    <link rel="stylesheet" href="catalog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="catalog">
+        <!-- Filtr Paneli -->
+        <aside class="filters">
+            <div class="filters__header">
+                <h3 class="filters__title">Filtrlər</h3>
+                <button class="filters__clear">Filtri təmizlə</button>
+            </div>
+
+            <!-- Cinsiyyət -->
+            <div class="filter-group">
+                <h4 class="filter-group__title">Cinsiyyət</h4>
+                <div class="filter-group__content">
+                    <label class="filter-group__label">
+                        <input type="checkbox" name="gender" value="women">
+                        <span>Qadın</span>
+                    </label>
+                    <label class="filter-group__label">
+                        <input type="checkbox" name="gender" value="men">
+                        <span>Kişi</span>
+                    </label>
+                    <label class="filter-group__label">
+                        <input type="checkbox" name="gender" value="unisex">
+                        <span>Uniseks</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Qiymət aralığı -->
+            <div class="filter-group">
+                <h4 class="filter-group__title">Qiymət</h4>
+                <div class="filter-group__content">
+                    <input type="range" min="50" max="500" step="10" class="price-slider" id="priceRange">
+                    <div class="price-range">
+                        <span id="minPrice">50₼</span>
+                        <span id="maxPrice">500₼</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brendlər -->
+            <div class="filter-group">
+                <h4 class="filter-group__title">Brendlər</h4>
+                <div class="filter-group__content">
+                    <input type="text" placeholder="Brend axtar..." class="brand-search">
+                    <div class="brand-list">
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="brand" value="chanel">
+                            <span>Chanel</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="brand" value="dior">
+                            <span>Dior</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="brand" value="gucci">
+                            <span>Gucci</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="brand" value="ysl">
+                            <span>Yves Saint Laurent</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="brand" value="ysl">
+                            <span>Yves Saint Laurent</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Qoxu notaları -->
+            <div class="filter-group">
+                <h4 class="filter-group__title">Qoxu notaları</h4>
+                <div class="filter-group__content">
+                    <input type="text" placeholder="Qoxu notası axtar..." class="notes-search">
+                    <div class="notes-list">
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="vanilla">
+                            <span>Vanil</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="rose">
+                            <span>Qızılgül</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="lavender">
+                            <span>Lavanda</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="jasmine">
+                            <span>Yasəmən</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="bergamot">
+                            <span>Bergamot</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="sandalwood">
+                            <span>Sandal ağacı</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="musk">
+                            <span>Müşk</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="amber">
+                            <span>Ənbər</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="patchouli">
+                            <span>Paçuli</span>
+                        </label>
+                        <label class="filter-group__label">
+                            <input type="checkbox" name="notes" value="citrus">
+                            <span>Sitrus</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Məhsul Qridi -->
+        <main class="products">
+            <div class="products__header">
+                <div class="products__count">
+                    <span id="productCount">12</span> məhsul tapıldı
+                </div>
+                <div class="products__sort">
+                    <select id="sortSelect">
+                        <option value="popular">Ən populyar</option>
+                        <option value="price-asc">Qiymət: Aşağıdan yuxarı</option>
+                        <option value="price-desc">Qiymət: Yuxarıdan aşağı</option>
+                        <option value="new">Ən yeni</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="product-grid" id="productGrid">
+                <!-- Chanel No 5 -->
+                <div class="product-card" data-gender="women" data-brand="chanel" data-price="380" data-notes="top,middle,base">
+                    <span class="product-card__tag">Tez satılır</span>
+                    <img src="products/chanel-no5.jpg" alt="Chanel No 5" class="product-card__image" loading="lazy">
+                    <div class="product-card__brand">Chanel</div>
+                    <h3 class="product-card__name">No 5 Eau de Parfum</h3>
+                    <div class="product-card__price">
+                        380₼ <span class="product-card__old-price">420₼</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__button product-card__button--cart">
+                            Səbətə əlavə et
+                        </button>
+                        <button class="product-card__button product-card__button--wishlist">
+                            ♡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dior Sauvage -->
+                <div class="product-card" data-gender="men" data-brand="dior" data-price="450" data-notes="top,middle,base">
+                    <img src="products/dior-sauvage.jpg" alt="Dior Sauvage" class="product-card__image" loading="lazy">
+                    <div class="product-card__brand">Dior</div>
+                    <h3 class="product-card__name">Sauvage Eau de Parfum</h3>
+                    <div class="product-card__price">
+                        450₼
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__button product-card__button--cart">
+                            Səbətə əlavə et
+                        </button>
+                        <button class="product-card__button product-card__button--wishlist">
+                            ♡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gucci Bloom -->
+                <div class="product-card" data-gender="women" data-brand="gucci" data-price="320" data-notes="top,middle,base">
+                    <span class="product-card__tag">Tez satılır</span>
+                    <img src="products/gucci-bloom.jpg" alt="Gucci Bloom" class="product-card__image" loading="lazy">
+                    <div class="product-card__brand">Gucci</div>
+                    <h3 class="product-card__name">Bloom Eau de Parfum</h3>
+                    <div class="product-card__price">
+                        320₼ <span class="product-card__old-price">380₼</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__button product-card__button--cart">
+                            Səbətə əlavə et
+                        </button>
+                        <button class="product-card__button product-card__button--wishlist">
+                            ♡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- YSL Black Opium -->
+                <div class="product-card" data-gender="women" data-brand="ysl" data-price="400" data-notes="top,middle,base">
+                    <img src="products/ysl-black-opium.jpg" alt="YSL Black Opium" class="product-card__image" loading="lazy">
+                    <div class="product-card__brand">Yves Saint Laurent</div>
+                    <h3 class="product-card__name">Black Opium Eau de Parfum</h3>
+                    <div class="product-card__price">
+                        400₼
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__button product-card__button--cart">
+                            Səbətə əlavə et
+                        </button>
+                        <button class="product-card__button product-card__button--wishlist">
+                            ♡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chanel Bleu -->
+                <div class="product-card" data-gender="men" data-brand="chanel" data-price="420" data-notes="top,middle,base">
+                    <img src="products/chanel-bleu.jpg" alt="Chanel Bleu" class="product-card__image" loading="lazy">
+                    <div class="product-card__brand">Chanel</div>
+                    <h3 class="product-card__name">Bleu de Chanel</h3>
+                    <div class="product-card__price">
+                        420₼
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__button product-card__button--cart">
+                            Səbətə əlavə et
+                        </button>
+                        <button class="product-card__button product-card__button--wishlist">
+                            ♡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dior J'adore -->
+                <div class="product-card" data-gender="women" data-brand="dior" data-price="350" data-notes="top,middle,base">
+                    <span class="product-card__tag">Tez satılır</span>
+                    <img src="products/dior-jadore.jpg" alt="Dior J'adore" class="product-card__image" loading="lazy">
+                    <div class="product-card__brand">Dior</div>
+                    <h3 class="product-card__name">J'adore Eau de Parfum</h3>
+                    <div class="product-card__price">
+                        350₼ <span class="product-card__old-price">400₼</span>
+                    </div>
+                    <div class="product-card__actions">
+                        <button class="product-card__button product-card__button--cart">
+                            Səbətə əlavə et
+                        </button>
+                        <button class="product-card__button product-card__button--wishlist">
+                            ♡
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <div class="modal__body">
+                <!-- Quick view content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="catalog.js"></script>
+</body>
+</html> 

@@ -16,7 +16,7 @@ namespace PerfumeStore.Application.Profiles
             CreateMap<CartItem, ResultCartItemDto>()
                 .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(scr => scr.Product.OriginalPrice))
 
-                .ForMember(dest => dest.ResultProductDto, opt => opt.MapFrom(scr => scr.Product));
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(scr => scr.Product));
             CreateMap<CartItem, GetByIdCartItemDto>().ReverseMap();
                 
         }

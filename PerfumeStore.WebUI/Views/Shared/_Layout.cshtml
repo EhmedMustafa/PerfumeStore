@@ -1,49 +1,886 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="az">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PerfumeStore.WebUI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PerfumeStore.WebUI.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfume | E-Commerce</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   @*  <link rel="stylesheet" href="/css/style.css"> *@
+    <link href="css/style.css" rel="stylesheet" />
 </head>
+
 <body>
+
+
+    <div class="offcanvas_menu offcanvas_two">
+        <div class="canvas_open">
+            <a href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+        </div>
+        <!-- offcanvas_menu_wrapper mobil-->
+        <div class="offcanvas_menu_wrapper">
+            <div class="canvas_close">
+                <a href="javascript:void(0)"><i class="fa fa-times"></i></a>
+            </div>
+            <div class="header_account">
+                <ul>
+                    <li class="language">
+                        <a href="#">
+                            <img src=" /icon/language.png" alt="English"> EN <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown_language">
+                            <li><a href="#">English</a></li>
+                            <li><a href="#">Germany</a></li>
+                            <li><a href="#">Hindi</a></li>
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+            </div>
+
+            <div class="header_right_info">
+                <ul>
+                    <li class="search_box">
+                        <a href="javascript:void(0)"><i class="fa fa-search"></i></a>
+                        <div class="search_widget">
+                            <form action="#">
+                                <input type="text" placeholder="Search Your Perfume">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="header_wishlist">
+                        <a href="wishlist.html">
+                            <i class="fa fa-heart-o"></i>
+                            <span class="item_count">4</span>
+                        </a>
+                    </li>
+                    <li class="mini_cart_wrapper">
+                        <a href="javascript:void(0)">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="item_count">2</span>
+                        </a>
+                        <div class="mini_cart mini_cart2">
+                            <div class="cart_gallery">
+                                <div class="cart_item">
+                                    <div class="cart_img">
+                                        <a href="#"><img src="/small-product/mini1.png" alt="Perfume"></a>
+                                    </div>
+                                    <div class="cart_info">
+                                        <a href="#">Hugo Boss</a>
+                                        <p><span>Rs. 3640</span> X 1</p>
+                                    </div>
+                                    <div class="cart_remove">
+                                        <a href="#"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="cart_item">
+                                    <div class="cart_img">
+                                        <a href="#"><img src="small-product/mini2.png" alt="Perfume"></a>
+                                    </div>
+                                    <div class="cart_info">
+                                        <a href="#">Bvlgari</a>
+                                        <p><span>Rs. 8350</span> X 1</p>
+                                    </div>
+                                    <div class="cart_remove">
+                                        <a href="#"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mini_cart_table">
+                                <div class="cart_table_border">
+                                    <div class="cart_total">
+                                        <span>Cəmi :</span>
+                                        <span class="price">Rs. 11990</span>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="mini_cart_footer">
+                                <div class="cart_button">
+                                    <a href="#">Səbətə bax</a>
+                                </div>
+                                <div class="cart_button">
+                                    <a href="#">Sifariş et</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- mini cart ends here -->
+                    </li>
+                </ul>
+            </div>
+
+            <div id="menu" class="text-left">
+                <ul class="offcanvas_main_menu">
+                    <li class="menu-item-has-children active">
+                        <a href="#">Ana Səhifə</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Kişi</a></li>
+                            <li><a href="#">Qadın</a></li>
+                            <li><a href="#">Unisex</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="/Brands.html">Brendlər</a>
+                        <div class="mega_menu">
+                            <ul class="mega_menu_inner" style="display: flex; flex-wrap: wrap; max-width: 400px;">
+                                <li style="width: 40px;"><a href="#">A</a></li>
+                                <li style="width: 40px;"><a href="#">B</a></li>
+                                <li style="width: 40px;"><a href="#">C</a></li>
+                                <li style="width: 40px;"><a href="#">D</a></li>
+                                <li style="width: 40px;"><a href="#">E</a></li>
+                                <li style="width: 40px;"><a href="#">F</a></li>
+                                <li style="width: 40px;"><a href="#">G</a></li>
+                                <li style="width: 40px;"><a href="#">H</a></li>
+                                <li style="width: 40px;"><a href="#">I</a></li>
+                                <li style="width: 40px;"><a href="#">J</a></li>
+                                <li style="width: 40px;"><a href="#">K</a></li>
+                                <li style="width: 40px;"><a href="#">L</a></li>
+                                <li style="width: 40px;"><a href="#">M</a></li>
+                                <li style="width: 40px;"><a href="#">N</a></li>
+                                <li style="width: 40px;"><a href="#">O</a></li>
+                                <li style="width: 40px;"><a href="#">P</a></li>
+                                <li style="width: 40px;"><a href="#">Q</a></li>
+                                <li style="width: 40px;"><a href="#">R</a></li>
+                                <li style="width: 40px;"><a href="#">S</a></li>
+                                <li style="width: 40px;"><a href="#">T</a></li>
+                                <li style="width: 40px;"><a href="#">U</a></li>
+                                <li style="width: 40px;"><a href="#">V</a></li>
+                                <li style="width: 40px;"><a href="#">W</a></li>
+                                <li style="width: 40px;"><a href="#">X</a></li>
+                                <li style="width: 40px;"><a href="#">Y</a></li>
+                                <li style="width: 40px;"><a href="#">Z</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Blog</a>
+
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Əlaqə</a>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Haqqımızda</a>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Dəstək</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Sifariş etmək</a></li>
+                            <li><a href="#">Çatdırılma</a></li>
+                            <li><a href="#">Ödəniş</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="offcanvas_footer">
+                <span><a href="#"><i class="fa fa-envelope-0"></i>deo@gmail.com</a></span>
+                <ul>
+                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li class="pinterest"><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                    <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PerfumeStore.WebUI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <div class="main_header header_transparent header-mobile-m">
+            <div class="header_container sticky-header">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <div class="logo">
+                                <a href="index.html"><img src="logo3.png" alt=""></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <!-- main-menu starts -->
+                            <div class="main_menu menu_two menu_position">
+                                <nav>
+                                    <ul>
+                                        <li>
+                                            <a href="index.html" class="active">
+                                                Ana Səhifə<i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="sub_menu">
+                                                <li><a href="#">Kişi</a></li>
+                                                <li><a href="#">Qadın</a></li>
+                                                <li><a href="#">Unisex</a></li>
+
+                                            </ul>
+
+                                        </li>
+
+                                        <li class="mega_items">
+                                            <a href="/Brands.html">Brendlər <i class="fa fa-angle-down"></i></a>
+                                            <div class="mega_menu">
+                                                <ul class="mega_menu_inner">
+                                                    <li>
+                                                        <a href="Brands.html#A">A</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Acqua Dı Parma</a></li>
+                                                            <li><a href="#">Afnan</a></li>
+                                                            <li><a href="#">Agent Provocateur</a></li>
+                                                            <li><a href="#">Ajmal</a></li>
+                                                            <li><a href="#">Al Rehab</a></li>
+                                                            <li><a href="#">Alexandre.J</a></li>
+                                                            <li><a href="#">Amouage</a></li>
+                                                            <li><a href="#">Anna Suı</a></li>
+                                                            <li><a href="#">Antonio Banderas</a></li>
+                                                            <li><a href="#">Armand Basi</a></li>
+                                                            <li><a href="#">Avon</a></li>
+                                                            <li><a href="#">Azzaro</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#B">B</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Baldessarini</a></li>
+                                                            <li><a href="#">Balenciaga</a></li>
+                                                            <li><a href="#">BDK Parfums</a></li>
+                                                            <li><a href="#">Bentley</a></li>
+                                                            <li><a href="#">Boadicea the Victorious</a></li>
+                                                            <li><a href="#">Bond No.9</a></li>
+                                                            <li><a href="#">Brioni</a></li>
+                                                            <li><a href="#">Britney Spears</a></li>
+                                                            <li><a href="#">Burberry</a></li>
+                                                            <li><a href="#">Bvlgari</a></li>
+                                                            <li><a href="#">Byredo</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#C">C</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">C.Dior</a></li>
+                                                            <li><a href="#">C.Herrera</a></li>
+                                                            <li><a href="#">Cacharel</a></li>
+                                                            <li><a href="#">Calvin Klein</a></li>
+                                                            <li><a href="#">Canali</a></li>
+                                                            <li><a href="#">Captain Black</a></li>
+                                                            <li><a href="#">Cartier</a></li>
+                                                            <li><a href="#">Chanel</a></li>
+                                                            <li><a href="#">Chloé</a></li>
+                                                            <li><a href="#">Chopard</a></li>
+                                                            <li><a href="#">Clive Christian</a></li>
+                                                            <li><a href="#">Creed</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#D">D</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Davidoff</a></li>
+                                                            <li><a href="#">Dima Bilan</a></li>
+                                                            <li><a href="#">Dolce&Gabbana</a></li>
+                                                            <li><a href="#">Dunhill</a></li>
+                                                            <li><a href="#">Dynasty of Monaco</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#E">E</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Elie Saab</a></li>
+                                                            <li><a href="#">Elizabeth Arden</a></li>
+                                                            <li><a href="#">Escada</a></li>
+                                                            <li><a href="#">Escentric Molecules</a></li>
+                                                            <li><a href="#">Essential Parfums</a></li>
+                                                            <li><a href="#">Estée Lauder</a></li>
+                                                            <li><a href="#">Ex Nihilo</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#F">F</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Fendi</a></li>
+                                                            <li><a href="#">Frederic Malle</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#G">G</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Giorgio Armani</a></li>
+                                                            <li><a href="#">Givenchy</a></li>
+                                                            <li><a href="#">Gucci</a></li>
+                                                            <li><a href="#">Guerlain</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#H">H</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Hermès</a></li>
+                                                            <li><a href="#">HFC</a></li>
+                                                            <li><a href="#">Hugo Boss</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#I">I</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Initio</a></li>
+                                                            <li><a href="#">Issey Miyake</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#J">J</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Jean Paul Gaultier</a></li>
+                                                            <li><a href="#">Jennifer Lopez</a></li>
+                                                            <li><a href="#">Jo Malone</a></li>
+                                                            <li><a href="#">Juliette Has A Gun</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#K">K</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Kajal</a></li>
+                                                            <li><a href="#">Kayali</a></li>
+                                                            <li><a href="#">Kenzo</a></li>
+                                                            <li><a href="#">Kilian</a></li>
+                                                            <li><a href="#">Korloff</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#L">L</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Lacoste</a></li>
+                                                            <li><a href="#">Lalique</a></li>
+                                                            <li><a href="#">Lancôme</a></li>
+                                                            <li><a href="#">Lanvin</a></li>
+                                                            <li><a href="#">Lattafa</a></li>
+                                                            <li><a href="#">Le Labo</a></li>
+                                                            <li><a href="#">Louis Vuitton</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#M">M</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Mancera</a></li>
+                                                            <li><a href="#">Marc - Antoıne Barroıs</a></li>
+                                                            <li><a href="#">Marc Jacobs</a></li>
+                                                            <li><a href="#">Memo</a></li>
+                                                            <li><a href="#">Montale</a></li>
+                                                            <li><a href="#">Montblanc</a></li>
+                                                            <li><a href="#">Moschino</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#N">N</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Narcıso Rodrıguez</a></li>
+                                                            <li><a href="#">Nasomatto</a></li>
+                                                            <li><a href="#">Nejma</a></li>
+                                                            <li><a href="#">Nishane</a></li>
+                                                            <li><a href="#">Nına Rıccı</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#O">O</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Oriflame</a></li>
+                                                            <li><a href="#">Orlov Paris</a></li>
+                                                            <li><a href="#">Orto Parisi</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#P">P</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Paco Rabanne</a></li>
+                                                            <li><a href="#">Parfums de Marly</a></li>
+                                                            <li><a href="#">Penhaligon's</a></li>
+                                                            <li><a href="#">Prada</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">Q</a></li>
+                                                    <li>
+                                                        <a href="Brands.html#R">R</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Ralph Lauren</a></li>
+                                                            <li><a href="#">Remy Latour</a></li>
+                                                            <li><a href="#">Ricardo Veron</a></li>
+                                                            <li><a href="#">Roberto Cavalli</a></li>
+                                                            <li><a href="#">Roja</a></li>
+                                                            <li><a href="#">Rosendo Mateu</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#S">S</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Salvador Dali</a></li>
+                                                            <li><a href="#">Salvatore Ferragamo</a></li>
+                                                            <li><a href="#">Serge Lutens</a></li>
+                                                            <li><a href="#">Shaik</a></li>
+                                                            <li><a href="#">Shiseido</a></li>
+                                                            <li><a href="#">Sisley</a></li>
+                                                            <li><a href="#">Sospiro</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#T">T</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">The Beautiful Mind Series</a></li>
+                                                            <li><a href="#">Thierry Mugler</a></li>
+                                                            <li><a href="#">Tiffany & Co</a></li>
+                                                            <li><a href="#">Tiziana Terenzi</a></li>
+                                                            <li><a href="#">Tom Ford</a></li>
+                                                            <li><a href="#">Tommy Hilfiger</a></li>
+                                                            <li><a href="#">Trussardi</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">U</a></li>
+                                                    <li>
+                                                        <a href="Brands.html#V">V</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Valentino</a></li>
+                                                            <li><a href="#">Van Cleef & Arpels</a></li>
+                                                            <li><a href="#">Versace</a></li>
+                                                            <li><a href="#">Vertus</a></li>
+                                                            <li><a href="#">Victoria's Secret</a></li>
+                                                            <li><a href="#">Viktor&Rolf</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><a href="#">W</a></li>
+                                                    <li>
+                                                        <a href="Brands.html#X">X</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Xerjoff</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#Y">Y</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">YSL</a></li>
+                                                            <li><a href="#">Yves Rocher</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        <a href="Brands.html#Z">Z</a>
+                                                        <ul class="brends-item">
+                                                            <li><a href="#">Zadig & Voltaire</a></li>
+                                                            <li><a href="#">Zara</a></li>
+                                                            <li><a href="#">Zarkoperfume</a></li>
+                                                            <li><a href="#">Zielinski & Rozen</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                            <ul class="sub_menu pages">
+                                                <li><a href="#">Newsletter</a></li>
+                                                <li><a href="#">Social Media</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Haqqımızda</a></li>
+                                        <li><a href="#">Əlaqə</a></li>
+                                        <li>
+                                            <a href="#">Dəstək <i class="fa fa-angle-down"></i></a>
+                                            <ul class="sub_menu pages">
+                                                <li><a href="#">Sifariş etmək</a></li>
+                                                <li><a href="#">Çatdırılma</a></li>
+                                                <li><a href="#">Ödəniş</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <!-- main menu ends -->
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="header_top_right">
+                                <div class="header_right_info">
+                                    <ul>
+                                        <li class="search_box">
+                                            <a href="javascript:void(0)">
+                                                <i class="fa fa-search"></i>
+                                            </a>
+                                            <div class="search_widget">
+                                                <form action="#">
+                                                    <input type="text" placeholder="Axtar...">
+                                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                        <li class="header_wishlist">
+                                            <a href="wishlist.html">
+                                                <i class="fa fa-heart-o"></i>
+                                                <span class="item_count">4</span>
+                                            </a>
+                                        </li>
+                                        <li class="mini_cart_wrapper">
+                                            <a href="javascript:void(0)">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                <span class="item_count">2</span>
+                                            </a>
+
+                                            <!-- mini cart  -->
+                                            <div class="mini_cart mini_cart2">
+                                                <div class="cart_gallery">
+                                                    <div class="cart_item">
+                                                        <div class="cart_img">
+                                                            <a href="#">
+                                                                <img src="small-product/mini1.png"
+                                                                     alt="Perfume">
+                                                            </a>
+                                                        </div>
+                                                        <div class="cart_info">
+                                                            <a href="#">Hugo Boss</a>
+                                                            <p><span>Rs. 3640</span> X 1</p>
+                                                        </div>
+                                                        <div class="cart_remove">
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="cart_item">
+                                                        <div class="cart_img">
+                                                            <a href="#">
+                                                                <img src="small-product/mini2.png"
+                                                                     alt="Perfume">
+                                                            </a>
+                                                        </div>
+                                                        <div class="cart_info">
+                                                            <a href="#">Bvlgari</a>
+                                                            <p><span>Rs. 8350</span> X 1</p>
+                                                        </div>
+                                                        <div class="cart_remove">
+                                                            <a href="#"><i class="fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mini_cart_table">
+                                                    <div class="cart_table_border">
+                                                        <div class="cart_total">
+                                                            <span>Cəmi :</span>
+                                                            <span class="price">Rs. 11990</span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="mini_cart_footer">
+                                                    <div class="cart_button">
+                                                        <a href="#">Səbətə bax</a>
+                                                    </div>
+                                                    <div class="cart_button">
+                                                        <a href="#">Sifariş et</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- mini cart ends -->
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="header_account">
+                                    <ul>
+
+                                        <li class="language">
+                                            <a href="#">
+                                                <img src="icon/azerbaijan.png" alt="Azərbaycan"> AZ <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="dropdown_language">
+                                                <li><a href="#">Russiya</a></li>
+
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - PerfumeStore.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer_widgets color_two">
+        <div class="footer_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-7">
+                        <div class="widgets_container contact_us">
+                           
+                            <div class="footer_desc">
+                                <h4 class="footer_title large_title">Missiyamız</h4>
+							
+                                <p>
+                                    Keyfiyyətli və orijinal ətirlərlə müştərilərimizə unikal zövq təcrübəsi yaşatmaq.
+                                 </p>
+                                 <p>
+                                    Müştəri məmnuniyyətini ən üst səviyyədə saxlamaq üçün şəffaf və etibarlı xidmət göstərmək.
+                                 </p>
+                            </div>
+                           
+                           
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-5">
+                        <div class="widgets_container widget_menu">
+                            <h3>millshop_esans</h3>
+                            <div class="footer_menu">
+                                <ul>
+                                    <li><a href="#">Ana səhifə</a></li>
+                                    <li><a href="#">Brendlər</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">Yeni ətirlər</a></li>
+                                    <li><a href="#">Haqımızda</a></li>
+                                    <li><a href="#">Əlaqə</a></li>
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="widgets_container widgets_p_product">
+                           
+                            <div class="small_product_container small_product_column1 owl-carousel">
+                                
+                                <div class="small_product_list">
+                                    <h3>Seçilmiş Məhsullar</h3>
+                                    <article class="single_product">
+                                        <figure>
+                                            <div class="product_thumb">
+                                                <a href="#" class="primary_img">
+                                                    <img src=" /onsale/D12-1.png" alt="">
+                                                </a>
+                                                <a href="#" class="secondary_img">
+                                                    <img src=" /onsale/D12-2.png" alt="">
+                                                </a>
+
+
+                                            </div>
+                                            <figcaption class="product_content">
+                                                <h4 class="product_name">
+                                                    <a href="#" style="color: white;">Bvlgari Women Goldea</a>
+                                                </h4>
+
+                                                <div class="price_box">
+                                                    <span class="old_price">Rs. 3999</span>
+                                                    <span class="current_price" style="color: white;">Rs. 3700</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                    <article class="single_product">
+                                        <figure>
+                                            <div class="product_thumb">
+                                                <a href="#" class="primary_img">
+                                                    <img src=" /onsale/D11-1.png" alt="">
+                                                </a>
+                                                <a href="#" class="secondary_img">
+                                                    <img src=" /onsale/D11-2.png" alt="">
+                                                </a>
+
+
+                                            </div>
+                                            <figcaption class="product_content">
+                                                <h4 class="product_name">
+                                                    <a href="#" style="color: white;">Jimmy Choo Illicit Flower
+                                                    </a>
+                                                </h4>
+                                                <div class="price_box">
+                                                    <span class="old_price">Rs. 4999</span>
+                                                    <span class="current_price" style="color: white;">Rs.
+                                                        4200</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                    <article class="single_product">
+                                        <figure>
+                                            <div class="product_thumb">
+                                                <a href="#" class="primary_img">
+                                                    <img src=" /best-product/B5-1.png" alt="">
+                                                </a>
+                                                <a href="#" class="secondary_img">
+                                                    <img src=" /best-product/B5-2.png" alt="">
+                                                </a>
+
+                                            </div>
+                                            <figcaption class="product_content">
+                                                <h4 class="product_name">
+                                                    <a href="#" style="color: white;">Jimmy Choo Women Fever</a>
+                                                </h4>
+
+                                                <div class="price_box">
+                                                    <span class="old_price">Rs. 7499</span>
+                                                    <span class="current_price" style="color: white;">Rs. 7200</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                </div>
+                                <div class="small_product_list">
+                                    <article class="single_product">
+                                        <figure>
+                                            <div class="product_thumb">
+                                                <a href="#" class="primary_img">
+                                                    <img src=" /best-product/B4-1.png" alt="">
+                                                </a>
+                                                <a href="#" class="secondary_img">
+                                                    <img src=" /best-product/B4-2.png" alt="">
+                                                </a>
+
+
+                                            </div>
+                                            <figcaption class="product_content">
+                                                <h4 class="product_name">
+                                                    <a href="#" style="color: white;">Mugler Aura Women</a>
+                                                </h4>
+
+                                                <div class="price_box">
+                                                    <span class="old_price">Rs. 7999</span>
+                                                    <span class="current_price" style="color: white;">Rs. 7550</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                    <article class="single_product">
+                                        <figure>
+                                            <div class="product_thumb">
+                                                <a href="#" class="primary_img">
+                                                    <img src=" /onsale/D1-1.png" alt="">
+                                                </a>
+                                                <a href="#" class="secondary_img">
+                                                    <img src=" /onsale/D1-2.png" alt="">
+                                                </a>
+
+
+                                            </div>
+                                            <figcaption class="product_content">
+                                                <h4 class="product_name">
+                                                    <a href="#" style="color: white;">Paco Rabbane Pure XS for her
+                                                    </a>
+                                                </h4>
+                                                <div class="price_box">
+                                                    <span class="old_price">Rs. 6550</span>
+                                                    <span class="current_price" style="color: white;">Rs.
+                                                        4250</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                    <article class="single_product">
+                                        <figure>
+                                            <div class="product_thumb">
+                                                <a href="#" class="primary_img">
+                                                    <img src=" /new-product/N5-1.png" alt="">
+                                                </a>
+                                                <a href="#" class="secondary_img">
+                                                    <img src=" /new-product/N5-2.png" alt="">
+                                                </a>
+
+
+                                            </div>
+                                            <figcaption class="product_content">
+                                                <h4 class="product_name">
+                                                    <a href="#" style="color: white;">Kenzo Women World</a>
+                                                </h4>
+
+                                                <div class="price_box">
+                                                    <span class="old_price">Rs. 5999</span>
+                                                    <span class="current_price" style="color: white;">Rs. 5900</span>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="widgets_container widgets_p_product">
+                           
+                            <div class="ml-40">
+                                <h3>Əlaqə</h3>
+								<p class="sm-head">
+									<span class="fa fa-location-arrow"></span>
+									Ofisimiz
+								</p>
+								<p> <a href="#"target="_blank">
+                                             Azərbaycan, Ağdaş şəhəri</a></p>
+								<p class="sm-head">
+									<span class="fa fa-phone"></span>
+									Telefon + Whatsapp
+								</p>
+								<p>
+									<a href="https://wa.me/994504303122" target="_blank">+994 50 430 31 22</a>
+                                    <a href="whatsapp://send?phone=994504303122" target="_blank">WhatsApp-dan yazın</a>
+								</p>
+	
+								<p class="sm-head">
+									<span class="fa fa-envelope"></span>
+									Email
+								</p>
+								<p>
+									free@infoexample.com <br>
+									www.infoexample.com
+								</p>
+							</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+       
+      
+        <!-- footer section starts  -->
+
+        <div class="footer_bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="copyright_area">
+                            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> <a href="#">MILLSHOP Esans | </a>Bütün hüquqlar qorunur.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="footer_payment text-right">
+                            <ul>
+                                <li><a style="font-size: 30px;" href="https://www.instagram.com/millshop_esans/" target="_blank"><i class="fa-brands fa-instagram" style="color:white"></i></a></li>
+                                <li><a style="font-size: 30px;" href="https://api.whatsapp.com/send/?phone=994504303122&text&type=phone_number&app_absent=0" target="_blank"><i class="fa-brands fa-whatsapp" style="color:white"></i></a></li>
+                                <li><a style="font-size: 30px;" href="https://www.tiktok.com/millshop_esans_agdas?_t=ZS-8vuIioQGKag&_r=1" target="_blank"><i class="fa-brands fa-tiktok"style="color:white"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
+    <script src="js/countdown.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <script src="js/main.js"></script>
+
 </body>
 </html>
