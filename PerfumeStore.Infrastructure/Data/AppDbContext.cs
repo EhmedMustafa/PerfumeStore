@@ -17,10 +17,10 @@ namespace PerfumeStore.Infrastructure.Data
     public class AppDbContext : IdentityDbContext<AppUser, AppRole, int,
      AppUserClaim, AppUserRole, AppUserLogin, AppRoleClaim, AppUserToken>
     {
-        public AppDbContext()
-        {
+        //public AppDbContext()
+        //{
                 
-        }
+        //}
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }

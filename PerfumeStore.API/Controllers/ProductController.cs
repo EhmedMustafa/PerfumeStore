@@ -39,10 +39,30 @@ namespace PerfumeStore.API.Controllers
             return Ok(product);
         }
 
+        [HttpGet("daily-rotated")]
+        public async Task<IActionResult> GetDailyRotatedProducts([FromQuery] int categoryId, [FromQuery] int count = 6) 
+        {
+            var values= await _productService.GetDailyRotatedProductsAsync(categoryId, count);
+            return Ok(values);
+        }
+
+        [HttpGet("bestsellers")]
+        public async Task<IActionResult> GetBestsellerProducts([FromQuery]int count=12) 
+        {
+            var values= await _productService.GetBestsellerProductsAsync(count);
+            return Ok(values);
+        }
+
+        [HttpGet("News")]
+        public async Task<IActionResult> GetNewProducts() 
+        {
+            var values = await _productService.GetNewProductsAsync();
+            return Ok(values);
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto product) 
         {
-             await _productService.CreateProductAsync(product);
+            await _productService.CreateProductAsync(product);
             return Ok("Mehsul yüklendi");
         }
 

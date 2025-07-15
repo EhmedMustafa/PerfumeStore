@@ -18,7 +18,11 @@ namespace PerfumeStore.Application.Services.ProductServices
         Task DeleteProductAsync(int id);
 
         Task<List<ResultProductDto>> GetAllWithNotesAsync();
+        Task<List<ResultProductDto>> GetDailyRotatedProductsAsync(int categoryId, int count);
 
+        Task<List<ResultProductDto>> GetBestsellerProductsAsync(int count);
+
+        Task<List<ResultProductDto>> GetNewProductsAsync();
 
 
 

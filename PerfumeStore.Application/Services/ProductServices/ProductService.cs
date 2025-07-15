@@ -130,6 +130,28 @@ namespace PerfumeStore.Infrastructure.Services
             var map =_mapper.Map<List<ResultProductDto>>(values);
             return map;
         }
+
+        public async Task<List<ResultProductDto>> GetDailyRotatedProductsAsync(int categoryId, int count)
+        {
+            var values = await _repository.GetDailyRotatedProductsAsync(categoryId,count);
+            var map = _mapper.Map<List<ResultProductDto>>(values);
+            return map;
+        }
+
+      
+        public async Task<List<ResultProductDto>> GetBestsellerProductsAsync(int count)
+        {
+            var values = await _repository.GetBestsellerProductsAsync(count);
+            var map = _mapper.Map<List<ResultProductDto>>(values);
+            return map;
+        }
+
+        public async Task<List<ResultProductDto>> GetNewProductsAsync()
+        {
+            var values= await _repository.GetNewProductsAsync();
+            var map = _mapper.Map<List<ResultProductDto>>(values);
+            return map;
+        }
     }
 
 

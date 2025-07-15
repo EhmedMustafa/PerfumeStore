@@ -13,5 +13,8 @@ namespace PerfumeStore.Application.Interfaces.IProductRepository
         Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice);
         Task<List<Product>> GetProductBySearch(string search);
         Task<List<Product>> GetAllWithNotesAsync();
+        Task<List<Product>> GetDailyRotatedProductsAsync(int categoryId, int count);
+        Task <List<Product>> GetBestsellerProductsAsync(int count);
+        Task <List<Product>> GetNewProductsAsync();
     }
 }

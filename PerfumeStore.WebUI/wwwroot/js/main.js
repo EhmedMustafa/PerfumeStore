@@ -107,41 +107,36 @@
   });
 
   // product column of 4 activation
-  $(".product_column4")
-    .on("changed.owl.carousel initialized.owl.carousel", function (event) {
-      $(event.target)
-        .find(".owl-item")
-        .removeClass("last")
-        .eq(event.item.index + event.page.size - 1)
-        .addClass("last");
-    })
-    .owlCarousel({
-      autoplay: true,
-      loop: true,
-      nav: true,
-      autoplay: false,
-      autoplayTimeout: 5000,
-      items: 4,
-      dots: false,
-      navText: [
-        '<i class="fa fa-arrow-left"></i>',
-        '<i class="fa fa-arrow-right"></i>',
-      ],
-      responsiveClass: true,
-      responsive: {
-        0: {
-          items: 1,
-        },
-        576: {
-          items: 2,
-        },
-        768: {
-          items: 3,
-        },
-        992: {
-          items: 4,
-        },
-      },
+    $(document).ready(function () {
+        // B?t?n product_column4-l?ri ayr?-ayr? initialize et
+        $(".product_column4").each(function () {
+            $(this).owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: false,
+                navText: [
+                    '<i class="fa fa-arrow-left"></i>',
+                    '<i class="fa fa-arrow-right"></i>',
+                ],
+                responsive: {
+                    0: { items: 1 },
+                    576: { items: 2 },
+                    768: { items: 3 },
+                    992: { items: 4 },
+                }
+            });
+        });
+
+        // Tab d?yi?dikd? g?st?ril?n tabdak? carousel-i refresh et
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            let targetId = $(e.target).attr('href'); // m?s?l?n: #Women
+            let carousel = $(targetId).find('.owl-carousel');
+
+            setTimeout(function () {
+                carousel.trigger('refresh.owl.carousel');
+            }, 100);
+        });
     });
 
   // tooltip activation
@@ -397,5 +392,6 @@
     $(".product-details-large " + $href).addClass("active show");
   });
 
-  $(".select_option").niceSelect();
+  
+
 })(jQuery);

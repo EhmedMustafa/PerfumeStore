@@ -8,6 +8,7 @@
 html,
 body {
   height: 100%;
+
 }
 
 body {
@@ -1625,11 +1626,14 @@ h6 {
   color: #fff !important;
 }
 .single_slider {
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: center center;
-  background-size: cover;
-  height: 910px;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: center center;
+    background-size: cover;
+    height: 910px;
+    width: 100vw; /* tam ekran eni */
+    padding: 0;
+    margin: 0;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
   .single_slider {
@@ -1795,6 +1799,10 @@ h6 {
   height: auto;
   opacity: 1;
   overflow: visible;
+}
+
+.tab-pane {
+    transition: opacity 0.5s ease-in-out;
 }
 .tab-content > .tab-pan {
   display: block;

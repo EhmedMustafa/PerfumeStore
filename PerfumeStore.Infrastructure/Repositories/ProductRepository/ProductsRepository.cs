@@ -29,6 +29,46 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                .ThenInclude(pn => pn.FragranceNote).ToListAsync();
         }
 
+        public async Task<List<Product>> GetBestsellerProductsAsync(int count)
+        {
+            return await _context.Products
+                .Where(p=>p.IsBestseller)
+                .OrderByDescending(p=>p.ProductId)
+                .Take(count)
+                .ToListAsync();
+        }
+
+        public async Task<List<Product>> GetDailyRotatedProductsAsync(int categoryId, int count)
+        {
+            var all = await _context.Products
+                .Include(p => p.Category)
+            .Where(p => p.CategoryId==categoryId)
+            .OrderBy(p => p.ProductId)
+            .ToListAsync();
+
+            if (!all.Any()) return new List<Product>();
+
+            int dayOfYear = DateTime.UtcNow.DayOfYear;
+            int skip = (dayOfYear * count) % all.Count;
+
+            var selected = all.Skip(skip).Take(count).ToList();
+
+            if (selected.Count < count)
+            {
+                selected.AddRange(all.Take(count - selected.Count));
+            }
+
+            return selected;
+        }
+
+        public async Task<List<Product>> GetNewProductsAsync()
+        {
+            return await _context.Products
+                .Where(p=>p.IsNew)
+                .OrderByDescending (p=>p.ProductId)
+                .ToListAsync();
+        }
+
         public Task<List<Product>> GetProductByCategory(int categoryId)
         {
             throw new NotImplementedException();
