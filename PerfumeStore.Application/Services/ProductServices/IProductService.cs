@@ -24,14 +24,22 @@ namespace PerfumeStore.Application.Services.ProductServices
 
         Task<List<ResultProductDto>> GetNewProductsAsync();
 
+        Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(int? categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize);
+
+        Task<PaginatedResult<ResultProductDto>> GetPagedProductsByCategoryAsync(int categoryId, int page, int pageSize);
+        
+
+
+
+
 
 
         Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate);
         Task<List<ResultProductDto>> GetProductTake(int count);
         Task<List<ResultProductDto>> GetProductBySearch(string search);
         Task<List<ResultProductDto>> GetProductByPriceFilter(decimal minprice, decimal maxprice);
-        Task<List<ResultProductDto>> GetProductByCategory(int categoryId);
-
+        Task<List<ResultProductDto>> GetProductByCategory(int? categoryId);
+        
     }
 }
 

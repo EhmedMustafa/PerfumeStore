@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Domain.Entities;
 using PerfumeStore.Infrastructure.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
 {
@@ -61,6 +63,7 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             return selected;
         }
 
+       
         public async Task<List<Product>> GetNewProductsAsync()
         {
             return await _context.Products
@@ -69,12 +72,76 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                 .ToListAsync();
         }
 
-        public Task<List<Product>> GetProductByCategory(int categoryId)
+
+
+        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(int? categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize)
         {
-            throw new NotImplementedException();
+            
+                var query = _context.Products
+                    .Include(p => p.Brand)
+                    .Include(p => p.Category)
+                    .Include(p => p.Family)
+                    .AsQueryable();
+
+                if (categoryId.HasValue && categoryId.Value > 0)
+                {
+                    query = query.Where(p => p.CategoryId == categoryId);
+                }
+                if (brandId.HasValue && brandId.Value > 0)
+                    query = query.Where(p => p.BrandId == brandId.Value);
+
+                if (fragranceFamilyId.HasValue && fragranceFamilyId.Value > 0)
+                    query = query.Where(p => p.FamilyId == fragranceFamilyId.Value);
+
+                var totalCount = await query.CountAsync();
+
+                var items = await query
+                    .OrderByDescending(p => p.ProductId)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return new PaginatedResult<Product>
+                {
+                    Items = items,
+                    TotalCount = totalCount,
+                    PageSize = pageSize,
+                    CurrentPage = page
+                };
+
+            
+
         }
 
-        public async Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
+        //lazim olacaq istifade olumur
+        public async Task<PaginatedResult<Product>> GetPagedProductsByCategoryAsync(int categoryId, int page, int pageSize)
+        {
+            var query = _context.Products
+                      .Where(p => p.CategoryId == categoryId)
+                      .OrderByDescending(p => p.ProductId); // və ya başqa sıralama
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query.Skip((page - 1) * pageSize)
+                                   .Take(pageSize)
+                                   .ToListAsync();
+
+            return new PaginatedResult<Product>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+        }
+      
+
+        public async Task<List<Product>> GetProductByCategory(int? categoryId)
+        {
+            return await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+        }
+
+        public Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
         {
             throw new NotImplementedException();
         }

@@ -5,6 +5,7 @@ using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
+using Stripe;
 using Stripe.Climate;
 using Product = PerfumeStore.Domain.Entities.Product;
 
@@ -58,6 +59,14 @@ namespace PerfumeStore.API.Controllers
         {
             var values = await _productService.GetNewProductsAsync();
             return Ok(values);
+        }
+        [HttpGet("categoryId")]
+        public async Task<IActionResult> GetProductByCategoryId(int categoryId) 
+        {
+            var value= await _productService.GetProductByCategory(categoryId);
+            if (value == null)
+                return NotFound();
+            return Ok(value);
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto product) 

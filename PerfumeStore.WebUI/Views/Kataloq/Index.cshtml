@@ -1,0 +1,324 @@
+﻿
+@model PaginatedResult<ResultProductDto>
+
+<main>
+    <section class="featured"style="margin-top:120px">
+        <!-- <h2>Featured Products</h2> -->
+        <div class="products-container">
+            <aside class="filters-sidebar">
+                <button class="close-filter"><i class="fas fa-times"></i></button>
+
+                <div class="filter-group">
+                    <h3>ƏTİRLƏR</h3>
+                    <form method="get" asp-controller="Kataloq" asp-action="Index">
+                        <div class="filter-section">
+                            <h4>KATEQORİYALAR</h4>
+                            @{
+                                var selectedCategory = ViewBag.SelectedCategory as int?;
+                            }
+                            <div class="checkbox-group">
+                                <label class="custom-checkbox">
+                                    <input type="radio" name="categoryId" value="" @(selectedCategory == null ? "checked" : "")>
+                                    <span>Hamısı</span>
+                                </label>
+                                <label class="custom-checkbox">
+                                    <input type="radio" name="categoryId" value="1" @(selectedCategory == 1 ? "checked" : "")>
+                                    <span>Kişi ətirləri</span>
+                                </label>
+                                <label class="custom-checkbox">
+                                    <input type="radio" name="categoryId" value="2" @(selectedCategory == 2 ? "checked" : "")>
+                                    <span>Qadın ətirləri</span>
+                                </label>
+                                <label class="custom-checkbox">
+                                    <input type="radio" name="categoryId" value="3" @(selectedCategory == 3 ? "checked" : "")>
+                                    <span>Unisex ətirləri</span>
+                                </label>
+                                @* <button type="submit">Filtrlə</button> *@
+                            </div>
+
+
+                        </div>
+                        <div class="filter-section">
+                            <h4><i class="fas fa-spa"></i> Ailə</h4>
+                            <div class="family-section">
+                                <div class="radio-group">
+                                    @{
+                                        var selectedbrand = ViewBag.SelectedBrand as int?;
+                                    }
+                                        <label class="custom-radio">
+                                        <input type="radio" name="brandId" value="" @(selectedbrand == null ? "checked":"")>
+                                            <span class="radio-mark"></span>
+                                            <span>Hamısı</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                        <input type="radio" name="brandId" value="Floral" checked="@(selectedbrand == "Floral")">
+                                            <span class="radio-mark"></span>
+                                            <span>Hamısı</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="woody">
+                                            <span class="radio-mark"></span>
+                                            <span>Odunsu</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="oriental">
+                                            <span class="radio-mark"></span>
+                                            <span>Şərq</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="fresh">
+                                            <span class="radio-mark"></span>
+                                            <span>Təravətli</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="citrus">
+                                            <span class="radio-mark"></span>
+                                            <span>Sitrus</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="gourmand">
+                                            <span class="radio-mark"></span>
+                                            <span>Tatlı</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="aquatic">
+                                            <span class="radio-mark"></span>
+                                            <span>Su</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="spicy">
+                                            <span class="radio-mark"></span>
+                                            <span>Ədviyyəli</span>
+                                        </label>
+                                        <label class="custom-radio">
+                                            <input type="radio" name="family" value="aromatic">
+                                            <span class="radio-mark"></span>
+                                            <span>Ətri</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <h4><i class="fas fa-tags"></i>QİYMƏT ARALIĞI</h4>
+                                <div class="price-slider">
+                                    <div class="range-container">
+                                        <div class="range-slider">
+                                            <div class="range-fill"></div>
+                                            <input type="range" id="min-price-range" min="0" max="1000" value="0">
+                                            <input type="range" id="max-price-range" min="0" max="1000" value="1000">
+                                        </div>
+                                    </div>
+                                    <div class="price-inputs">
+                                        <div class="input-group">
+                                            <label>Min Qiymət</label>
+                                            <span class="currency">₼</span>
+                                            <input type="number" id="min-price" value="0" min="0" max="1000">
+                                        </div>
+                                        <span class="separator">-</span>
+                                        <div class="input-group">
+                                            <label>Mak Qiymət</label>
+                                            <span class="currency">₼</span>
+                                            <input type="number" id="max-price" value="1000" min="0" max="1000">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filter-section">
+                                <h4>BRENDLƏR</h4>
+                                <div class="search-bar">
+                                    <input type="text" placeholder="">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="brand-list">
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brand" value="chanel">
+                                        <span class="checkmark"></span>
+                                        <span>Chanel</span>
+                                    </label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brand" value="dior">
+                                        <span class="checkmark"></span>
+                                        <span>Dior</span>
+                                    </label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brand" value="gucci">
+                                        <span class="checkmark"></span>
+                                        <span>Gucci</span>
+                                    </label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brand" value="tomford">
+                                        <span class="checkmark"></span>
+                                        <span>Tom Ford</span>
+                                    </label>
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brand" value="ysl">
+                                        <span class="checkmark"></span>
+                                        <span>YSL</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+
+                        <button type="submit" class="btn-apply-filters">Apply Filters</button>
+                    </div>
+                
+            </aside>
+
+            <div class="product-grid">
+                @if (Model?.Items != null && Model.Items.Any())
+                {
+                    @foreach (var product in Model.Items)
+                    {
+                        <article class="product-card"
+                        data-gender="@product.CategoryName?.ToLower()"
+                        data-family="@product.FamilyName?.ToLower()"
+                        data-brand="@product.BrandName?.ToLower()"
+                        data-price="@product.OriginalPrice">
+                            <div class="product-image">
+                                <img src="~/new-product/N1-2.png" alt="@product.Name" />
+                                <div class="product-badges">
+                                    @if (product.IsNew)
+                                    {
+                                        <span class="badge new">New</span>
+                                    }
+                                    @if (product.IsBestseller)
+                                    {
+                                        <span class="badge bestseller">Bestseller</span>
+                                    }
+                                </div>
+                                <div class="product-actions">
+                                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                                    <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="product-info">
+                                <h3>@product.Name</h3>
+                                <p class="product-description">
+                                    @product.Description
+                                    <span class="fragrance-family">Family: @product.FamilyName</span>
+                                    <span class="fragrance-notes">Key Notes: @product.ProductNotes</span>
+                                </p>
+                                <div class="product-price">
+                                    <span class="current-price">@product.CurrentPrice ₼</span>
+                                    <span class="original-price">@product.OriginalPrice ₼</span>
+                                </div>
+                            </div>
+                        </article> 
+                    }
+
+
+                }
+                else
+                {
+                    <p>Heç bir məhsul tapılmadı.</p>
+                }
+                
+
+            </div>
+         
+           
+        </div>
+        @if (Model?.Items != null && Model.Items.Any())
+        {
+
+            <nav aria-label="Page navigation" style="margin-top:50px;font-size:25px;margin-left:600px">
+                <ul class="pagination">
+                    @if (Model.HasPrevious)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="?page=@(Model.CurrentPage - 1)&categoryId=@ViewBag.SelectedCategory" style="color:cadetblue">«</a>
+                        </li>
+                    }
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if (i == Model.CurrentPage)
+                        {
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">@i</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="?page=@i&categoryId=@ViewBag.SelectedCategory">@i</a>
+                            </li>
+                        }
+                    }
+                    @if (Model.HasNext)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="?page=@(Model.CurrentPage + 1)&categoryId=@ViewBag.SelectedCategory" style="color:cadetblue">»</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+
+        }
+    </section>
+</main>
+
+<button class="filter-toggle">
+    <i class="fas fa-filter"></i>
+    <span>Filters</span>
+</button>
+
+<!-- Categories Section -->
+<section class="categories">
+    <h2>
+        Kateqoriyaya görə alış-veriş edin</h2>
+    <div class="category-grid">
+        <div class="category-card">
+            <img src="https://readdy.ai/api/search-image?query=women%2520perfume%2520collection&width=400&height=300&seq=27&orientation=landscape" alt="Women's Perfumes">
+            <div class="category-content">
+                <h3>Qadın Ətirləri</h3>
+                <a href="#" class="btn-primary">İndi Al</a>
+            </div>
+        </div>
+        <div class="category-card">
+            <img src="https://readdy.ai/api/search-image?query=men%2520perfume%2520collection&width=400&height=300&seq=28&orientation=landscape" alt="Men's Perfumes">
+            <div class="category-content">
+                <h3>Kişi Ətirləri</h3>
+                <a href="#" class="btn-primary">İndi Al</a>
+            </div>
+        </div>
+        <div class="category-card">
+            <img src="https://readdy.ai/api/search-image?query=unisex%2520perfume%2520collection&width=400&height=300&seq=29&orientation=landscape" alt="Unisex Perfumes">
+            <div class="category-content">
+                <h3>Unisex Ətirlər</h3>
+                <a href="#" class="btn-primary">İndi Al</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button class="close-cart">&times;</button>
+    </div>
+    <div class="cart-items">
+        <!-- Cart items will be added dynamically -->
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span>$0.00</span>
+        </div>
+        <button class="btn-checkout">Checkout</button>
+    </div>
+</div>
+<script>
+    document.querySelectorAll('input[name="categoryId"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            this.closest('form').submit();
+        });
+    });
+</script>

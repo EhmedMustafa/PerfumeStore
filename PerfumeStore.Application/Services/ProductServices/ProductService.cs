@@ -23,6 +23,9 @@ namespace PerfumeStore.Infrastructure.Services
             _repository = _Repository;
         }
 
+      
+
+       
         public async Task<IEnumerable<ResultProductDto>> GetAllProductAsync()
         {
             var product= await _repository.GetAllWithNotesAsync();
@@ -99,10 +102,10 @@ namespace PerfumeStore.Infrastructure.Services
             return await _productRepository.FindAsync(predicate);
         }
 
-        public async Task<List<ResultProductDto>> GetProductByCategory(int categoryId) 
+        public async Task<List<ResultProductDto>> GetProductByCategory(int? categoryId) 
         {
-            var values =await _repository.GetProductByCategory(categoryId);
-            var map = _mapper.Map<List<ResultProductDto>>(values);
+            var value =await _repository.GetProductByCategory(categoryId);
+            var map = _mapper.Map<List<ResultProductDto>>(value);
             return map;
         }
         public async Task<List<ResultProductDto>> GetProductByPriceFilter(decimal minprice, decimal maxprice) 
@@ -151,6 +154,20 @@ namespace PerfumeStore.Infrastructure.Services
             var values= await _repository.GetNewProductsAsync();
             var map = _mapper.Map<List<ResultProductDto>>(values);
             return map;
+        }
+
+        public async Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(int? categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize)
+        {
+            var values = await _repository.GetPagedProductsAsync(categoryId,brandId,fragranceFamilyId,page,pageSize);
+            var map = _mapper.Map<PaginatedResult<ResultProductDto>>(values);
+            return map;
+        }
+
+        public async Task<PaginatedResult<ResultProductDto>> GetPagedProductsByCategoryAsync(int categoryId, int page, int pageSize)
+        {
+
+            var valules = await _repository.GetPagedProductsByCategoryAsync(categoryId, page, pageSize);
+            return _mapper.Map<PaginatedResult<ResultProductDto>>(valules);
         }
     }
 

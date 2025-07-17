@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -44,9 +43,6 @@
 
 
 <!-- product area starts -->
-
-
-
 @{
     var tabs = Model.Keys.ToList(); // "Men", "Women", "Unisex"
     var categoryIndex = 0;
@@ -64,16 +60,16 @@
                             {
                                 <li>
                                     <a class="nav-link @(categoryIndex == 0 ? "active" : "")"
-                                    href="#@category"
-                                    data-bs-toggle="tab"
-                                    role="tab"
-                                    aria-controls="@category"
-                                    aria-selected="@(categoryIndex == 0 ? "true" : "false")">
+                                       href="#@category"
+                                       data-bs-toggle="tab"
+                                       role="tab"
+                                       aria-controls="@category"
+                                       aria-selected="@(categoryIndex == 0 ? "true" : "false")">
                                         @(
-                                                    category == "Men" ? "KİŞİ" :
-                                                    category == "Women" ? "QADIN" :
-                                                    category == "Unisex" ? "UNİSEX" : category
-                                                )
+                                            category == "Men" ? "KİŞİ" :
+                                            category == "Women" ? "QADIN" :
+                                            category == "Unisex" ? "UNİSEX" : category
+                                            )
                                     </a>
                                 </li>
                                 categoryIndex++;
@@ -317,7 +313,7 @@
                         }
                         @if (ViewBag.Bestsellproduct != null)
                         {
-                            
+
                         }
                         <div class="section_title section_title_style2">
                             <h2>Ən çox satılanlar</h2>
@@ -422,7 +418,7 @@
                                             </article>
 
                                         </div>
-                                        
+
                                     </div>
                                 }
                             </div>

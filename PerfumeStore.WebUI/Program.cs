@@ -1,18 +1,22 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IProductRepository;
+using PerfumeStore.Application.Profiles;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Repositories;
 using PerfumeStore.Infrastructure.Repositories.ProductRepository;
 using PerfumeStore.Infrastructure.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

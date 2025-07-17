@@ -19,8 +19,8 @@ namespace PerfumeStore.Application.Profiles
                 .ForMember(dest => dest.Family, opt => opt.MapFrom(scr => scr.FamilyName))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(scr => scr.CategoryName));
 
-
-
+            CreateMap(typeof(PaginatedResult<>), typeof(PaginatedResult<>))
+                                .ConvertUsing(typeof(PaginatedResultConverter<,>));
 
             CreateMap<ProductNote, ProductNoteDto>()
                 .ForMember(dest => dest.FragranceNoteName, opt => opt.MapFrom(scr => scr.FragranceNote.Name));
