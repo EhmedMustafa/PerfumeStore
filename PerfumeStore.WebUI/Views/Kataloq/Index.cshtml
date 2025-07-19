@@ -1,4 +1,5 @@
-﻿
+﻿@using PerfumeStore.Application.Dtos.FragrancefamilyDtos
+
 @model PaginatedResult<ResultProductDto>
 
 <main>
@@ -14,90 +15,52 @@
                         <div class="filter-section">
                             <h4>KATEQORİYALAR</h4>
                             @{
-                                var selectedCategory = ViewBag.SelectedCategory as int?;
+                                List<int> selectedCategories = ViewBag.SelectedCategories as List<int> ?? new List<int>();
                             }
                             <div class="checkbox-group">
                                 <label class="custom-checkbox">
-                                    <input type="radio" name="categoryId" value="" @(selectedCategory == null ? "checked" : "")>
+                                    <input type="checkbox" name="categoryId" value="" @(selectedCategories == null? "checked" : "") />
                                     <span>Hamısı</span>
                                 </label>
                                 <label class="custom-checkbox">
-                                    <input type="radio" name="categoryId" value="1" @(selectedCategory == 1 ? "checked" : "")>
+                                    <input type="checkbox" name="categoryId" value="1" @(selectedCategories.Contains(1) ? "checked" : "") />
                                     <span>Kişi ətirləri</span>
                                 </label>
                                 <label class="custom-checkbox">
-                                    <input type="radio" name="categoryId" value="2" @(selectedCategory == 2 ? "checked" : "")>
+                                    <input type="checkbox" name="categoryId" value="2" @(selectedCategories.Contains(2) ? "checked" : "") />
                                     <span>Qadın ətirləri</span>
                                 </label>
                                 <label class="custom-checkbox">
-                                    <input type="radio" name="categoryId" value="3" @(selectedCategory == 3 ? "checked" : "")>
+                                    <input type="checkbox" name="categoryId" value="3" @(selectedCategories.Contains(3) ? "checked" : "") />
                                     <span>Unisex ətirləri</span>
                                 </label>
-                                @* <button type="submit">Filtrlə</button> *@
                             </div>
+                        </div>
+                    </form>
+                     <form  method="get" asp-controller="Kataloq"asp-action="Index">
+                        <div class="filter-section">
+                            
+                            <h4><i class="fas fa-spa"></i> Ailə</h4>
 
+                            @{
+                                var selected = ViewBag.SelectedFamily as int?;
+                                var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
+                            }
+                            @foreach (var family in allFamilies)
+                            {
+                                <div class="checkbox-group">
+                               
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
+                                        @(selected.HasValue && selected == family.Id ? "checked" : "") />
+                                    
+                                        <span>@family.Name</span>
+                                    </label>
+                                </div>
+                            }
 
                         </div>
-                        <div class="filter-section">
-                            <h4><i class="fas fa-spa"></i> Ailə</h4>
-                            <div class="family-section">
-                                <div class="radio-group">
-                                    @{
-                                        var selectedbrand = ViewBag.SelectedBrand as int?;
-                                    }
-                                        <label class="custom-radio">
-                                        <input type="radio" name="brandId" value="" @(selectedbrand == null ? "checked":"")>
-                                            <span class="radio-mark"></span>
-                                            <span>Hamısı</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                        <input type="radio" name="brandId" value="Floral" checked="@(selectedbrand == "Floral")">
-                                            <span class="radio-mark"></span>
-                                            <span>Hamısı</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="woody">
-                                            <span class="radio-mark"></span>
-                                            <span>Odunsu</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="oriental">
-                                            <span class="radio-mark"></span>
-                                            <span>Şərq</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="fresh">
-                                            <span class="radio-mark"></span>
-                                            <span>Təravətli</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="citrus">
-                                            <span class="radio-mark"></span>
-                                            <span>Sitrus</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="gourmand">
-                                            <span class="radio-mark"></span>
-                                            <span>Tatlı</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="aquatic">
-                                            <span class="radio-mark"></span>
-                                            <span>Su</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="spicy">
-                                            <span class="radio-mark"></span>
-                                            <span>Ədviyyəli</span>
-                                        </label>
-                                        <label class="custom-radio">
-                                            <input type="radio" name="family" value="aromatic">
-                                            <span class="radio-mark"></span>
-                                            <span>Ətri</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                     </form>
 
                             <div class="filter-section">
                                 <h4><i class="fas fa-tags"></i>QİYMƏT ARALIĞI</h4>
@@ -159,10 +122,11 @@
                                     </label>
                                 </div>
                             </div>
-                        </form>
+                        
+                        
 
                         <button type="submit" class="btn-apply-filters">Apply Filters</button>
-                    </div>
+                </div>
                 
             </aside>
 
@@ -316,9 +280,18 @@
     </div>
 </div>
 <script>
-    document.querySelectorAll('input[name="categoryId"]').forEach(function (radio) {
-        radio.addEventListener('change', function () {
+    document.querySelectorAll('input[name="categoryId"]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
             this.closest('form').submit();
         });
     });
 </script>
+
+<script>
+    document.querySelectorAll('input[name="fragranceFamilyId"]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            this.closest('form').submit();
+        });
+    });
+</script>
+

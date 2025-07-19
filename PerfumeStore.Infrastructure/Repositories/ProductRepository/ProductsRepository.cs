@@ -74,7 +74,7 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
 
 
 
-        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(int? categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize)
+        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(List<int> categoryIds, int? brandId, int? fragranceFamilyId, int page, int pageSize)
         {
             
                 var query = _context.Products
@@ -83,11 +83,10 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                     .Include(p => p.Family)
                     .AsQueryable();
 
-                if (categoryId.HasValue && categoryId.Value > 0)
-                {
-                    query = query.Where(p => p.CategoryId == categoryId);
-                }
-                if (brandId.HasValue && brandId.Value > 0)
+            if (categoryIds != null && categoryIds.Any())
+                query = query.Where(p => categoryIds.Contains(p.CategoryId));
+
+            if (brandId.HasValue && brandId.Value > 0)
                     query = query.Where(p => p.BrandId == brandId.Value);
 
                 if (fragranceFamilyId.HasValue && fragranceFamilyId.Value > 0)

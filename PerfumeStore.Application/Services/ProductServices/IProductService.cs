@@ -24,7 +24,7 @@ namespace PerfumeStore.Application.Services.ProductServices
 
         Task<List<ResultProductDto>> GetNewProductsAsync();
 
-        Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(int? categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize);
+        Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync( List<int> categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize);
 
         Task<PaginatedResult<ResultProductDto>> GetPagedProductsByCategoryAsync(int categoryId, int page, int pageSize);
         

@@ -10,7 +10,7 @@ using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Services.FragranceFamilyService
 {
-    internal class FragranceFamilyService : IFragranceFamilyService
+    public class FragranceFamilyService : IFragranceFamilyService
     {
 
         private readonly IGenericRepository<FragranceFamily> _genericRepository;
