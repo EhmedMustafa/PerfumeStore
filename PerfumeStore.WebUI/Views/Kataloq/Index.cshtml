@@ -105,7 +105,7 @@
 
                                     <label class="custom-checkbox">
                                         <input type="checkbox" name="fragranceNoteId" value="@note.Id"
-                                        @(selectedsnote !=null&&selectedsnote.Contains(note.Id) ? "checked" : "") />
+                                        @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
                                         <span>@note.Name</span>
                                     </label>
                                 </div>
@@ -374,3 +374,26 @@
     }
 </script>
 
+// <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('input[name="fragranceNoteId"]');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                let selectedNotes = [];
+                checkboxes.forEach(c => {
+                    if (c.checked) {
+                        selectedNotes.push(`fragranceNoteId=${c.value}`);
+                    }
+                });
+
+                // URL-i yenidən qur
+                const baseUrl = window.location.origin + window.location.pathname;
+                const queryString = selectedNotes.join('&');
+                const newUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+
+                window.location.href = newUrl;
+            });
+        });
+    });
+// </script>

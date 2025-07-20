@@ -14,6 +14,7 @@ namespace PerfumeStore.WebUI.Controllers
         private readonly IFragranceFamilyService _fragranceFamily;
         private readonly IBrandService _brandService;
         private readonly IFragranceNoteService _fragranceNoteService;
+        
 
         public KataloqController(IProductService productService, IFragranceFamilyService fragranceFamily, IBrandService brandService, IFragranceNoteService fragranceNoteService)
         {
@@ -40,7 +41,7 @@ namespace PerfumeStore.WebUI.Controllers
                categoryId.Count > 0 ? categoryId : null,
                brandId,
                fragranceFamilyId,
-               fragranceNoteId,
+               fragranceNoteId.Count > 0 ? fragranceNoteId:null,
                page,
                pageSize
            );
@@ -50,7 +51,7 @@ namespace PerfumeStore.WebUI.Controllers
             ViewBag.SelectedNote = fragranceNoteId;
 
 
-          //  var pagedResult = await _productService.GetPagedProductsAsync(categoryId, brandId, fragranceFamilyId, page, pageSize);
+         
 
             return View(pagedResult);
         }
