@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Domain.Entities;
@@ -74,25 +75,32 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
 
 
 
-        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(List<int> categoryIds, int? brandId, int? fragranceFamilyId, int page, int pageSize)
+        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId,List<int> fragranceNoteId, int page, int pageSize)
         {
             
-                var query = _context.Products
+
+            var query = _context.Products
                     .Include(p => p.Brand)
                     .Include(p => p.Category)
                     .Include(p => p.Family)
+                    .Include(p => p.ProductNotes)
+                    .ThenInclude(pn=>pn.FragranceNote)
                     .AsQueryable();
 
             if (categoryIds != null && categoryIds.Any())
                 query = query.Where(p => categoryIds.Contains(p.CategoryId));
 
-            if (brandId.HasValue && brandId.Value > 0)
-                    query = query.Where(p => p.BrandId == brandId.Value);
+            if (brandId != null && brandId.Any())
+                query = query.Where(b => brandId.Contains(b.BrandId));
 
-                if (fragranceFamilyId.HasValue && fragranceFamilyId.Value > 0)
-                    query = query.Where(p => p.FamilyId == fragranceFamilyId.Value);
+            if (fragranceFamilyId != null && fragranceFamilyId.Any())
+                query = query.Where(f => fragranceFamilyId.Contains(f.FamilyId));
 
-                var totalCount = await query.CountAsync();
+            if(fragranceNoteId != null && fragranceNoteId.Any())
+                query = query.Where(p => p.ProductNotes.Any(pn => fragranceNoteId.Contains(pn.FragranceNoteId)));
+
+
+            var totalCount = await query.CountAsync();
 
                 var items = await query
                     .OrderByDescending(p => p.ProductId)
@@ -107,9 +115,6 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                     PageSize = pageSize,
                     CurrentPage = page
                 };
-
-            
-
         }
 
         //lazim olacaq istifade olumur

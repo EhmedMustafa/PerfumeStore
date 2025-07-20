@@ -95,7 +95,7 @@ main {
         color: var(--text-color);
         font-weight: 600;
     }
-
+    
 /* Filter Toggle Button */
 .filter-toggle {
     display: none;
@@ -1476,3 +1476,5 @@ main {
         font-weight: bold;
         cursor: default;
     }
+
+

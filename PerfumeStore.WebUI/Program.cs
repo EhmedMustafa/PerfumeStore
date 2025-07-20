@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Application.Profiles;
+using PerfumeStore.Application.Services.BrandServices;
 using PerfumeStore.Application.Services.FragranceFamilyService;
 using PerfumeStore.Application.Services.FragranceNoteServices;
 using PerfumeStore.Application.Services.ProductServices;
@@ -23,8 +24,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IProductRepository), typeof(ProductsRepository));
+builder.Services.AddScoped(typeof(IFragranceNoteRepository), typeof(FragranceNoteRepository));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IFragranceFamilyService, FragranceFamilyService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IFragranceNoteService, FragranceNoteService>();
 
 var app = builder.Build();
 

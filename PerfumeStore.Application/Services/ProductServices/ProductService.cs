@@ -156,9 +156,9 @@ namespace PerfumeStore.Infrastructure.Services
             return map;
         }
 
-        public async Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(List<int> categoryId, int? brandId, int? fragranceFamilyId, int page, int pageSize)
+        public async Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId, List<int> fragranceNoteId, int page, int pageSize)
         {
-            var values = await _repository.GetPagedProductsAsync(categoryId,brandId,fragranceFamilyId,page,pageSize);
+            var values = await _repository.GetPagedProductsAsync(categoryIds,brandId,fragranceFamilyId,fragranceNoteId,page,pageSize);
             var map = _mapper.Map<PaginatedResult<ResultProductDto>>(values);
             return map;
         }

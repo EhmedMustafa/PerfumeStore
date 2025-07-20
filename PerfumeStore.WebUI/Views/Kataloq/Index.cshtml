@@ -1,13 +1,23 @@
-﻿@using PerfumeStore.Application.Dtos.FragrancefamilyDtos
+﻿@using PerfumeStore.Application.Dtos.BrandDtos
+@using PerfumeStore.Application.Dtos.FragranceNoteDtos
+@using PerfumeStore.Application.Dtos.FragrancefamilyDtos
 
 @model PaginatedResult<ResultProductDto>
 
 <main>
     <section class="featured"style="margin-top:120px">
         <!-- <h2>Featured Products</h2> -->
+
         <div class="products-container">
+
             <aside class="filters-sidebar">
                 <button class="close-filter"><i class="fas fa-times"></i></button>
+
+                <div class="choosed" style="margin-left:-10px;width: 240px;padding: 10px 15px 20px;background-color: #f5f5f5;border-radius:10px;margin-bottom:10px;font-size:15px">
+                    <strong style="color:black;padding-right:1px" class="title">Sizin seçiminiz:</strong>
+                    <button type="reset" onclick="clearAll();" style="border:none;color:#666;background:none;line-height:19px;border-bottom:1px solid"> Hamısıni sil</button>
+                    <ul id="selected_filter"></ul>
+                </div>
 
                 <div class="filter-group">
                     <h3>ƏTİRLƏR</h3>
@@ -18,7 +28,7 @@
                                 List<int> selectedCategories = ViewBag.SelectedCategories as List<int> ?? new List<int>();
                             }
                             <div class="checkbox-group">
-                                <label class="custom-checkbox">
+                                <label class="custom-checkbox"style="display:none">
                                     <input type="checkbox" name="categoryId" value="" @(selectedCategories == null? "checked" : "") />
                                     <span>Hamısı</span>
                                 </label>
@@ -36,31 +46,72 @@
                                 </label>
                             </div>
                         </div>
-                    </form>
-                     <form  method="get" asp-controller="Kataloq"asp-action="Index">
                         <div class="filter-section">
-                            
+                            <h4>BRENDLƏR</h4>
+                            <div class="search-bar">
+                                <input type="text" placeholder="">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            @{
+                                var brands = ViewBag.Allbrands as List<ResultBrandDto>;
+                                List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
+                            }
+                            @foreach (var brand in brands)
+                            {
+                                <div class="checkbox-group">
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brandId" value="@brand.Id"
+                                        @(selected.Contains(brand.Id) ? "checked":"")/>
+                                        <span>@brand.Name</span>
+                                    </label>
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="filter-section">
+
                             <h4><i class="fas fa-spa"></i> Ailə</h4>
 
                             @{
-                                var selected = ViewBag.SelectedFamily as int?;
+                                List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
                                 var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
                             }
                             @foreach (var family in allFamilies)
                             {
                                 <div class="checkbox-group">
-                               
+
                                     <label class="custom-checkbox">
                                         <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
-                                        @(selected.HasValue && selected == family.Id ? "checked" : "") />
-                                    
+                                        @(selecteds.Contains (family.Id) ? "checked" : "") />
                                         <span>@family.Name</span>
                                     </label>
                                 </div>
                             }
 
                         </div>
-                     </form>
+
+                        <div class="filter-section">
+
+                            <h4><i class="fas fa-spa"></i> Notlar</h4>
+
+                            @{
+                                List<int> selectedsnote = ViewBag.SelectedNote as List<int> ?? new List<int>();
+                                var allnotes = ViewBag.Notes as List<ResultFragranceNoteDto>;
+                            }
+                            @foreach (var note in allnotes)
+                            {
+                                <div class="checkbox-group">
+
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="fragranceNoteId" value="@note.Id"
+                                        @(selectedsnote !=null&&selectedsnote.Contains(note.Id) ? "checked" : "") />
+                                        <span>@note.Name</span>
+                                    </label>
+                                </div>
+                            }
+
+                        </div>
 
                             <div class="filter-section">
                                 <h4><i class="fas fa-tags"></i>QİYMƏT ARALIĞI</h4>
@@ -88,42 +139,9 @@
                                 </div>
                             </div>
 
-                            <div class="filter-section">
-                                <h4>BRENDLƏR</h4>
-                                <div class="search-bar">
-                                    <input type="text" placeholder="">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="brand-list">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="brand" value="chanel">
-                                        <span class="checkmark"></span>
-                                        <span>Chanel</span>
-                                    </label>
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="brand" value="dior">
-                                        <span class="checkmark"></span>
-                                        <span>Dior</span>
-                                    </label>
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="brand" value="gucci">
-                                        <span class="checkmark"></span>
-                                        <span>Gucci</span>
-                                    </label>
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="brand" value="tomford">
-                                        <span class="checkmark"></span>
-                                        <span>Tom Ford</span>
-                                    </label>
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="brand" value="ysl">
-                                        <span class="checkmark"></span>
-                                        <span>YSL</span>
-                                    </label>
-                                </div>
-                            </div>
-                        
-                        
+                         
+
+                    </form>
 
                         <button type="submit" class="btn-apply-filters">Apply Filters</button>
                 </div>
@@ -293,5 +311,66 @@
             this.closest('form').submit();
         });
     });
+</script>
+<script>
+    document.querySelectorAll('input[name="brandId"]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            this.closest('form').submit();
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('input[name=" fragranceNoteId"]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            this.closest('form').submit();
+        });
+    });
+</script>
+<script>
+    // Filter checkbox-larını dinləyirik
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterInputs = document.querySelectorAll('input[type="checkbox"][name]');
+        const selectedFilterList = document.getElementById('selected_filter');
+
+        // function updateSelectedFilters() {
+        //     selectedFilterList.innerHTML = ''; // əvvəlkiləri təmizlə
+
+        //     filterInputs.forEach(input => {
+        //         if (input.checked) {
+        //             const label = input.closest('label').querySelector('span').innerText;
+
+        //             const li = document.createElement('li');
+        //             li.textContent = label;
+        //             li.style.listStyle = 'disc';
+        //             li.style.marginLeft = '20px';
+        //             li.style.color = '#333';
+                    
+        //             li.style.color='Blue'
+
+
+        //             selectedFilterList.appendChild(li);
+        //         }
+        //     });
+        // }
+
+        // Hər checkbox dəyişəndə siyahını yenilə
+        filterInputs.forEach(input => {
+            input.addEventListener('change', updateSelectedFilters);
+        });
+
+        // Səhifə yüklənəndə seçilmişlər varsa göstər
+        updateSelectedFilters();
+    });
+
+    // Hamısını sil düyməsi üçün
+    function clearAll() {
+        const filterInputs = document.querySelectorAll('input[type="checkbox"][name]');
+        filterInputs.forEach(input => {
+            input.checked = false;
+        });
+
+        // Form təmizlənir və yenidən submit edilir (əgər istəyirsənsə)
+        document.querySelector('form').submit();
+    }
 </script>
 
