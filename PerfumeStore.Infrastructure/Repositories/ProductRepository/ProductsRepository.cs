@@ -75,7 +75,7 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
 
 
 
-        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId,List<int> fragranceNoteId, int page, int pageSize)
+        public async Task<PaginatedResult<Product>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId, List<int> fragranceNoteId, int page, int pageSize, int? minPrice, int? maxPrice)
         {
             
 
@@ -99,6 +99,16 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             if(fragranceNoteId != null && fragranceNoteId.Any())
                 query = query.Where(p => p.ProductNotes.Any(pn => fragranceNoteId.Contains(pn.FragranceNoteId)));
 
+           
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.CurrentPrice >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.CurrentPrice <= maxPrice.Value);
+            }
 
             var totalCount = await query.CountAsync();
 
@@ -145,14 +155,14 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             return await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
 
-        public Task<List<Product>> GetProductByPriceFilter(decimal minprice, decimal maxprice)
+        public Task<List<Product>> GetProductByPriceFilter(int? Minprice, int? Maxprice)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Product>> GetProductBySearch(string search)
+        public async Task<List<Product>> GetProductBySearch(string search)
         {
-            throw new NotImplementedException();
+            return await _context.Products.Where(p => p.Name.Contains(search)).ToListAsync();
         }
         //public async Task<List<Product>> GetProductByCategory(int categoryId)
         //{

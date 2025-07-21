@@ -24,8 +24,11 @@ namespace PerfumeStore.WebUI.Controllers
             _fragranceNoteService = fragranceNoteService;
         }
 
-        public async Task<IActionResult> Index(List<int> categoryId , List<int> brandId, List<int> fragranceFamilyId,List<int> fragranceNoteId ,int page = 1)
+        public async Task<IActionResult> Index(List<int> categoryId , List<int> brandId, List<int> fragranceFamilyId,List<int> fragranceNoteId ,int? minPrice,int? maxPrice, int page = 1)
         {
+            int min = minPrice ?? 0;
+            int max = maxPrice ?? 1000;
+
             int pageSize = 12;
             var allFamilies = await _fragranceFamily.GetAllFragranceFamilyAsync();
             var allbrands= await _brandService.GetAllBrandAsync();
@@ -43,17 +46,27 @@ namespace PerfumeStore.WebUI.Controllers
                fragranceFamilyId,
                fragranceNoteId.Count > 0 ? fragranceNoteId:null,
                page,
-               pageSize
+               pageSize,
+               min,
+               max
            );
             ViewBag.SelectedCategories = categoryId;
             ViewBag.SelectedBrand = brandId;
             ViewBag.SelectedFamily = fragranceFamilyId;
             ViewBag.SelectedNote = fragranceNoteId;
+            ViewBag.MinPrice = min;
+            ViewBag.MaxPrice = max;
 
 
-         
 
             return View(pagedResult);
         }
+
+        
+        //public async Task<IActionResult> Index(int? minPrice,int? maxPrice) 
+        //{
+        //    var value = await _productService.GetProductByPriceFilter(minPrice,maxPrice);
+        //    return View(value);
+        //}
     }
 }

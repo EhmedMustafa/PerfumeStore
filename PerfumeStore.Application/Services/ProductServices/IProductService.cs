@@ -24,7 +24,7 @@ namespace PerfumeStore.Application.Services.ProductServices
 
         Task<List<ResultProductDto>> GetNewProductsAsync();
 
-        Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId, List<int> fragranceNoteId, int page, int pageSize);
+        Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId, List<int> fragranceNoteId, int page, int pageSize,int? minPrice,int? maxPrice);
 
         Task<PaginatedResult<ResultProductDto>> GetPagedProductsByCategoryAsync(int categoryId, int page, int pageSize);
         
@@ -37,7 +37,7 @@ namespace PerfumeStore.Application.Services.ProductServices
         Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate);
         Task<List<ResultProductDto>> GetProductTake(int count);
         Task<List<ResultProductDto>> GetProductBySearch(string search);
-        Task<List<ResultProductDto>> GetProductByPriceFilter(decimal minprice, decimal maxprice);
+        Task<List<ResultProductDto>> GetProductByPriceFilter(int? minPrice, int? maxPrice);
         Task<List<ResultProductDto>> GetProductByCategory(int? categoryId);
         
     }

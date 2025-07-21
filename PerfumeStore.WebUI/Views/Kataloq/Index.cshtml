@@ -1,9 +1,54 @@
-﻿@using PerfumeStore.Application.Dtos.BrandDtos
-@using PerfumeStore.Application.Dtos.FragranceNoteDtos
-@using PerfumeStore.Application.Dtos.FragrancefamilyDtos
+﻿@using Stripe.Forwarding
+
 
 @model PaginatedResult<ResultProductDto>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<style>
+    .price-filter {
+        max-width: 300px;
+        margin-bottom: 20px;
+    }
 
+    .inputs {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+        .inputs input {
+            width: 100px;
+            padding: 5px;
+            text-align: center;
+        }
+
+    .slider-container {
+        position: relative;
+        height: 40px;
+    }
+
+        .slider-container input[type="range"] {
+            position: absolute;
+            width: 100%;
+            pointer-events: none;
+            -webkit-appearance: none;
+            height: 5px;
+            background: transparent;
+        }
+
+    input[type="range"]::-webkit-slider-thumb {
+        pointer-events: all;
+        width: 16px;
+        height: 16px;
+        background: crimson;
+        border-radius: 50%;
+        border: none;
+        -webkit-appearance: none;
+    }
+
+</style>
 <main>
     <section class="featured"style="margin-top:120px">
         <!-- <h2>Featured Products</h2> -->
@@ -18,133 +63,125 @@
                     <button type="reset" onclick="clearAll();" style="border:none;color:#666;background:none;line-height:19px;border-bottom:1px solid"> Hamısıni sil</button>
                     <ul id="selected_filter"></ul>
                 </div>
+                     <form method="get" asp-controller="Kataloq" asp-action="Index" id="priceFilterForm">
 
-                <div class="filter-group">
-                    <h3>ƏTİRLƏR</h3>
-                    <form method="get" asp-controller="Kataloq" asp-action="Index">
-                        <div class="filter-section">
-                            <h4>KATEQORİYALAR</h4>
-                            @{
-                                List<int> selectedCategories = ViewBag.SelectedCategories as List<int> ?? new List<int>();
-                            }
-                            <div class="checkbox-group">
-                                <label class="custom-checkbox"style="display:none">
-                                    <input type="checkbox" name="categoryId" value="" @(selectedCategories == null? "checked" : "") />
-                                    <span>Hamısı</span>
-                                </label>
-                                <label class="custom-checkbox">
-                                    <input type="checkbox" name="categoryId" value="1" @(selectedCategories.Contains(1) ? "checked" : "") />
-                                    <span>Kişi ətirləri</span>
-                                </label>
-                                <label class="custom-checkbox">
-                                    <input type="checkbox" name="categoryId" value="2" @(selectedCategories.Contains(2) ? "checked" : "") />
-                                    <span>Qadın ətirləri</span>
-                                </label>
-                                <label class="custom-checkbox">
-                                    <input type="checkbox" name="categoryId" value="3" @(selectedCategories.Contains(3) ? "checked" : "") />
-                                    <span>Unisex ətirləri</span>
-                                </label>
+                            <div class="price-filter">
+                                <h4>QİYMƏT ARALIĞI</h4>
+
+                                <div class="inputs">
+                                    <input type="number" id="min-price" value="1" min="1" max="1326">
+                                    <span>–</span>
+                                    <input type="number" id="max-price" value="1326" min="1" max="1326">
+                                </div>
+
+                                <div class="slider-container">
+                                    <input type="range" id="range-min" min="1" max="1326" value="1">
+                                    <input type="range" id="range-max" min="1" max="1326" value="1326">
+                                </div>
                             </div>
-                        </div>
-                        <div class="filter-section">
-                            <h4>BRENDLƏR</h4>
-                            <div class="search-bar">
-                                <input type="text" placeholder="">
-                                <i class="fas fa-search"></i>
-                            </div>
-                            @{
-                                var brands = ViewBag.Allbrands as List<ResultBrandDto>;
-                                List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
-                            }
-                            @foreach (var brand in brands)
-                            {
-                                <div class="checkbox-group">
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="brandId" value="@brand.Id"
-                                        @(selected.Contains(brand.Id) ? "checked":"")/>
-                                        <span>@brand.Name</span>
-                                    </label>
-                                </div>
-                            }
 
-                        </div>
 
-                        <div class="filter-section">
 
-                            <h4><i class="fas fa-spa"></i> Ailə</h4>
 
-                            @{
-                                List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
-                                var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
-                            }
-                            @foreach (var family in allFamilies)
-                            {
-                                <div class="checkbox-group">
-
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
-                                        @(selecteds.Contains (family.Id) ? "checked" : "") />
-                                        <span>@family.Name</span>
-                                    </label>
-                                </div>
-                            }
-
-                        </div>
-
-                        <div class="filter-section">
-
-                            <h4><i class="fas fa-spa"></i> Notlar</h4>
-
-                            @{
-                                List<int> selectedsnote = ViewBag.SelectedNote as List<int> ?? new List<int>();
-                                var allnotes = ViewBag.Notes as List<ResultFragranceNoteDto>;
-                            }
-                            @foreach (var note in allnotes)
-                            {
-                                <div class="checkbox-group">
-
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="fragranceNoteId" value="@note.Id"
-                                        @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
-                                        <span>@note.Name</span>
-                                    </label>
-                                </div>
-                            }
-
-                        </div>
-
-                            <div class="filter-section">
-                                <h4><i class="fas fa-tags"></i>QİYMƏT ARALIĞI</h4>
-                                <div class="price-slider">
-                                    <div class="range-container">
-                                        <div class="range-slider">
-                                            <div class="range-fill"></div>
-                                            <input type="range" id="min-price-range" min="0" max="1000" value="0">
-                                            <input type="range" id="max-price-range" min="0" max="1000" value="1000">
-                                        </div>
-                                    </div>
-                                    <div class="price-inputs">
-                                        <div class="input-group">
-                                            <label>Min Qiymət</label>
-                                            <span class="currency">₼</span>
-                                            <input type="number" id="min-price" value="0" min="0" max="1000">
-                                        </div>
-                                        <span class="separator">-</span>
-                                        <div class="input-group">
-                                            <label>Mak Qiymət</label>
-                                            <span class="currency">₼</span>
-                                            <input type="number" id="max-price" value="1000" min="0" max="1000">
-                                        </div>
+                    <div class="filter-group">
+                                 <h3>ƏTİRLƏR</h3>
+                                <div class="filter-section">
+                                    <h4>KATEQORİYALAR</h4>
+                                    @{
+                                        List<int> selectedCategories = ViewBag.SelectedCategories as List<int> ?? new List<int>();
+                                    }
+                                    <div class="checkbox-group">
+                                        <label class="custom-checkbox"style="display:none">
+                                            <input type="checkbox" name="categoryId" value="" @(selectedCategories == null? "checked" : "") />
+                                            <span>Hamısı</span>
+                                        </label>
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="categoryId" value="1" @(selectedCategories.Contains(1) ? "checked" : "") />
+                                            <span>Kişi ətirləri</span>
+                                        </label>
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="categoryId" value="2" @(selectedCategories.Contains(2) ? "checked" : "") />
+                                            <span>Qadın ətirləri</span>
+                                        </label>
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="categoryId" value="3" @(selectedCategories.Contains(3) ? "checked" : "") />
+                                            <span>Unisex ətirləri</span>
+                                        </label>
                                     </div>
                                 </div>
-                            </div>
+                      
+                                <div class="filter-section">
+                                    <h4>BRENDLƏR</h4>
+                                        <div class="search-bar">
+                                            <input type="text" id="brandSearchInput" class="form-control" placeholder="Brend axtar..." />
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    @{
+                                        var brands = ViewBag.Allbrands as List<ResultBrandDto>;
+                                        List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
+                                    }
+                                    @foreach (var brand in brands)
+                                    {
+                                        <div class="checkbox-group">
+                                            <label class="custom-checkbox">
+                                                <input type="checkbox" name="brandId" value="@brand.Id"
+                                                @(selected.Contains(brand.Id) ? "checked":"")/>
+                                                <span>@brand.Name</span>
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                      
+                                <div class="filter-section">
 
-                         
+                                    <h4><i class="fas fa-spa"></i> Ailə</h4>
 
+                                    @{
+                                        List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
+                                        var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
+                                    }
+                                    @foreach (var family in allFamilies)
+                                    {
+                                        <div class="checkbox-group">
+
+                                            <label class="custom-checkbox">
+                                                <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
+                                                @(selecteds.Contains (family.Id) ? "checked" : "") />
+                                                <span>@family.Name</span>
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+
+                                <div class="filter-section">
+
+                                    <h4><i class="fas fa-spa"></i> Notlar</h4>
+
+                                    @{
+                                        List<int> selectedsnote = ViewBag.SelectedNote as List<int> ?? new List<int>();
+                                        var allnotes = ViewBag.Notes as List<ResultFragranceNoteDto>;
+                                    }
+                                    @foreach (var note in allnotes)
+                                    {
+                                        <div class="checkbox-group">
+
+                                            <label class="custom-checkbox">
+                                                <input type="checkbox" name="fragranceNoteId" value="@note.Id"
+                                                @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
+                                                <span>@note.Name</span>
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+
+                        </div>
+                       
                     </form>
 
-                        <button type="submit" class="btn-apply-filters">Apply Filters</button>
-                </div>
+
+                         <p>Hazırda axtarış aralığı: <strong>@ViewBag.MinPrice</strong> ₼ - <strong>@ViewBag.MaxPrice</strong> ₼</p>
                 
             </aside>
 
@@ -374,7 +411,7 @@
     }
 </script>
 
-// <script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         const checkboxes = document.querySelectorAll('input[name="fragranceNoteId"]');
 
@@ -397,3 +434,66 @@
         });
     });
 // </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('brandSearchInput');
+        const checkboxes = document.querySelectorAll('.checkbox-group');
+
+        searchInput.addEventListener('input', function () {
+            const keyword = this.value.toLowerCase();
+
+            checkboxes.forEach(cb => {
+                const label = cb.querySelector('span').textContent.toLowerCase();
+                if (label.includes(keyword)) {
+                    cb.style.display = 'block';
+                } else {
+                    cb.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+<script>
+    const minRange = document.getElementById('range-min');
+    const maxRange = document.getElementById('range-max');
+    const minPrice = document.getElementById('min-price');
+    const maxPrice = document.getElementById('max-price');
+    const maxPrice = document.getElementById('priceFilterForm');
+    // Slider dəyişdikcə inputa yaz
+    minRange.addEventListener('input', function () {
+        const minVal = parseInt(minRange.value);
+        const maxVal = parseInt(maxRange.value);
+
+        if (minVal > maxVal) {
+            minRange.value = maxVal;
+        }
+        minPrice.value = minRange.value;
+    });
+
+    maxRange.addEventListener('input', function () {
+        const minVal = parseInt(minRange.value);
+        const maxVal = parseInt(maxRange.value);
+
+        if (maxVal < minVal) {
+            maxRange.value = minVal;
+        }
+        maxPrice.value = maxRange.value;
+    });
+
+    // Input dəyişdikcə sliderə yaz
+    minPrice.addEventListener('change', function () {
+        let val = parseInt(minPrice.value);
+        if (val > parseInt(maxRange.value)) {
+            val = maxRange.value;
+        }
+        minRange.value = val;
+    });
+
+    maxPrice.addEventListener('change', function () {
+        let val = parseInt(maxPrice.value);
+        if (val < parseInt(minRange.value)) {
+            val = minRange.value;
+        }
+        maxRange.value = val;
+    });
+</script>

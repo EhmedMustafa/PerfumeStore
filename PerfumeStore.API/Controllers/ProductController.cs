@@ -68,6 +68,17 @@ namespace PerfumeStore.API.Controllers
                 return NotFound();
             return Ok(value);
         }
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchProducts([FromQuery] string search) 
+        {
+            var value= await _productService.GetProductBySearch(search);
+            if (value==null)
+            {
+                return NotFound("Tapilmadi");
+            }
+
+            return Ok(value);
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto product) 
         {

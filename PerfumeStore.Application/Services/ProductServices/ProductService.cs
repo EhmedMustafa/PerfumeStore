@@ -108,9 +108,9 @@ namespace PerfumeStore.Infrastructure.Services
             var map = _mapper.Map<List<ResultProductDto>>(value);
             return map;
         }
-        public async Task<List<ResultProductDto>> GetProductByPriceFilter(decimal minprice, decimal maxprice) 
+        public async Task<List<ResultProductDto>> GetProductByPriceFilter(int? minPrice, int? maxPrice) 
         {
-            var values = await _repository.GetProductByPriceFilter(minprice, maxprice);
+            var values = await _repository.GetProductByPriceFilter(minPrice, maxPrice);
             var map= _mapper.Map<List<ResultProductDto>>(values);
             return map;
         }
@@ -156,9 +156,9 @@ namespace PerfumeStore.Infrastructure.Services
             return map;
         }
 
-        public async Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId, List<int> fragranceNoteId, int page, int pageSize)
+        public async Task<PaginatedResult<ResultProductDto>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId, List<int> fragranceNoteId, int page, int pageSize, int? minPrice, int? maxPrice)
         {
-            var values = await _repository.GetPagedProductsAsync(categoryIds,brandId,fragranceFamilyId,fragranceNoteId,page,pageSize);
+            var values = await _repository.GetPagedProductsAsync(categoryIds,brandId,fragranceFamilyId,fragranceNoteId,page,pageSize,minPrice,maxPrice);
             var map = _mapper.Map<PaginatedResult<ResultProductDto>>(values);
             return map;
         }
