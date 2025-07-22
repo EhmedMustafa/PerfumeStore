@@ -11,6 +11,8 @@ namespace PerfumeStore.Application.Dtos.BrandDtos
     {
        
         public string Name { get; set; }               // Brendin adı
+        public string Tagline { get; set; }
+        public string Description { get; set; }
         public string LogoUrl { get; set; }            // Brend loqosunun URL-i        
     }
 }

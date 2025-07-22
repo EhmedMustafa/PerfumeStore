@@ -29,7 +29,12 @@ namespace PerfumeStore.API.Controllers
             var valeus= await _brandService.GetByIdBrandAsync(Id);
             return Ok(valeus);
         }
-
+        [HttpGet("GetWithProduct")]
+        public async Task<IActionResult> GetWithProduct(int brandId) 
+        {
+            var values= await _brandService.GetBrandDetailsWithProductsAsync(brandId);
+            return Ok(values);
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateBrandDto createBrandDto)
         {

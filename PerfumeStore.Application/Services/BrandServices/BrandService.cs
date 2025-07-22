@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using PerfumeStore.Application.Dtos.BrandDtos;
+using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Interfaces.IBrandRepository;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Services.BrandServices
@@ -13,12 +15,14 @@ namespace PerfumeStore.Application.Services.BrandServices
     public class BrandService : IBrandService
     {
         private readonly IGenericRepository<Brand> _genericRepository;
+        private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
 
-        public BrandService(IGenericRepository<Brand> genericRepository,IMapper mapper)
+        public BrandService(IGenericRepository<Brand> genericRepository, IMapper mapper, IBrandRepository brandRepository)
         {
             _genericRepository = genericRepository;
             _mapper = mapper;
+            _brandRepository = brandRepository;
         }
 
         public async Task AddBrandAsync(CreateBrandDto createBrandDto)
@@ -58,10 +62,35 @@ namespace PerfumeStore.Application.Services.BrandServices
             await _genericRepository.SaveChangesAsync();
         }
 
-       
+        public async Task<ResultBrandDto> GetBrandDetailsWithProductsAsync(int brandId)
+        {
+            var brand = await _brandRepository.GetBrandWithProductsByIdAsync(brandId);
 
-     
+            if (brand == null)
+                return null;
 
-       
+            return new ResultBrandDto
+            {
+                Id = brand.Id,
+                Name = brand.Name,
+                Tagline = brand.Tagline,
+                Description = brand.Description,
+                LogoUrl = brand.LogoUrl,
+                products = brand.products.Select(p => new ResultProductDto
+                {
+                    ProductId = p.ProductId,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Size = p.Size,
+                    CurrentPrice = p.CurrentPrice,
+                    OriginalPrice = p.OriginalPrice,
+                    ImageUrl = p.ImageUrl,
+                    IsNew = p.IsNew,
+                    IsBestseller = p.IsBestseller,
+                    Disclaimer = p.Disclaimer,
+                    BrandId = p.BrandId
+                }).ToList()
+            };
+        }
     }
 }

@@ -13,7 +13,8 @@ namespace PerfumeStore.Application.Profiles
     {
         public BrandProfile()
         {
-                CreateMap<Brand,ResultBrandDto>().ReverseMap();
+            CreateMap<Brand, ResultBrandDto>()
+            .ForMember(dest => dest.products, opt => opt.MapFrom(scr => scr.products));
                 CreateMap<Brand,GetByIdBrandDto>().ReverseMap();
         }
 

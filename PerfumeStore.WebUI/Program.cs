@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PerfumeStore.Application.Interfaces;
+using PerfumeStore.Application.Interfaces.IBrandRepository;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Application.Profiles;
 using PerfumeStore.Application.Services.BrandServices;
@@ -10,6 +11,7 @@ using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Repositories;
 using PerfumeStore.Infrastructure.Repositories.ProductRepository;
+using PerfumeStore.Infrastructure.Repositories.Repository;
 using PerfumeStore.Infrastructure.Services;
 
 
@@ -25,6 +27,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IProductRepository), typeof(ProductsRepository));
 builder.Services.AddScoped(typeof(IFragranceNoteRepository), typeof(FragranceNoteRepository));
+builder.Services.AddScoped(typeof(IBrandRepository), typeof(BrandRepository));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IFragranceFamilyService, FragranceFamilyService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
@@ -50,5 +53,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+    
 
 app.Run();

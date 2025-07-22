@@ -1,307 +1,94 @@
-﻿<body>
-    <style>
-        .brands-section {
-            padding: 40px 0px;
-            background: #fff;
-            margin-top:150px;
-        }
+﻿
+@model ResultBrandDto
 
-        .brand-letter-section {
-            margin-bottom: 40px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-
-            .brand-letter-section:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }
-
-            .brand-letter-section h2 {
-                font-size: 24px;
-                color: #ff4a52;
-                margin-bottom: 20px;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #ff4a52;
-                display: inline-block;
-            }
-
-        .brand-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-            .brand-list a {
-                display: block;
-                padding: 8px 15px;
-                background: #fff;
-                color: #333;
-                text-decoration: none;
-                border-radius: 4px;
-                transition: all 0.3s ease;
-                font-size: 14px;
-                border: 1px solid #eee;
-            }
-
-                .brand-list a:hover {
-                    background: #ff4a52;
-                    color: #fff;
-                    transform: translateX(5px);
-                    border-color: #ff4a52;
-                }
-
-
-    </style>
-    <div class="container">
-        <div class="brands-section">
-            <div id="A" class="brand-letter-section">
-                <h2>A</h2>
-                <div class="brand-list">
-                    <a href="#">Acqua Dı Parma</a>
-                    <a href="#">Afnan</a>
-                    <a href="#">Agent Provocateur</a>
-                    <a href="#">Ajmal</a>
-                    <a href="#">Al Rehab</a>
-                    <a href="#">Alexandre.J</a>
-                    <a href="#">Amouage</a>
-                    <a href="#">Anna Suı</a>
-                    <a href="#">Antonio Banderas</a>
-                    <a href="#">Armand Basi</a>
-                    <a href="#">Avon</a>
-                    <a href="#">Azzaro</a>
-                </div>
-            </div>
-            <div id="B" class="brand-letter-section">
-                <h2>B</h2>
-                <div class="brand-list">
-                    <a href="#">Baldessarini</a>
-                    <a href="#">Balenciaga</a>
-                    <a href="#">BDK Parfums</a>
-                    <a href="#">Bentley</a>
-                    <a href="#">Boadicea the Victorious</a>
-                    <a href="#">Bond No.9</a>
-                    <a href="#">Brioni</a>
-                    <a href="#">Britney Spears</a>
-                    <a href="#">Burberry</a>
-                    <a href="#">Bvlgari</a>
-                    <a href="#">Byredo</a>
-                </div>
-            </div>
-            <div id="C" class="brand-letter-section">
-                <h2>C</h2>
-                <div class="brand-list">
-                    <a href="#">C.Dior</a>
-                    <a href="#">C.Herrera</a>
-                    <a href="#">Cacharel</a>
-                    <a href="#">Calvin Klein</a>
-                    <a href="#">Canali</a>
-                    <a href="#">Captain Black</a>
-                    <a href="#">Cartier</a>
-                    <a href="#">Chanel</a>
-                    <a href="#">Chloé</a>
-                    <a href="#">Chopard</a>
-                    <a href="#">Clive Christian</a>
-                    <a href="#">Creed</a>
-                </div>
-            </div>
-            <div id="D" class="brand-letter-section">
-                <h2>D</h2>
-                <div class="brand-list">
-                    <a href="#">Davidoff</a>
-                    <a href="#">Dima Bilan</a>
-                    <a href="#">Dolce&Gabbana</a>
-                    <a href="#">Dunhill</a>
-                    <a href="#">Dynasty of Monaco</a>
-                </div>
-            </div>
-            <div id="E" class="brand-letter-section">
-                <h2>E</h2>
-                <div class="brand-list">
-                    <a href="#">Elie Saab</a>
-                    <a href="#">Elizabeth Arden</a>
-                    <a href="#">Escada</a>
-                    <a href="#">Escentric Molecules</a>
-                    <a href="#">Essential Parfums</a>
-                    <a href="#">Estée Lauder</a>
-                    <a href="#">Ex Nihilo</a>
-                </div>
-            </div>
-            <div id="F" class="brand-letter-section">
-                <h2>F</h2>
-                <div class="brand-list">
-                    <a href="#">Fendi</a>
-                    <a href="#">Frederic Malle</a>
-                </div>
-            </div>
-            <div id="G" class="brand-letter-section">
-                <h2>G</h2>
-                <div class="brand-list">
-                    <a href="#">Giorgio Armani</a>
-                    <a href="#">Givenchy</a>
-                    <a href="#">Gucci</a>
-                    <a href="#">Guerlain</a>
-                </div>
-            </div>
-            <div id="H" class="brand-letter-section">
-                <h2>H</h2>
-                <div class="brand-list">
-                    <a href="#">Hermès</a>
-                    <a href="#">HFC</a>
-                    <a href="#">Hugo Boss</a>
-                </div>
-            </div>
-            <div id="I" class="brand-letter-section">
-                <h2>I</h2>
-                <div class="brand-list">
-                    <a href="#">Initio</a>
-                    <a href="#">Issey Miyake</a>
-                </div>
-            </div>
-            <div id="J" class="brand-letter-section">
-                <h2>J</h2>
-                <div class="brand-list">
-                    <a href="#">Jean Paul Gaultier</a>
-                    <a href="#">Jennifer Lopez</a>
-                    <a href="#">Jo Malone</a>
-                    <a href="#">Juliette Has A Gun</a>
-                </div>
-            </div>
-            <div id="K" class="brand-letter-section">
-                <h2>K</h2>
-                <div class="brand-list">
-                    <a href="#">Kajal</a>
-                    <a href="#">Kayali</a>
-                    <a href="#">Kenzo</a>
-                    <a href="#">Kilian</a>
-                    <a href="#">Korloff</a>
-                </div>
-            </div>
-            <div id="L" class="brand-letter-section">
-                <h2>L</h2>
-                <div class="brand-list">
-                    <a href="#">Lacoste</a>
-                    <a href="#">Lalique</a>
-                    <a href="#">Lancôme</a>
-                    <a href="#">Lanvin</a>
-                    <a href="#">Lattafa</a>
-                    <a href="#">Le Labo</a>
-                    <a href="#">Louis Vuitton</a>
-                </div>
-            </div>
-            <div id="M" class="brand-letter-section">
-                <h2>M</h2>
-                <div class="brand-list">
-                    <a href="#">Mancera</a>
-                    <a href="#">Marc - Antoıne Barroıs</a>
-                    <a href="#">Marc Jacobs</a>
-                    <a href="#">Memo</a>
-                    <a href="#">Montale</a>
-                    <a href="#">Montblanc</a>
-                    <a href="#">Moschino</a>
-                </div>
-            </div>
-            <div id="N" class="brand-letter-section">
-                <h2>N</h2>
-                <div class="brand-list">
-                    <a href="#">Narcıso Rodrıguez</a>
-                    <a href="#">Nasomatto</a>
-                    <a href="#">Nejma</a>
-                    <a href="#">Nishane</a>
-                    <a href="#">Nına Rıccı</a>
-                </div>
-            </div>
-            <div id="O" class="brand-letter-section">
-                <h2>O</h2>
-                <div class="brand-list">
-                    <a href="#">Oriflame</a>
-                    <a href="#">Orlov Paris</a>
-                    <a href="#">Orto Parisi</a>
-                </div>
-            </div>
-            <div id="P" class="brand-letter-section">
-                <h2>P</h2>
-                <div class="brand-list">
-                    <a href="#">Paco Rabanne</a>
-                    <a href="#">Parfums de Marly</a>
-                    <a href="#">Penhaligon's</a>
-                    <a href="#">Prada</a>
-                </div>
-            </div>
-            <div id="R" class="brand-letter-section">
-                <h2>R</h2>
-                <div class="brand-list">
-                    <a href="#">Ralph Lauren</a>
-                    <a href="#">Remy Latour</a>
-                    <a href="#">Ricardo Veron</a>
-                    <a href="#">Roberto Cavalli</a>
-                    <a href="#">Roja</a>
-                    <a href="#">Rosendo Mateu</a>
-                </div>
-            </div>
-            <div id="S" class="brand-letter-section">
-                <h2>S</h2>
-                <div class="brand-list">
-                    <a href="#">Salvador Dali</a>
-                    <a href="#">Salvatore Ferragamo</a>
-                    <a href="#">Serge Lutens</a>
-                    <a href="#">Shaik</a>
-                    <a href="#">Shiseido</a>
-                    <a href="#">Sisley</a>
-                    <a href="#">Sospiro</a>
-                </div>
-            </div>
-            <div id="T" class="brand-letter-section">
-                <h2>T</h2>
-                <div class="brand-list">
-                    <a href="#">The Beautiful Mind Series</a>
-                    <a href="#">Thierry Mugler</a>
-                    <a href="#">Tiffany & Co</a>
-                    <a href="#">Tiziana Terenzi</a>
-                    <a href="#">Tom Ford</a>
-                    <a href="#">Tommy Hilfiger</a>
-                    <a href="#">Trussardi</a>
-                </div>
-            </div>
-            <div id="V" class="brand-letter-section">
-                <h2>V</h2>
-                <div class="brand-list">
-                    <a href="#">Valentino</a>
-                    <a href="#">Van Cleef & Arpels</a>
-                    <a href="#">Versace</a>
-                    <a href="#">Vertus</a>
-                    <a href="#">Victoria's Secret</a>
-                    <a href="#">Viktor&Rolf</a>
-                </div>
-            </div>
-            <div id="X" class="brand-letter-section">
-                <h2>X</h2>
-                <div class="brand-list">
-                    <a href="#">Xerjoff</a>
-                </div>
-            </div>
-            <div id="Y" class="brand-letter-section">
-                <h2>Y</h2>
-                <div class="brand-list">
-                    <a href="#">YSL</a>
-                    <a href="#">Yves Rocher</a>
-                </div>
-            </div>
-            <div id="Z" class="brand-letter-section">
-                <h2>Z</h2>
-                <div class="brand-list">
-                    <a href="#">Zadig & Voltaire</a>
-                    <a href="#">Zara</a>
-                    <a href="#">Zarkoperfume</a>
-                    <a href="#">Zielinski & Rozen</a>
-                </div>
-            </div>
+<body>
+    <!-- Breadcrumb naviqasiyası -->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb-list">
+                <!-- JavaScript ilə doldurulacaq -->
+            </ul>
         </div>
     </div>
+   
+        <section class="brand-info" style="margin-top:80px">
+            <div class="container">
+                <div class="brand-content">
+                    <div class="brand-image">
+                        <img src="chanel-logo.jpg" alt="CHANEL Logo">
+                    </div>
+                    <div class="brand-details">
+                        <div class="brand-header">
+                            <h1>@Model.Name</h1>
+                            <p class="brand-tagline">@Model.Tagline</p>
+                        </div>
+                        <p class="brand-description">
+                            @Model.Description
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @if (Model.products != null && Model.products.Any())
+        {
+            <section class="products-section" style="margin-bottom:80px">
+                <div class="container">
+                    <div class="section-header">
+                        @* <h2>@Model.Name</h2> *@
+                    </div>
+                    <div class="product-grid">
+
+                        @foreach (var product in Model.products)
+                        {
+                            <article class="product-card"
+                                     data-gender="@product.CategoryName?.ToLower()"
+                                     data-family="@product.FamilyName?.ToLower()"
+                                     data-brand="@product.BrandName?.ToLower()"
+                                     data-price="@product.OriginalPrice">
+                                <div class="product-image">
+                                    <img src="~/new-product/N1-2.png" alt="@product.Name" />
+                                    <div class="product-badges">
+                                        @if (product.IsNew)
+                                        {
+                                            <span class="badge new">New</span>
+                                        }
+                                        @if (product.IsBestseller)
+                                        {
+                                            <span class="badge bestseller">Bestseller</span>
+                                        }
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                                        <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
+                                        <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="product-info">
+                                    <h3>@product.Name</h3>
+                                    <p class="product-description">
+                                        @product.Description
+                                        <span class="fragrance-family">Family: @product.FamilyName</span>
+
+                                    </p>
+                                    <div class="product-price">
+                                        <span class="current-price">@product.CurrentPrice ₼</span>
+                                        <span class="original-price">@product.OriginalPrice ₼</span>
+                                    </div>
+                                </div>
+                            </article>
+
+                        }
 
 
 
+
+
+
+
+                    </div>
+                </div>
+            </section>
+        }
+     
 </body>
