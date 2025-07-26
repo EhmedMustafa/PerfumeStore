@@ -79,6 +79,14 @@ namespace PerfumeStore.API.Controllers
 
             return Ok(value);
         }
+
+        [HttpGet("WithProductNotes")]
+        public async Task<IActionResult> GetProductIdByNotes(int id) 
+        {
+            var value= await _productService.GetProductByIdWithNotesAsync(id);
+            return Ok(value);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto product) 
         {

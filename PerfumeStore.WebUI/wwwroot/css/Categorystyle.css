@@ -46,7 +46,6 @@ main {
     text-align: center;
     color: white;
     margin-top: 80px;
-   
 }
 
 .hero-content {
@@ -80,22 +79,21 @@ main {
 }
 
 /* Featured Products */
-. {
+.featured {
     background-color: white;
     border-radius: 16px;
     padding: 30px;
     box-shadow: var(--shadow);
-    
 }
-   
-    .featured h2 {
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 28px;
-        color: var(--text-color);
-        font-weight: 600;
-    }
-    
+
+.featured h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
 /* Filter Toggle Button */
 .filter-toggle {
     display: none;
@@ -132,7 +130,6 @@ main {
     grid-template-columns: 260px 1fr;
     gap: 20px;
     min-height: 500px;
-  
 }
 .close-filter{
     display: none;
@@ -918,7 +915,7 @@ main {
         height: 400px;
         margin-top: 0;
     }
-
+    
     .hero h1 {
         font-size: 2rem;
     }
@@ -1437,44 +1434,4 @@ main {
     .gender-section .custom-radio span:last-child {
         font-size: 11px;
     }
-
-   
-    
 }
-
-
-
-.pagination-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 30px;
-}
-
-.page-link {
-    display: inline-block;
-    padding: 14px 14px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    color: #333;
-    text-decoration: none;
-    font-size: 15px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-    .page-link:hover {
-        background-color: #333;
-        color: #fff;
-        border-color: #333;
-    }
-
-    .page-link.active {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-        font-weight: bold;
-        cursor: default;
-    }
-
-

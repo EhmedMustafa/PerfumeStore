@@ -1,0 +1,10 @@
+﻿@model List<PerfumeStore.Application.Dtos.CategoryDtos.ResultCategoryDto>
+
+<ul class="sub_menu">
+    @foreach (var category in Model)
+    {
+        <li>
+            <a href="/Kataloq/Index?categoryId=@category.Id">@category.Name</a>
+        </li>
+    }
+</ul>

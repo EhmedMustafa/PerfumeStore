@@ -155,6 +155,18 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             return await _context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
 
+        public async Task<Product> GetProductByIdWithNotes(int id)
+        {
+            return await _context.Products
+                .Include(p=>p.Brand)
+                .Include(p=>p.Family)
+                .Include(p=>p.Category)
+                .Include(p => p.ProductNotes)
+                .ThenInclude(pn=>pn.FragranceNote)
+                .ThenInclude(fn=>fn.NoteTypes)
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+        }
+
         public Task<List<Product>> GetProductByPriceFilter(int? Minprice, int? Maxprice)
         {
             throw new NotImplementedException();

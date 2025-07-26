@@ -19,6 +19,13 @@ namespace PerfumeStore.Infrastructure.Repositories.Repository
             _appDbContext = appDbContext;
         }
 
+        public async Task<IEnumerable<Brand>> GetAllAsync()
+        {
+            return await _appDbContext.Brands
+                .OrderBy(b => b.Name)
+                .ToListAsync();
+        }
+
         public async Task<Brand> GetBrandWithProductsByIdAsync(int brandId)
         {
             return await _appDbContext.Brands

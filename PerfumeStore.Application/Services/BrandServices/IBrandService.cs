@@ -16,5 +16,6 @@ namespace PerfumeStore.Application.Services.BrandServices
         Task UpdateBrandAsync(UpdateBrandDto updateBrandDto);
         Task DeleteBrandAsync(int id);
         Task<ResultBrandDto> GetBrandDetailsWithProductsAsync(int brandId);
+        Task<IEnumerable<IGrouping<string, BrandDto>>> GetGroupedBrandsAsync();
     }
 }

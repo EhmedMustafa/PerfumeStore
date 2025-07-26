@@ -92,5 +92,17 @@ namespace PerfumeStore.Application.Services.BrandServices
                 }).ToList()
             };
         }
+
+        public async Task<IEnumerable<IGrouping<string, BrandDto>>> GetGroupedBrandsAsync()
+        {
+            var brands= await _brandRepository.GetAllAsync();
+            var map = _mapper.Map<List<BrandDto>>(brands);
+
+            var group = map
+                .GroupBy(b => b.Name.Substring(0,1).ToUpper())
+                .OrderBy(g=>g.Key)
+                .ToList();
+            return group;
+        }
     }
 }

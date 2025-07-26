@@ -31,7 +31,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
 
         public ICollection<ProductNoteDto> ProductNotes { get; set; }
 
-        public List<int> FragranceNoteIds => ProductNotes?.Select(p => p.FragranceNoteId).ToList() ?? new List<int>();
+        //public List<int> FragranceNoteIds => ProductNotes?.Select(p => p.FragranceNoteId).ToList() ?? new List<int>();
 
     }
 }

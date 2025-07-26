@@ -14,6 +14,16 @@ namespace PerfumeStore.Application.Profiles
         public ProductProfile()
         {
             CreateMap<Product, UpdateProductDto>().ReverseMap();
+            CreateMap<Product, GetByIdProductDto>().ReverseMap()
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(scr => scr.ImageUrl))
+                .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand))
+                .ForMember(dest => dest.Family, opt => opt.MapFrom(src => src.Family))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.ProductNotes, opt => opt.MapFrom(src => src.ProductNotes));
+
+
+
+
             CreateMap<Product, ResultProductDto>().ReverseMap()
                 .ForMember(dest => dest.Brand, opt => opt.MapFrom(scr => scr.BrandName))
                 .ForMember(dest => dest.Family, opt => opt.MapFrom(scr => scr.FamilyName))

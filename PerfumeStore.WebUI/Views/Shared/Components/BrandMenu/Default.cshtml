@@ -1,0 +1,16 @@
+﻿@model IEnumerable<IGrouping<string, PerfumeStore.Application.Dtos.BrandDtos.BrandDto>>
+
+<ul class="mega_menu_inner">
+    @foreach (var group in Model)
+    {
+        <li>
+            <a href="/BrandNames#@group.Key">@group.Key</a>
+            <ul class="brends-item">
+                @foreach (var brand in group)
+                {
+                    <li><a href="/Brand/@brand.Id">@brand.Name</a></li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

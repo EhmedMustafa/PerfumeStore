@@ -5,6 +5,7 @@ using PerfumeStore.Application.Interfaces.IBrandRepository;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Application.Profiles;
 using PerfumeStore.Application.Services.BrandServices;
+using PerfumeStore.Application.Services.CategoryServices;
 using PerfumeStore.Application.Services.FragranceFamilyService;
 using PerfumeStore.Application.Services.FragranceNoteServices;
 using PerfumeStore.Application.Services.ProductServices;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IFragranceFamilyService, FragranceFamilyService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IFragranceNoteService, FragranceNoteService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 

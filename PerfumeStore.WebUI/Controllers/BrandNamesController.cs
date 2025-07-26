@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
+using PerfumeStore.Application.Services.BrandServices;
+using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
 
 namespace PerfumeStore.WebUI.Controllers
 {
+    
     public class BrandNamesController : Controller
     {
-        public IActionResult Index()
+        private readonly IBrandService _brandService;
+
+        public BrandNamesController(IBrandService brandService)
         {
-            return View();
+            _brandService = brandService;
         }
+        [HttpGet("/BrandNames")] // <-- Bunu əlavə et
+        public async Task<IActionResult> Index()
+        {
+           var values = await _brandService.GetGroupedBrandsAsync();
+            return View(values);
+        }
+        
     }
 }

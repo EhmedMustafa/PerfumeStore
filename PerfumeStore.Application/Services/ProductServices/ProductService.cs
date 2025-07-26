@@ -169,6 +169,13 @@ namespace PerfumeStore.Infrastructure.Services
             var valules = await _repository.GetPagedProductsByCategoryAsync(categoryId, page, pageSize);
             return _mapper.Map<PaginatedResult<ResultProductDto>>(valules);
         }
+
+        public async Task<GetByIdProductDto> GetProductByIdWithNotesAsync(int id)
+        {
+            var value= await _repository.GetProductByIdWithNotes(id);
+            return _mapper.Map<GetByIdProductDto>(value);
+
+        }
     }
 
 

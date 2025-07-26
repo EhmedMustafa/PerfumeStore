@@ -29,7 +29,7 @@ namespace PerfumeStore.WebUI.Controllers
             int min = minPrice ?? 0;
             int max = maxPrice ?? 1000;
 
-            int pageSize = 12;
+            int pageSize = 9;
             var allFamilies = await _fragranceFamily.GetAllFragranceFamilyAsync();
             var allbrands= await _brandService.GetAllBrandAsync();
             var notes= await _fragranceNoteService.GetAllFragranceNoteAsync();
@@ -62,11 +62,12 @@ namespace PerfumeStore.WebUI.Controllers
             return View(pagedResult);
         }
 
-        
-        //public async Task<IActionResult> Index(int? minPrice,int? maxPrice) 
-        //{
-        //    var value = await _productService.GetProductByPriceFilter(minPrice,maxPrice);
-        //    return View(value);
-        //}
+
+        public async Task<IActionResult> Detail(int Id) 
+        {
+            var value= await _productService.GetProductByIdWithNotesAsync( Id );
+            return View(value);
+        }
+           
     }
 }
