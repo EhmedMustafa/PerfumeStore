@@ -19,6 +19,11 @@ namespace PerfumeStore.Infrastructure.Repositories.CartRepository
             _appDbContext = appDbContext;
         }
 
+        public Task AddAsync(Cart cart)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Cart>> GetAllCartWithItemAsync()
         {
             return await _appDbContext.Carts
@@ -28,14 +33,22 @@ namespace PerfumeStore.Infrastructure.Repositories.CartRepository
         public async Task<Cart> GetCartByIdWithItemsAsync(int cartId)
         {
             var cart = await _appDbContext.Carts
-                .Include(c=>c.Customer)
-            .Include(c => c.CartItems)
-            
-                .ThenInclude(ci => ci.Product)
-            .FirstOrDefaultAsync(c => c.CartId == cartId);
+                .Include(c => c.Customer)
+                .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Product)
+                .FirstOrDefaultAsync(c => c.CartId == cartId);
 
             return cart;
+        }
+     
 
+        public async Task<Cart> GetCartByUserIdWithItemsAsync(int userId)
+        {
+            return await _appDbContext.Carts
+                .Include(c => c.Customer)
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Product)
+                .FirstOrDefaultAsync(c => c.CustomerId == userId);
         }
     }
 }

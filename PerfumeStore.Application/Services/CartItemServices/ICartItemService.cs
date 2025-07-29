@@ -12,7 +12,7 @@ namespace PerfumeStore.Application.Services.CartItemItemServices
         Task<IEnumerable<ResultCartItemDto>> GetAllCartItemAsync();
         Task<GetByIdCartItemDto> GetByIdCartItemAsync(int id);
         Task AddCartItemAsync(int cartId, CreateCartItemDto createCartItemDto);
-        Task UpdateCartItemAsync(UpdateCartItemDto updateCartItemDto);
-        Task DeleteCartItemAsync(int id);
+        Task <bool> UpdateCartItemAsync(UpdateCartItemDto updateCartItemDto);
+        Task<bool> DeleteCartItemAsync(int id);
     }
 }

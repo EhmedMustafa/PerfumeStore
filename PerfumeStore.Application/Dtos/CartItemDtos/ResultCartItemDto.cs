@@ -9,6 +9,7 @@ namespace PerfumeStore.Application.Dtos.CartItemDtos
 {
     public class ResultCartItemDto
     {
+        public int CartItemId { get; set; }
         public int ProductId { get; set; }
         public ResultProductDto ProductName { get; set; }
         //public string ProductName { get; set; }

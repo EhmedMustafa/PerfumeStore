@@ -69,13 +69,20 @@ namespace PerfumeStore.Application.Services.CartItemServices
             await _cart.SaveChangesAsync();
         }
 
-        public async Task DeleteCartItemAsync(int id)
+        public async Task <bool>DeleteCartItemAsync(int id)
         {
-            var values= await _genericRepository.GetByIdAsync(id);
+            var values = await _genericRepository.GetByIdAsync(id);
             if (values == null)
                 throw new Exception("Səbət elementi tapılmadı.");
+
+            var cart = await _cartRepository.GetCartByIdWithItemsAsync(values.CartId);
+
+
             await _genericRepository.DeleteAsync(values);
+
+            cart.TotalAmount = cart.CartItems.Where(ci => ci.CartItemId != id).Sum(ci => ci.TotalPrice);
             await _genericRepository.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<ResultCartItemDto>> GetAllCartItemAsync()
@@ -92,7 +99,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
             return map;
         }
 
-        public async Task UpdateCartItemAsync(UpdateCartItemDto updateCartItemDto)
+        public async Task<bool> UpdateCartItemAsync(UpdateCartItemDto updateCartItemDto)
         {
             var cartItem = await _genericRepository.GetByIdAsync(updateCartItemDto.CartItemId);
             if (cartItem == null)
@@ -119,7 +126,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
 
             await _genericRepository.SaveChangesAsync();
             await _cart.SaveChangesAsync();
-
+            return true;
         }
     }
 }

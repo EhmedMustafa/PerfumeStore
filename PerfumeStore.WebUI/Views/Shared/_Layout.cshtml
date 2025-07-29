@@ -26,8 +26,81 @@
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/Categorystyle.css" rel="stylesheet" />
     <link href="~/css/Brand.css" rel="stylesheet" />
+    <style>
+        .top-bar {
+        background-color: #333333;
+        color: #f8f9fa;
+        padding: 8px 0;
+        font-size: 14px;
+        }
 
-    
+
+        .top-bar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+
+        .contact-info span {
+        margin-right: 20px;
+
+        }
+
+        .contact-info {
+        margin-left: -100px;
+        margin-bottom: 15px;
+        font-size:16px;
+        }
+
+        .contact-info i {
+        margin-right: 5px;
+        color: #4895ef;
+        }
+
+        .social-links a {
+        color: #f8f9fa;
+        margin-left: 15px;
+        transition: var(--transition);
+        font-size:16px;
+
+
+        }
+
+        .social-links{
+        margin-right:800px;
+        margin-bottom: 15px;
+        }
+
+        .social-links a:hover {
+        color: #4895ef;
+        transform: translateY(-2px);
+        }
+
+        .main_menu nav > ul > li > a {
+
+        color: black;
+        }
+        @@media (max-width: 991px) {
+        .contact-info span
+        {
+        margin-left: 100px;
+        }
+
+        .social-links {
+        margin-right: 30px;
+        }
+
+        .contact-info{
+
+        }
+
+        .col-lg-4 {
+        display:none;
+        }
+
+        }
+    </style>
+
 
 </head>
 
@@ -215,9 +288,133 @@
     </div>
 
 
+    <div class="top-bar">
+        <div class="container">
+            <div class="contact-info">
+                <span><i class="fas fa-phone"></i> +994 50 430 31 22</span>
+            </div>
+
+            <div class="social-links">
+
+                <a href="https://www.instagram.com/millshop_esans/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://api.whatsapp.com/send/?phone=994504303122&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.tiktok.com/millshop_esans_agdas?_t=ZS-8vuIioQGKag&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+
+            <div class="col-lg-4"style="margin-right:-300px;">
+                <div class="header_top_right">
+                    <div class="header_right_info">
+                        <ul>
+                            <li class="search_box">
+                                <a href="javascript:void(0)">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                                <div class="search_widget">
+                                    <form action="#">
+                                        <input type="text" placeholder="Axtar...">
+                                        <button type="submit"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="header_wishlist">
+                                <a href="wishlist.html">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span class="item_count">4</span>
+                                </a>
+                            </li>
+                            <li class="mini_cart_wrapper">
+                                <a asp-controller="Cart" asp-action="Index">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="item_count"></span>
+                                </a>
+
+
+                                <div id="cart-menu-container">
+                                    @await Component.InvokeAsync("CartMenu")
+                                </div>
+                             
+                                <!-- mini cart  -->
+                               
+                               @*  <div class="mini_cart mini_cart2"style="background-color:lightgrey">
+                                    <div class="cart_gallery">
+                                        <div class="cart_item">
+                                            <div class="cart_img">
+                                                <a href="#">
+                                                    <img src="small-product/mini1.png"
+                                                         alt="Perfume">
+                                                </a>
+                                            </div>
+                                            <div class="cart_info">
+                                                <a href="#">Hugo Boss</a>
+                                                <p><span>Rs. 3640</span> X 1</p>
+                                            </div>
+                                            <div class="cart_remove">
+                                                <a href="#"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="cart_item">
+                                            <div class="cart_img">
+                                                <a href="#">
+                                                    <img src="small-product/mini2.png"
+                                                         alt="Perfume">
+                                                </a>
+                                            </div>
+                                            <div class="cart_info">
+                                                <a href="#">Bvlgari</a>
+                                                <p><span>Rs. 8350</span> X 1</p>
+                                            </div>
+                                            <div class="cart_remove">
+                                                <a href="#"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mini_cart_table">
+                                        <div class="cart_table_border">
+                                            <div class="cart_total">
+                                                <span>Cəmi :</span>
+                                                <span class="price">Rs. 11990</span>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="mini_cart_footer">
+                                        <div class="cart_button">
+                                            <a  asp-controller="Cart"asp-action="Index">
+                                                Səbətə bax</a>
+                                        </div>
+                                        <div class="cart_button">
+                                            <a href="#">Sifariş et</a>
+                                        </div>
+                                    </div>
+                                </div> *@
+                                <!-- mini cart ends -->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="header_account">
+                        <ul>
+
+                            <li class="language">
+                                <a href="#">
+                                    <img src="/icon/azerbaijan.png" alt="Azərbaycan"> AZ <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown_language">
+                                    <li><a href="#">Russiya</a></li>
+
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header>
-        <div class="main_header header_transparent header-mobile-m">
-            <div class="header_container sticky-header" style="background-color: #000000">
+        <div class="main_header header_transparent header-mobile-m"style="margin-top:50px">
+            <div class="header_container sticky-header" style="background-color:white;">
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-lg-2">
@@ -518,107 +715,7 @@
 
                             <!-- main menu ends -->
                         </div>
-                        <div class="col-lg-4">
-                            <div class="header_top_right">
-                                <div class="header_right_info">
-                                    <ul>
-                                        <li class="search_box">
-                                            <a href="javascript:void(0)">
-                                                <i class="fa fa-search"></i>
-                                            </a>
-                                            <div class="search_widget">
-                                                <form action="#">
-                                                    <input type="text" placeholder="Axtar...">
-                                                    <button type="submit"><i class="fa fa-search"></i></button>
-                                                </form>
-                                            </div>
-                                        </li>
-                                        <li class="header_wishlist">
-                                            <a href="wishlist.html">
-                                                <i class="fa fa-heart-o"></i>
-                                                <span class="item_count">4</span>
-                                            </a>
-                                        </li>
-                                        <li class="mini_cart_wrapper">
-                                            <a href="javascript:void(0)">
-                                                <i class="fa fa-shopping-cart"></i>
-                                                <span class="item_count">2</span>
-                                            </a>
-
-                                            <!-- mini cart  -->
-                                            <div class="mini_cart mini_cart2">
-                                                <div class="cart_gallery">
-                                                    <div class="cart_item">
-                                                        <div class="cart_img">
-                                                            <a href="#">
-                                                                <img src="small-product/mini1.png"
-                                                                     alt="Perfume">
-                                                            </a>
-                                                        </div>
-                                                        <div class="cart_info">
-                                                            <a href="#">Hugo Boss</a>
-                                                            <p><span>Rs. 3640</span> X 1</p>
-                                                        </div>
-                                                        <div class="cart_remove">
-                                                            <a href="#"><i class="fa fa-times"></i></a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cart_item">
-                                                        <div class="cart_img">
-                                                            <a href="#">
-                                                                <img src="small-product/mini2.png"
-                                                                     alt="Perfume">
-                                                            </a>
-                                                        </div>
-                                                        <div class="cart_info">
-                                                            <a href="#">Bvlgari</a>
-                                                            <p><span>Rs. 8350</span> X 1</p>
-                                                        </div>
-                                                        <div class="cart_remove">
-                                                            <a href="#"><i class="fa fa-times"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="mini_cart_table">
-                                                    <div class="cart_table_border">
-                                                        <div class="cart_total">
-                                                            <span>Cəmi :</span>
-                                                            <span class="price">Rs. 11990</span>
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                                <div class="mini_cart_footer">
-                                                    <div class="cart_button">
-                                                        <a href="#">Səbətə bax</a>
-                                                    </div>
-                                                    <div class="cart_button">
-                                                        <a href="#">Sifariş et</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- mini cart ends -->
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="header_account">
-                                    <ul>
-
-                                        <li class="language">
-                                            <a href="#">
-                                                <img src="/icon/azerbaijan.png" alt="Azərbaycan"> AZ <i class="fa fa-angle-down"></i>
-                                            </a>
-                                            <ul class="dropdown_language">
-                                                <li><a href="#">Russiya</a></li>
-
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -901,8 +998,21 @@
     <script src="~/js/BrandNamesPage.js"></script>
     <script src="~/js/product-details.js"></script>
  
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> 
-
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function refreshCartMenu() {
+            $.ajax({
+                url: '/CartMenu',
+                type: 'GET',
+                success: function (data) {
+                    $('#cart-menu-container').html(data);
+                },
+                error: function () {
+                    console.error("Səbət menyusu yenilənmədi");
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>

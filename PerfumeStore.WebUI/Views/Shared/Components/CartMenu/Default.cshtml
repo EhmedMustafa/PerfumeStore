@@ -1,0 +1,54 @@
+﻿@using PerfumeStore.Application.Dtos.CartDtos
+
+@model GetByIdCartDto
+
+
+
+<div class="mini_cart mini_cart2" style="background-color:grey;overflow-y:auto;max-height:400px">
+    @if (Model?.CartItems != null)
+    {
+        @foreach (var item in Model.CartItems)
+        {
+            @if (item.ProductName != null)
+            {
+                <div class="cart_gallery">
+                    <div class="cart_item">
+                        <div class="cart_img">
+                            <a href="#">
+                                <img src="@item.ProductName.ImageUrl" alt="Perfume">
+                            </a>
+                        </div>
+                        <div class="cart_info">
+                            <a href="#">@item.ProductName.Name</a>
+                            <p><span>@item.ProductName.OriginalPrice</span></p>
+                        </div>
+                        <div class="cart_remove">
+                            <a href="#"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+          
+        }
+
+        <div class="mini_cart_table">
+            <div class="cart_table_border">
+                <div class="cart_total">
+                    <span>Cəmi :</span>
+                    <span class="price">@Model.TotalAmount</span> <!-- Burada toplam qiyməti dinamik et -->
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="mini_cart_footer">
+        <div class="cart_button">
+            <a asp-controller="Cart" asp-action="Index">
+                Səbətə bax
+            </a>
+        </div>
+        <div class="cart_button">
+            <a href="#">Sifariş et</a>
+        </div>
+    </div>
+</div>

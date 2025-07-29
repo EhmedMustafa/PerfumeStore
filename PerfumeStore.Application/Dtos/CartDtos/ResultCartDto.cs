@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PerfumeStore.Application.Dtos.CartItemDtos;
 using PerfumeStore.Application.Dtos.CustomerDtos;
+using PerfumeStore.Application.Dtos.ProductDtos;
 
 namespace PerfumeStore.Application.Dtos.CartDtos
 {
@@ -16,7 +17,7 @@ namespace PerfumeStore.Application.Dtos.CartDtos
 
         public int? CustomerId { get; set; }
         public string? CustomerName { get; set; }
-
-        public ICollection<ResultCartItemDto> CartItems { get; set; } = new List<ResultCartItemDto>();
+        public ResultProductDto productDto { get; set; }
+        public ICollection<ResultCartItemDto> CartItems { get; set; } /*= new List<ResultCartItemDto>();*/
     }
 }

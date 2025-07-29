@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+
+
 @section Styles {
 <style>
     .price-filter {
@@ -199,9 +202,13 @@
 
 
 <main>
+    <<!-- Alert göstəricisi üçün konteyner (səhifənin sağ yuxarısı) -->
+    <div id="alertContainer" class="position-fixed top-0 p-3" style="right: 0; left: auto; z-index: 1055; width: 350px;"></div>
+
+
     <section class="featured"style="margin-top:120px;">
         <!-- <h2>Featured Products</h2> -->
-
+       
         <div class="products-container">
 
             <aside class="filters-sidebar">
@@ -258,50 +265,50 @@
                                         </label>
                                     </div>
                                 </div>
-                      
-                                <div class="filter-section">
-                                    <h4>BRENDLƏR</h4>
-                                        <div class="search-bar">
-                                            <input type="text" id="brandSearchInput" class="form-control" placeholder="Brend axtar..." />
-                                            <i class="fas fa-search"></i>
+
+                                        <div class="filter-section">
+                                            <h4>BRENDLƏR</h4>
+                                            <div class="search-bar">
+                                                <input type="text" id="brandSearchInput" class="form-control" placeholder="Brend axtar..." />
+                                                <i class="fas fa-search"></i>
+                                            </div>
+
+                                            @{
+                                                var brands = ViewBag.Allbrands as List<ResultBrandDto>;
+                                                List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
+                                            }
+
+                                            <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
+                                                @foreach (var brand in brands)
+                                                {
+                                                    <label class="custom-checkbox">
+                                                        <input type="checkbox" name="brandId" value="@brand.Id"
+                                                        @(selected.Contains(brand.Id) ? "checked" : "") />
+                                                        <span>@brand.Name</span>
+                                                    </label>
+                                                }
+                                            </div>
                                         </div>
-                                    @{
-                                        var brands = ViewBag.Allbrands as List<ResultBrandDto>;
-                                        List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
-                                    }
-                                    @foreach (var brand in brands)
-                                    {
-                                        <div class="checkbox-group">
-                                            <label class="custom-checkbox">
-                                                <input type="checkbox" name="brandId" value="@brand.Id"
-                                                @(selected.Contains(brand.Id) ? "checked":"")/>
-                                                <span>@brand.Name</span>
-                                            </label>
+
+                                        <div class="filter-section">
+
+                                            <h4><i class="fas fa-spa"></i> Ailə</h4>
+
+                                            @{
+                                                List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
+                                                var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
+                                            }
+                                                <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
+                                                    @foreach (var family in allFamilies)
+                                                    {
+                                                        <label class="custom-checkbox">
+                                                            <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
+                                                            @(selecteds.Contains (family.Id) ? "checked" : "") />
+                                                            <span>@family.Name</span>
+                                                        </label>
+                                                    }
+                                                </div>
                                         </div>
-                                    }
-                                </div>
-                      
-                                <div class="filter-section">
-
-                                    <h4><i class="fas fa-spa"></i> Ailə</h4>
-
-                                    @{
-                                        List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
-                                        var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
-                                    }
-                                    @foreach (var family in allFamilies)
-                                    {
-                                        <div class="checkbox-group">
-
-                                            <label class="custom-checkbox">
-                                                <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
-                                                @(selecteds.Contains (family.Id) ? "checked" : "") />
-                                                <span>@family.Name</span>
-                                            </label>
-                                        </div>
-                                    }
-
-                                </div>
 
                                 <div class="filter-section">
 
@@ -311,17 +318,17 @@
                                         List<int> selectedsnote = ViewBag.SelectedNote as List<int> ?? new List<int>();
                                         var allnotes = ViewBag.Notes as List<ResultFragranceNoteDto>;
                                     }
-                                    @foreach (var note in allnotes)
-                                    {
-                                        <div class="checkbox-group">
-
-                                            <label class="custom-checkbox">
-                                                <input type="checkbox" name="fragranceNoteId" value="@note.Id"
-                                                @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
-                                                <span>@note.Name</span>
-                                            </label>
-                                        </div>
-                                    }
+                                    <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
+                                            @foreach (var note in allnotes)
+                                            {
+                                                <label class="custom-checkbox">
+                                                    <input type="checkbox" name="fragranceNoteId" value="@note.Id"
+                                                    @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
+                                                    <span>@note.Name</span>
+                                                </label>
+                                            }
+                                     </div>
+                                            
 
                                 </div>
 
@@ -333,64 +340,72 @@
                          <p>Hazırda axtarış aralığı: <strong>@ViewBag.MinPrice</strong> ₼ - <strong>@ViewBag.MaxPrice</strong> ₼</p>
                 
             </aside>
+           
 
-            <div class="product-grid">
-                @if (Model?.Items != null && Model.Items.Any())
-                {
-                    @foreach (var product in Model.Items)
+                <div class="product-grid">
+                    @if (Model?.Items != null && Model.Items.Any())
                     {
-                        <article  class="product-card"
-                                data-gender="@product.CategoryName?.ToLower()"
-                                data-family="@product.FamilyName?.ToLower()"
-                                data-brand="@product.BrandName?.ToLower()"
-                                data-price="@product.OriginalPrice">
-                                    <div class="product-image">
+                        @foreach (var product in Model.Items)
+                        { 
+                           
+
+                            <article class="product-card"
+                                     data-gender="@product.CategoryName?.ToLower()"
+                                     data-family="@product.FamilyName?.ToLower()"
+                                     data-brand="@product.BrandName?.ToLower()"
+                                     data-price="@product.OriginalPrice">
+                                <div class="product-image">
                                     <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
-                                    <img src="@product.ImageUrl" alt="@product.Name" />
+                                        <img src="@product.ImageUrl" alt="@product.Name" />
                                     </a>
-                                       
-                                        <div class="product-badges">
-                                            @if (product.IsNew)
-                                            {
-                                                <span class="badge new">New</span>
-                                            }
-                                            @if (product.IsBestseller)
-                                            {
-                                                <span class="badge bestseller">Bestseller</span>
-                                            }
-                                        </div>
-                                        <div class="product-actions">
-                                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
-                                            <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
-                                            <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                        </div>
+
+                                    <div class="product-badges">
+                                        @if (product.IsNew)
+                                        {
+                                            <span class="badge new">New</span>
+                                        }
+                                        @if (product.IsBestseller)
+                                        {
+                                            <span class="badge bestseller">Bestseller</span>
+                                        }
                                     </div>
-
-                                    <div class="product-info">
-                                        <h3>@product.Name</h3>
-                                        <p class="product-description">
-                                            @product.Description
-                                            <span class="fragrance-family">Family: @product.FamilyName</span>
-
-                                        </p>
-                                        <div class="product-price">
-                                            <span class="current-price">@product.CurrentPrice ₼</span>
-                                            <span class="original-price">@product.OriginalPrice ₼</span>
-                                        </div>
+                                    <div class="product-actions">
+                                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                                        <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
+                                    <button class="add-to-cart" data-productId="@product.ProductId" data-quantity="1" type="button">
+                                        <i class="fas fa-shopping-cart"></i></button>
                                     </div>
+                                </div>
 
-                        </article> 
+                                <div class="product-info">
+                                    <h3>@product.Name</h3>
+                                    <p class="product-description">
+                                        @product.Description
+                                        <span class="fragrance-family">Family: @product.FamilyName</span>
+
+                                    </p>
+                                    <div class="product-price">
+                                        <span class="current-price">@product.CurrentPrice ₼</span>
+                                        <span class="original-price">@product.OriginalPrice ₼</span>
+                                    </div>
+                                </div>
+
+                            </article>
+
+                      
+                        }
+
+
+                    }
+                    else
+                    {
+                        <p>Heç bir məhsul tapılmadı.</p>
                     }
 
 
-                }
-                else
-                {
-                    <p>Heç bir məhsul tapılmadı.</p>
-                }
-                
-
-            </div>
+                </div>
+           
+            
          
            
         </div>
@@ -588,21 +603,17 @@
     });
 // </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('brandSearchInput');
-        const checkboxes = document.querySelectorAll('.checkbox-group');
+    document.getElementById("brandSearchInput").addEventListener("keyup", function () {
+        var filter = this.value.toLowerCase();
+        var checkboxes = document.querySelectorAll(".checkbox-group label");
 
-        searchInput.addEventListener('input', function () {
-            const keyword = this.value.toLowerCase();
-
-            checkboxes.forEach(cb => {
-                const label = cb.querySelector('span').textContent.toLowerCase();
-                if (label.includes(keyword)) {
-                    cb.style.display = 'block';
-                } else {
-                    cb.style.display = 'none';
-                }
-            });
+        checkboxes.forEach(function (label) {
+            var brandName = label.textContent.toLowerCase();
+            if (brandName.includes(filter)) {
+                label.style.display = "";
+            } else {
+                label.style.display = "none";
+            }
         });
     });
 </script>
@@ -650,3 +661,57 @@
         maxRange.value = val;
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.add-to-cart').click(function (e) {
+            e.preventDefault();
+
+            var productId = $(this).data('productid');
+            var quantity = $(this).data('quantity');
+
+            var data = {
+                productId: productId,
+                quantity: quantity
+            };
+
+            $.ajax({
+                url: '/Cart/AddToCartItem',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    if (response.success) {
+                        showAlert('success', response.message);
+                    } else {
+                        showAlert('danger', "Xəta: " + response.message);
+                    }
+                },
+                error: function () {
+                    showAlert('danger', "Serverlə əlaqədə problem yarandı.");
+                }
+            });
+        });
+
+        // Alert göstərən funksiya
+        function showAlert(type, message) {
+            var alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Bağla"></button>
+                </div>
+            `;
+
+            $('#alertContainer').html(alertHtml);
+
+            // 3 saniyədən sonra avtomatik bağla
+            setTimeout(() => {
+                $('.alert').alert('close');
+            }, 3000);
+        }
+
+      
+    });
+</script>
+

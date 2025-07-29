@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PerfumeStore.Application.Dtos.CartDtos;
+using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Services.CartServices
 {
@@ -14,5 +15,8 @@ namespace PerfumeStore.Application.Services.CartServices
         Task AddCartAsync(CreateCartDto createCartDto);
        // Task UpdateCartAsync(UpdateCartDto updateCartDto);
         Task DeleteCartAsync(int id);
+
+
+        Task<GetByIdCartDto> GetCartByUserIdWithItemsAsync(int userId);
     }
 }

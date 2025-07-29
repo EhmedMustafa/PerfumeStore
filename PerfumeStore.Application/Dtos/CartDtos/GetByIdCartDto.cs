@@ -17,6 +17,7 @@ namespace PerfumeStore.Application.Dtos.CartDtos
         public DateTime Createddate { get; set; }
         public int CustomerId { get; set; }
         public ResultCustomerDto Customer { get; set; }
-        public ICollection<ResultCartItemDto> CartItems { get; set; }
+     
+        public ICollection<ResultCartItemDto> CartItems { get; set; } = new List<ResultCartItemDto>();
     }
 }

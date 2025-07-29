@@ -1,0 +1,188 @@
+﻿@using PerfumeStore.Application.Dtos.CartDtos
+
+@model  GetByIdCartDto
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Səbət</title>
+
+    <style>
+        body {
+        background-color: #f8f9fa;
+        }
+
+        .cart-table th {
+        background-color: #343a40;
+        color: white;
+        }
+
+        .cart-table td,
+        .cart-table th {
+        vertical-align: middle;
+        }
+
+        .cart-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        }
+
+        .remove-btn {
+        background-color: transparent;
+        border: none;
+        color: #dc3545;
+        font-size: 1.2rem;
+        }
+
+        .remove-btn:hover {
+        color: #a71d2a;
+        }
+
+        .btn-checkout {
+        background-color: #e83e8c;
+        border: none;
+        color: white;
+        }
+
+        .btn-checkout1 {
+            background-color: lightgray;
+            border: none;
+            color: white;
+        }
+        .btn-checkout:hover {
+        background-color: #d63384;
+        }
+
+       
+    </style>
+</head>
+<body>
+
+    <div class="container py-5"style="margin-top:50px">
+        <h2 class="mb-4 fw-bold text-center">Səbətim</h2>
+
+        <!-- Cart Table -->
+        <div class="table-responsive mb-5">
+            <table class="table cart-table align-middle"style="text-align:center">
+                <thead>
+                    <tr>
+                        
+                        <th>Məhsul</th>
+                        <th>Qiymət</th>
+                        <th>Miqdar</th>
+                        <th>Cəmi</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model?.CartItems != null)
+                    {
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr style="font-size:20px">
+                               
+                                <td style="display:flex">
+                                    <img src="@item.ProductName.ImageUrl" class="cart-img" alt="">
+                                    <h6 style="font-size:20px;margin: 25px 0 0 20px" class="mb-1">@item.ProductName.Name</h6>
+                                    @* <p class="@item.ProductName.Size |@item.ProductName.CategoryName</p> *@
+                                </td>
+                                <td>@item.ProductName.OriginalPrice</td>
+
+                                <td style="width: 120px;">
+                                    <input type="number"
+                                           class="form-control text-center quantity-input"
+                                           data-id="@item.CartItemId"
+                                           value="@item.Quantity"
+                                           min="1"
+                                           style="width:80px;" />
+                                </td>
+                                <td><strong>@item.TotalPrice</strong></td>
+                                <td class="text-center">
+                                    <form asp-controller="Cart" asp-action="DeleteCartItem" asp-route-id="@item.CartItemId" method="post" onsubmit="return confirm('Silmək istədiyinizə əminsiniz?')">
+                                        <button type="submit" class="remove-btn btn btn-sm " title="Sil">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                        }
+                        
+                    }
+                    <!-- Cart Model Row -->
+                   
+                 
+
+                    <!-- Başqa məhsul da əlavə oluna bilər -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Checkout Summary -->
+        <div class="row justify-content-end">
+            <div class="col-md-5">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h5 class="mb-3">Sifariş Xülasəsi</h5>
+                    <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between">
+                            <span>Toplam:</span>
+                            <strong>@Model?.TotalAmount</strong>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span>Çatdırılma:</span>
+                            <span>0 AZN</span>
+                        </li>
+                        <li class="d-flex justify-content-between border-top pt-2">
+                            <span>Ümumi: </span>
+                            <strong>@Model?.TotalAmount</strong>
+                        </li>
+                    </ul>
+                    <a href="/Home" class="btn btn-checkout1 w-100 mt-3">Alış-verişə davam et</a>
+                    <a href="/checkout" class="btn btn-checkout w-100 mt-3">Sifarişi Tamamla</a>
+                </div>
+            </div>
+        </div>
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.quantity-input').on('input', function () {
+            const cartItemId = $(this).data('id');
+            const newQuantity = parseInt($(this).val());
+
+            // Əgər dəyər keçərsizdirsə, heç nə etmə
+            if (isNaN(newQuantity) || newQuantity <= 0) {
+                return;
+            }
+
+            // JSON obyektini hazırla
+            const data = {
+                CartItemId: cartItemId,
+                Quantity: newQuantity
+            };
+
+            // AJAX sorğusu göndər
+            $.ajax({
+                url: '/Cart/UpdateCartItemAjax',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.success) {
+                        location.reload(); // səhifəni yenilə, yeni məbləğlər görünsün
+                    } else {
+                        alert(res.message);
+                    }
+                },
+                error: function () {
+                    alert("Xəta baş verdi.");
+                }
+            });
+        });
+    });
+</script>

@@ -11,6 +11,9 @@ namespace PerfumeStore.Application.Interfaces.ICartRepository
     {
         Task<Cart> GetCartByIdWithItemsAsync(int cartId);
         Task<List<Cart>> GetAllCartWithItemAsync();
-        
+
+        Task<Cart?> GetCartByUserIdWithItemsAsync(int userId);
+        Task AddAsync(Cart cart);
+
     }
 }
