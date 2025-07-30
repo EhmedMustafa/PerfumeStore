@@ -12,9 +12,9 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public int ProductId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; }
-        public string Size { get; set; }
-        public decimal CurrentPrice { get; set; }
-        public decimal OriginalPrice { get; set; }
+        //public string Size { get; set; }
+        //public decimal CurrentPrice { get; set; }
+        //public decimal OriginalPrice { get; set; }
         public string ImageUrl { get; set; }
         public bool IsNew { get; set; }
         public bool IsBestseller { get; set; }

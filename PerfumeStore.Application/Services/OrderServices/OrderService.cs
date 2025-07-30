@@ -125,7 +125,7 @@ namespace PerfumeStore.Infrastructure.Services
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    TotalPrice = product.OriginalPrice * item.Quantity
+                   // TotalPrice = product.OriginalPrice * item.Quantity
                 };
 
                 totalAmout += orderitem.TotalPrice;

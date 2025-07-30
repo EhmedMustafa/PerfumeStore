@@ -100,15 +100,15 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                 query = query.Where(p => p.ProductNotes.Any(pn => fragranceNoteId.Contains(pn.FragranceNoteId)));
 
            
-            if (minPrice.HasValue)
-            {
-                query = query.Where(p => p.CurrentPrice >= minPrice.Value);
-            }
+            //if (minPrice.HasValue)
+            //{
+            //    query = query.Where(p => p.CurrentPrice >= minPrice.Value);
+            //}
 
-            if (maxPrice.HasValue)
-            {
-                query = query.Where(p => p.CurrentPrice <= maxPrice.Value);
-            }
+            //if (maxPrice.HasValue)
+            //{
+            //    query = query.Where(p => p.CurrentPrice <= maxPrice.Value);
+            //}
 
             var totalCount = await query.CountAsync();
 

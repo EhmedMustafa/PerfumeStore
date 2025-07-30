@@ -28,7 +28,7 @@
     <link href="~/css/Brand.css" rel="stylesheet" />
     <style>
         .top-bar {
-        background-color: #333333;
+        background-color: #000000;
         color: #f8f9fa;
         padding: 8px 0;
         font-size: 14px;
@@ -97,6 +97,80 @@
         .col-lg-4 {
         display:none;
         }
+
+        }
+
+        .search_box_always_visible {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .search_form {
+            display: flex;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+            .search_form input[type="text"] {
+                border: none;
+                padding: 8px 12px;
+                outline: none;
+                width: 160px;
+                font-size: 14px;
+            }
+
+            .search_form button {
+                border: none;
+                background: #f6692a;
+                color: #fff;
+                padding: 8px 12px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+                .search_form button:hover {
+                    background: #d4571d;
+                }
+
+        /* Tablet ölçüsü üçün (768px-dən kiçik) */
+        @@media (max-width: 768px) {
+            .search_form input[type="text"]
+
+        {
+            width: 140px;
+        }
+
+        }
+
+        /* Telefon ölçüsü üçün (576px-dən kiçik) */
+        @@media (max-width: 576px) {
+            .search_box_always_visible
+
+        {
+            width: 100%;
+            margin: 10px 0;
+            justify-content: center;
+        }
+
+        .search_form {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+            .search_form input[type="text"] {
+                width: 100%;
+                border-bottom: 1px solid #ccc;
+                border-radius: 4px 4px 0 0;
+            }
+
+            .search_form button {
+                width: 100%;
+                border-radius: 0 0 4px 4px;
+            }
 
         }
     </style>
@@ -305,7 +379,7 @@
                 <div class="header_top_right">
                     <div class="header_right_info">
                         <ul>
-                            <li class="search_box">
+                           @*  <li class="search_box">
                                 <a href="javascript:void(0)">
                                     <i class="fa fa-search"></i>
                                 </a>
@@ -315,87 +389,27 @@
                                         <button type="submit"><i class="fa fa-search"></i></button>
                                     </form>
                                 </div>
-                            </li>
-                            <li class="header_wishlist">
+                            </li> *@
+                            <li class="header_wishlist" style="margin-right:30px">
                                 <a href="wishlist.html">
                                     <i class="fa fa-heart-o"></i>
                                     <span class="item_count">4</span>
                                 </a>
                             </li>
-                            <li class="mini_cart_wrapper">
-                                <a asp-controller="Cart" asp-action="Index">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span class="item_count"></span>
-                                </a>
-
-
-                                <div id="cart-menu-container">
-                                    @await Component.InvokeAsync("CartMenu")
+                            <li class="mini_cart_wrapper"style="margin-right:20px">
+                            <li class="mini_cart_wrapper" style="margin-right:20px">
+                                <div id="cartDropdownContainer">
+                                        @await Component.InvokeAsync("CartMenu", new { userId = ViewBag.UserId })
+                                    <!-- UserId dinamik ola bilər, hardan gətirirsənsə -->
                                 </div>
-                             
-                                <!-- mini cart  -->
-                               
-                               @*  <div class="mini_cart mini_cart2"style="background-color:lightgrey">
-                                    <div class="cart_gallery">
-                                        <div class="cart_item">
-                                            <div class="cart_img">
-                                                <a href="#">
-                                                    <img src="small-product/mini1.png"
-                                                         alt="Perfume">
-                                                </a>
-                                            </div>
-                                            <div class="cart_info">
-                                                <a href="#">Hugo Boss</a>
-                                                <p><span>Rs. 3640</span> X 1</p>
-                                            </div>
-                                            <div class="cart_remove">
-                                                <a href="#"><i class="fa fa-times"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="cart_item">
-                                            <div class="cart_img">
-                                                <a href="#">
-                                                    <img src="small-product/mini2.png"
-                                                         alt="Perfume">
-                                                </a>
-                                            </div>
-                                            <div class="cart_info">
-                                                <a href="#">Bvlgari</a>
-                                                <p><span>Rs. 8350</span> X 1</p>
-                                            </div>
-                                            <div class="cart_remove">
-                                                <a href="#"><i class="fa fa-times"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mini_cart_table">
-                                        <div class="cart_table_border">
-                                            <div class="cart_total">
-                                                <span>Cəmi :</span>
-                                                <span class="price">Rs. 11990</span>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div class="mini_cart_footer">
-                                        <div class="cart_button">
-                                            <a  asp-controller="Cart"asp-action="Index">
-                                                Səbətə bax</a>
-                                        </div>
-                                        <div class="cart_button">
-                                            <a href="#">Sifariş et</a>
-                                        </div>
-                                    </div>
-                                </div> *@
-                                <!-- mini cart ends -->
+                            </li>
                             </li>
                         </ul>
                     </div>
                     <div class="header_account">
                         <ul>
 
-                            <li class="language">
+                            <li class="language"style="margin-right:-30px">
                                 <a href="#">
                                     <img src="/icon/azerbaijan.png" alt="Azərbaycan"> AZ <i class="fa fa-angle-down"></i>
                                 </a>
@@ -414,9 +428,9 @@
 
     <header>
         <div class="main_header header_transparent header-mobile-m"style="margin-top:50px">
-            <div class="header_container sticky-header" style="background-color:white;">
+            <div class="header_container sticky-header" style="background-color:white;height:150px;">
                 <div class="container-fluid">
-                    <div class="row align-items-center">
+                    <div class="row align-items-center"style="margin-top:40px">
                         <div class="col-lg-2">
                             <div class="logo">
                                 <a href="/Home"><img src="/logo.png" alt=""></a>
@@ -709,10 +723,16 @@
                                                 <li><a href="#">Ödəniş</a></li>
                                             </ul>
                                         </li>
+                                        <li class="search_box_always_visible">
+                                            <form action="#" class="search_form">
+                                                <input style="margin-right:60px" type="text" placeholder="Axtar..." />
+                                                <button type="submit"><i class="fa fa-search"></i></button>
+                                            </form>
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>
-
+                           
                             <!-- main menu ends -->
                         </div>
                         
@@ -999,20 +1019,22 @@
     <script src="~/js/product-details.js"></script>
  
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function refreshCartMenu() {
+  @*   <script>
+             $(document).ready(function () {
             $.ajax({
-                url: '/CartMenu',
+                url: '/CartMenu/GetCartMenu',
                 type: 'GET',
-                success: function (data) {
-                    $('#cart-menu-container').html(data);
-                },
-                error: function () {
-                    console.error("Səbət menyusu yenilənmədi");
+                success: function (result) {
+                    $('#cart-menu-container').html(result);
                 }
             });
+        });
+    </script> *@
+
+    <script>
+        window.updateCartDropdown = function () {
+            $("#cartDropdownContainer").load("/Cart/RefreshCartDropdown");
         }
     </script>
-
 </body>
 </html>

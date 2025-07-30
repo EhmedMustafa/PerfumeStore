@@ -26,8 +26,14 @@ namespace PerfumeStore.WebUI.Controllers
        
             return View(values);
         }
-        [HttpGet]
-     
+      
+        public async Task<IActionResult> RefreshCartDropdown()
+        {
+            var userId = 1;
+            var cart = await _cartService.GetCartByUserIdWithItemsAsync(userId);
+            return ViewComponent("CartMenu", new { userId = userId }); // ViewComponent çağır
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddToCartItem([FromBody] CreateCartItemDto model)

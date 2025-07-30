@@ -47,7 +47,7 @@ namespace PerfumeStore.Application.Services.CartServices
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    TotalPrice = product.OriginalPrice * item.Quantity
+                   // TotalPrice = product.OriginalPrice * item.Quantity
                 };
 
                 totalamount += cartitem.TotalPrice;

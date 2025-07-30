@@ -44,7 +44,7 @@
                                      data-gender="@product.CategoryName?.ToLower()"
                                      data-family="@product.FamilyName?.ToLower()"
                                      data-brand="@product.BrandName?.ToLower()"
-                                     data-price="@product.OriginalPrice">
+                                     data-price="">
                                 <div class="product-image">
                                     <img src="~/new-product/N1-2.png" alt="@product.Name" />
                                     <div class="product-badges">
@@ -71,10 +71,10 @@
                                         <span class="fragrance-family">Family: @product.FamilyName</span>
 
                                     </p>
-                                    <div class="product-price">
+                                   @*  <div class="product-price">
                                         <span class="current-price">@product.CurrentPrice ₼</span>
                                         <span class="original-price">@product.OriginalPrice ₼</span>
-                                    </div>
+                                    </div> *@
                                 </div>
                             </article>
 

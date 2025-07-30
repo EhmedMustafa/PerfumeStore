@@ -45,15 +45,15 @@
         }
 
         .btn-checkout1 {
-            background-color: lightgray;
-            border: none;
-            color: white;
+        background-color: lightgray;
+        border: none;
+        color: white;
         }
         .btn-checkout:hover {
         background-color: #d63384;
         }
 
-       
+
     </style>
 </head>
 <body>
@@ -65,14 +65,18 @@
         <div class="table-responsive mb-5">
             <table class="table cart-table align-middle"style="text-align:center">
                 <thead>
-                    <tr>
-                        
-                        <th>Məhsul</th>
-                        <th>Qiymət</th>
-                        <th>Miqdar</th>
-                        <th>Cəmi</th>
-                        <th></th>
-                    </tr>
+                  
+                        <tr>
+
+                            <th>Məhsul</th>
+                            <th>Qiymət</th>
+                            <th>Miqdar</th>
+                            <th>Cəmi</th>
+                            <th></th>
+                        </tr>
+                    
+                
+
                 </thead>
 
                 <tbody>
@@ -88,7 +92,7 @@
                                     <h6 style="font-size:20px;margin: 25px 0 0 20px" class="mb-1">@item.ProductName.Name</h6>
                                     @* <p class="@item.ProductName.Size |@item.ProductName.CategoryName</p> *@
                                 </td>
-                                <td>@item.ProductName.OriginalPrice</td>
+                               @*  <td>@item.ProductName.OriginalPrice</td> *@
 
                                 <td style="width: 120px;">
                                     <input type="number"

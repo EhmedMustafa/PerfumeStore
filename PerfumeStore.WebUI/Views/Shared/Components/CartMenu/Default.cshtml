@@ -2,9 +2,35 @@
 
 @model GetByIdCartDto
 
+<style>
+    .mini_cart {
+        position: absolute;
+        min-width: 355px;
+        background: #fff;
+        border: 1px solid #ebebeb;
+        z-index: 999;
+        right: 0;
+        top: 142%;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.5s ease;
+        padding: 0; /* default boş saxla */
+    }
 
+    .mini_cart_wrapper:hover .mini_cart {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        padding: 20px 28px 33px;
+    }
+</style>
+<a asp-controller="Cart" asp-action="Index" class="cart-icon">
+    <i class="fa fa-shopping-cart"></i>
+    <span class="item_count">@ViewBag.TotalQuantity</span>
+</a>
 
-<div class="mini_cart mini_cart2" style="background-color:grey;overflow-y:auto;max-height:400px">
+<div class="mini_cart mini_cart2" style="background-color:#1e4a61;overflow-y:auto;max-height:400px">
     @if (Model?.CartItems != null)
     {
         @foreach (var item in Model.CartItems)
@@ -13,14 +39,14 @@
             {
                 <div class="cart_gallery">
                     <div class="cart_item">
-                        <div class="cart_img">
+                        <div class="cart_img"style="max-height:50%">
                             <a href="#">
-                                <img src="@item.ProductName.ImageUrl" alt="Perfume">
+                                <img src="@item.ProductName.ImageUrl" alt="Perfume"loading="Lazy">
                             </a>
                         </div>
                         <div class="cart_info">
                             <a href="#">@item.ProductName.Name</a>
-                            <p><span>@item.ProductName.OriginalPrice</span></p>
+                          @*   <p><span>@item.ProductName.OriginalPrice</span></p> *@
                         </div>
                         <div class="cart_remove">
                             <a href="#"><i class="fa fa-times"></i></a>

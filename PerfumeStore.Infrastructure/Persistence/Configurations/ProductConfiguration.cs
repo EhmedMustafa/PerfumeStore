@@ -25,16 +25,16 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(p => p.Size)
-                .IsRequired()
-                .HasMaxLength(50);
+            //builder.Property(p => p.Size)
+            //    .IsRequired()
+            //    .HasMaxLength(50);
 
-            builder.Property(p=>p.CurrentPrice)
-                .IsRequired()
-                .HasColumnType("decimal(18.2)");
+            //builder.Property(p=>p.CurrentPrice)
+            //    .IsRequired()
+            //    .HasColumnType("decimal(18.2)");
 
-            builder.Property(p=>p.OriginalPrice)
-                .HasColumnType("decimal(18.2)");
+            //builder.Property(p=>p.OriginalPrice)
+            //    .HasColumnType("decimal(18.2)");
 
             builder.Property(p => p.ImageUrl)
               .HasMaxLength(255);

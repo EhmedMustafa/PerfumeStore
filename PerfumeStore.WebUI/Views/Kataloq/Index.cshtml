@@ -353,7 +353,7 @@
                                      data-gender="@product.CategoryName?.ToLower()"
                                      data-family="@product.FamilyName?.ToLower()"
                                      data-brand="@product.BrandName?.ToLower()"
-                                     data-price="@product.OriginalPrice">
+                                     data-price="">
                                 <div class="product-image">
                                     <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
                                         <img src="@product.ImageUrl" alt="@product.Name" />
@@ -385,8 +385,8 @@
 
                                     </p>
                                     <div class="product-price">
-                                        <span class="current-price">@product.CurrentPrice ₼</span>
-                                        <span class="original-price">@product.OriginalPrice ₼</span>
+                                        <span class="current-price"></span>
+                                        <span class="original-price"></span>
                                     </div>
                                 </div>
 
@@ -683,7 +683,8 @@
                 data: JSON.stringify(data),
                 success: function (response) {
                     if (response.success) {
-                        showAlert('success', response.message);
+                        showAlert('success', response.message);+
+                         updateCartDropdown();
                     } else {
                         showAlert('danger', "Xəta: " + response.message);
                     }
@@ -713,5 +714,10 @@
 
       
     });
+</script>
+<script>
+    window.updateCartDropdown = function () {
+        $("#cartDropdownContainer").load("/Cart/RefreshCartDropdown");
+    }
 </script>
 

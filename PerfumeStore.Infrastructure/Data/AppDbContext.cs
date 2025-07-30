@@ -41,6 +41,7 @@ namespace PerfumeStore.Infrastructure.Data
 
         public DbSet<CartItem> CartItems { get; set; }
 
+        public DbSet<ProductVariant> ProductVariants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

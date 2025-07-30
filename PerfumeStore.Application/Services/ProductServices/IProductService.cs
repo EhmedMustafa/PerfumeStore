@@ -1,4 +1,5 @@
 ﻿using PerfumeStore.Application.Dtos.ProductDtos;
+using PerfumeStore.Application.Dtos.ProductVariantDtos;
 using PerfumeStore.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,9 @@ namespace PerfumeStore.Application.Services.ProductServices
         Task<List<ResultProductDto>> GetProductBySearch(string search);
         Task<List<ResultProductDto>> GetProductByPriceFilter(int? minPrice, int? maxPrice);
         Task<List<ResultProductDto>> GetProductByCategory(int? categoryId);
-        
+
+
+        Task<ResultProductVariantDto> GetByIdProductVariantAsync(int id);
     }
 }
 

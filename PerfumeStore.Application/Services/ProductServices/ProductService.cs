@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PerfumeStore.Application.Dtos.ProductDtos;
+using PerfumeStore.Application.Dtos.ProductVariantDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Application.Services.ProductServices;
@@ -46,9 +47,9 @@ namespace PerfumeStore.Infrastructure.Services
             {
                 Name = productdto.Name,
                 Description = productdto.Description,
-                Size = productdto.Size,
-                CurrentPrice = productdto.CurrentPrice,
-                OriginalPrice = productdto.OriginalPrice,
+                //Size = productdto.Size,
+                //CurrentPrice = productdto.CurrentPrice,
+                //OriginalPrice = productdto.OriginalPrice,
                 ImageUrl = productdto.ImageUrl,
                 IsNew = productdto.IsNew,
                 IsBestseller = productdto.IsBestseller,
@@ -56,11 +57,17 @@ namespace PerfumeStore.Infrastructure.Services
                 BrandId = productdto.BrandId,
                 FamilyId = productdto.FamilyId,
                 CategoryId = productdto.CategoryId,
+                ProductVariants = productdto.ProductVariants.Select(n => new ProductVariant {
+                    Size = n.Size,
+                    CurrentPrice = n.CurrentPrice,
+                    OriginalPrice=n.OriginalPrice
+                }).ToList(),
                 ProductNotes = productdto.ProductNotes.Select(n => new ProductNote
                 {
                     FragranceNoteId = n.FragranceNoteId,
                     Type = n.Type,
                 }).ToList()
+
             });
            
             await _productRepository.SaveChangesAsync();
@@ -174,6 +181,16 @@ namespace PerfumeStore.Infrastructure.Services
         {
             var value= await _repository.GetProductByIdWithNotes(id);
             return _mapper.Map<GetByIdProductDto>(value);
+
+        }
+
+        public async Task<ResultProductVariantDto> GetByIdProductVariantAsync(int id)
+        {
+           var variant = await _productRepository.GetByIdAsync(id);
+            if (variant == null)
+                throw new Exception("Variant tapılmadı");
+            var map= _mapper.Map<ResultProductVariantDto>(variant);
+            return map;
 
         }
     }

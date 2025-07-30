@@ -601,6 +601,7 @@ ul {
     overflow: hidden;
     border: 1px solid #ebebeb;
     transition: 0.5s;
+
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {

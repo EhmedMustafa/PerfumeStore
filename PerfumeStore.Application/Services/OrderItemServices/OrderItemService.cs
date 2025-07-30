@@ -44,7 +44,7 @@ namespace PerfumeStore.Infrastructure.Services
                 OrderId = orderId,
                 ProductId = orderItem.ProductId,
                 Quantity = orderItem.Quantity,
-                TotalPrice = product.OriginalPrice * orderItem.Quantity
+               // TotalPrice = product.OriginalPrice * orderItem.Quantity
             };
 
             await _orderItemRepository.AddAsync(ordetitems);

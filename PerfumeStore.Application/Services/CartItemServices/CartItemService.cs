@@ -39,18 +39,18 @@ namespace PerfumeStore.Application.Services.CartItemServices
             
             if (cart == null) throw new Exception("Səbət tapılmadı.");
 
-            var product = await _product.GetByIdAsync(createCartItemDto.ProductId);
+            var product = await _product.GetByIdAsync(createCartItemDto.ProductVariantId);
             if (product == null) throw new Exception("Məhsul tapılmadı.");
 
             if(createCartItemDto.Quantity<=0) throw new Exception("Məhsulun sayı sıfır və ya mənfi ola bilməz.");
 
-            var existingItem= cart.CartItems.FirstOrDefault(ci=>ci.ProductId==createCartItemDto.ProductId);
+           // var existingItem= cart.CartItems.FirstOrDefault(ci=>ci.ProductId==createCartItemDto.ProductId);
 
-            if (existingItem != null)
-            {
-                existingItem.Quantity += createCartItemDto.Quantity;
-                existingItem.TotalPrice = existingItem.Quantity * product.OriginalPrice;
-            }
+            //if (existingItem != null)
+            //{
+            //    existingItem.Quantity += createCartItemDto.Quantity;
+            //    existingItem.TotalPrice = existingItem.Quantity * product.OriginalPrice;
+            //}
 
             else 
             {
@@ -59,7 +59,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
                     CartId = cartId,
                     ProductId = createCartItemDto.ProductId,
                     Quantity = createCartItemDto.Quantity,
-                    TotalPrice = createCartItemDto.Quantity * product.OriginalPrice,
+                    //TotalPrice = createCartItemDto.Quantity * product.OriginalPrice,
                 };
                 await _genericRepository.AddAsync(cartitem);
             }
@@ -113,7 +113,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
                 throw new Exception("Məhsul mövcud deyil.");
 
             cartItem.Quantity=updateCartItemDto.Quantity;
-            cartItem.TotalPrice=updateCartItemDto.Quantity*product.OriginalPrice;
+           // cartItem.TotalPrice=updateCartItemDto.Quantity*product.OriginalPrice;
 
             await _genericRepository.UpdateAsync(cartItem);
 
