@@ -99,16 +99,16 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             if(fragranceNoteId != null && fragranceNoteId.Any())
                 query = query.Where(p => p.ProductNotes.Any(pn => fragranceNoteId.Contains(pn.FragranceNoteId)));
 
-           
-            //if (minPrice.HasValue)
-            //{
-            //    query = query.Where(p => p.CurrentPrice >= minPrice.Value);
-            //}
 
-            //if (maxPrice.HasValue)
-            //{
-            //    query = query.Where(p => p.CurrentPrice <= maxPrice.Value);
-            //}
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.ProductVariants.FirstOrDefault().CurrentPrice >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.ProductVariants.FirstOrDefault().CurrentPrice <= maxPrice.Value);
+            }
 
             var totalCount = await query.CountAsync();
 

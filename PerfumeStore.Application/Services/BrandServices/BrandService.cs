@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using PerfumeStore.Application.Dtos.BrandDtos;
 using PerfumeStore.Application.Dtos.ProductDtos;
+using PerfumeStore.Application.Dtos.ProductVariantDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IBrandRepository;
 using PerfumeStore.Domain.Entities;
@@ -81,14 +82,19 @@ namespace PerfumeStore.Application.Services.BrandServices
                     ProductId = p.ProductId,
                     Name = p.Name,
                     Description = p.Description,
-                    //Size = p.Size,
-                    //CurrentPrice = p.CurrentPrice,
-                    //OriginalPrice = p.OriginalPrice,
                     ImageUrl = p.ImageUrl,
                     IsNew = p.IsNew,
                     IsBestseller = p.IsBestseller,
                     Disclaimer = p.Disclaimer,
-                    BrandId = p.BrandId
+                    BrandId = p.BrandId,
+                    //ProductVariants = p.ProductVariants.Select(v => new ResultProductVariantDto
+                    //{
+                    //    Size = v.Size,
+                    //    CurrentPrice = v.CurrentPrice,
+                    //    OriginalPrice = v.OriginalPrice,
+                    //    ProductId=v.ProductId
+                    //}).ToList()// İlk variantı göstərmək üçün
+
                 }).ToList()
             };
         }

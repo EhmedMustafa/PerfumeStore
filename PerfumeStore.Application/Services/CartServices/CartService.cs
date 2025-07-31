@@ -40,14 +40,14 @@ namespace PerfumeStore.Application.Services.CartServices
             decimal totalamount = 0;
             foreach (var item in createCartDto.CartItems)
             {
-                var product= await _product.GetByIdAsync(item.ProductId);
+                var product= await _product.GetByIdAsync(item.ProductVariantId);
                 if (product == null) continue;
 
                 var cartitem = new CartItem
                 {
-                    ProductId = item.ProductId,
+                    ProductVariantId = item.ProductVariantId,
                     Quantity = item.Quantity,
-                   // TotalPrice = product.OriginalPrice * item.Quantity
+                    TotalPrice = product.ProductVariants.FirstOrDefault().OriginalPrice* item.Quantity
                 };
 
                 totalamount += cartitem.TotalPrice;

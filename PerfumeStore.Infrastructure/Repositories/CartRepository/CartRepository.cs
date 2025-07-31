@@ -27,7 +27,7 @@ namespace PerfumeStore.Infrastructure.Repositories.CartRepository
         public async Task<List<Cart>> GetAllCartWithItemAsync()
         {
             return await _appDbContext.Carts
-                .Include(c => c.CartItems).ThenInclude(ci => ci.Product).ToListAsync();
+                .Include(c => c.CartItems).ThenInclude(ci => ci.ProductVariant).ToListAsync();
         }
 
         public async Task<Cart> GetCartByIdWithItemsAsync(int cartId)
@@ -35,7 +35,7 @@ namespace PerfumeStore.Infrastructure.Repositories.CartRepository
             var cart = await _appDbContext.Carts
                 .Include(c => c.Customer)
                 .Include(c => c.CartItems)
-                    .ThenInclude(ci => ci.Product)
+                    .ThenInclude(ci => ci.ProductVariant)
                 .FirstOrDefaultAsync(c => c.CartId == cartId);
 
             return cart;
@@ -47,7 +47,7 @@ namespace PerfumeStore.Infrastructure.Repositories.CartRepository
             return await _appDbContext.Carts
                 .Include(c => c.Customer)
                 .Include(c => c.CartItems)
-                .ThenInclude(ci => ci.Product)
+                .ThenInclude(ci => ci.ProductVariant)
                 .FirstOrDefaultAsync(c => c.CustomerId == userId);
         }
     }

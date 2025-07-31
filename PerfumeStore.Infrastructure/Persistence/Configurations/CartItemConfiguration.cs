@@ -20,9 +20,9 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                    .HasForeignKey(ci => ci.CartId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(ci => ci.Product)
+            builder.HasOne(ci => ci.ProductVariant)
                    .WithMany()
-                   .HasForeignKey(ci => ci.ProductId)
+                   .HasForeignKey(ci => ci.ProductVariantId)
                    .OnDelete(DeleteBehavior.Restrict); // Məhsul silinsə, səbət itməsin
 
             builder.Property(ci => ci.Quantity)

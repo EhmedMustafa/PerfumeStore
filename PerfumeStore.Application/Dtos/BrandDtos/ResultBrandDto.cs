@@ -15,6 +15,6 @@ namespace PerfumeStore.Application.Dtos.BrandDtos
         public string Tagline { get; set; }
         public string Description { get; set; }
         public string LogoUrl { get; set; }
-        public ICollection<ResultProductDto> products { get; set; } // Brendə aid məhsullar
+        public List<ResultProductDto> products { get; set; } // Brendə aid məhsullar
     }
 }

@@ -12,8 +12,8 @@ using PerfumeStore.Infrastructure.Data;
 namespace PerfumeStore.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250710102209_Changetablkes")]
-    partial class Changetablkes
+    [Migration("20250731124602_tables")]
+    partial class tables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace PerfumeStore.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LogoUrl")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -42,6 +46,10 @@ namespace PerfumeStore.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Tagline")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -88,7 +96,7 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ProductVariantId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -101,7 +109,7 @@ namespace PerfumeStore.Infrastructure.Migrations
 
                     b.HasIndex("CartId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductVariantId");
 
                     b.ToTable("CartItems");
                 });
@@ -500,9 +508,6 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("CurrentPrice")
-                        .HasColumnType("decimal(18.2)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -535,14 +540,6 @@ namespace PerfumeStore.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<decimal>("OriginalPrice")
-                        .HasColumnType("decimal(18.2)");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ProductId");
 
@@ -599,6 +596,34 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.ToTable("ProductNotes", (string)null);
                 });
 
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.ProductVariant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("CurrentPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductVariants");
+                });
+
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Cart", b =>
                 {
                     b.HasOne("PerfumeStore.Domain.Entities.Customer", "Customer")
@@ -617,15 +642,15 @@ namespace PerfumeStore.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PerfumeStore.Domain.Entities.Product", "Product")
+                    b.HasOne("PerfumeStore.Domain.Entities.ProductVariant", "ProductVariant")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductVariantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cart");
 
-                    b.Navigation("Product");
+                    b.Navigation("ProductVariant");
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.FragranceNoteType", b =>
@@ -777,6 +802,17 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("PerfumeStore.Domain.Entities.ProductVariant", b =>
+                {
+                    b.HasOne("PerfumeStore.Domain.Entities.Product", "Product")
+                        .WithMany("ProductVariants")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Brand", b =>
                 {
                     b.Navigation("products");
@@ -817,6 +853,8 @@ namespace PerfumeStore.Infrastructure.Migrations
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Product", b =>
                 {
                     b.Navigation("ProductNotes");
+
+                    b.Navigation("ProductVariants");
                 });
 #pragma warning restore 612, 618
         }

@@ -29,7 +29,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
 
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public ICollection<ProductVariantCreateDto> ProductVariants { get; set; }
+        public List<ProductVariantCreateDto> ProductVariants { get; set; }
         public ICollection<ProductNoteDto> ProductNotes { get; set; }
 
         //public List<int> FragranceNoteIds => ProductNotes?.Select(p => p.FragranceNoteId).ToList() ?? new List<int>();

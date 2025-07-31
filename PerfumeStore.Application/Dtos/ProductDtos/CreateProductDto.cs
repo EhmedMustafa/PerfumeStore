@@ -25,7 +25,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public int FamilyId { get; set; }        // Ətri ailə ID-si
         public int CategoryId { get; set; }     // Cins ID-si
 
-        public ICollection<ProductVariantCreateDto> ProductVariants { get; set; } 
+        public IEnumerable<ProductVariantCreateDto> ProductVariants { get; set; } 
         public ICollection<ProductNoteDto> ProductNotes { get; set; }
     }
 

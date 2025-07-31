@@ -131,8 +131,8 @@
                                                     <a href="#">@product.Name</a>
                                                 </h4>
                                                 <div class="price_box">
-                                                     <span class="old_price">@product.ProductVariants.First().CurrentPrice ₼</span>
-                                                    <span class="current_price">@product.ProductVariants.First().OriginalPrice ₼</span> 
+                                                     <span class="old_price">@product.ProductVariants.FirstOrDefault()?.CurrentPrice ₼</span>
+                                                    <span class="current_price">@product.ProductVariants.FirstOrDefault()?.OriginalPrice ₼</span> 
                                                 </div>
                                                 <div class="product_rating">
                                                     <ul>
@@ -273,8 +273,8 @@
                                                                 <a href="#">@product.Name</a>
                                                             </h4>
                                                             <div class="price_box">
-                                                                 <span class="old_price">@product.ProductVariants.First().CurrentPrice ₼</span>
-                                                                <span class="current_price">@product.ProductVariants.First().OriginalPrice ₼</span> 
+                                                                 <span class="old_price">@product.ProductVariants.FirstOrDefault()?.CurrentPrice ₼</span>
+                                                                <span class="current_price">@product.ProductVariants.FirstOrDefault()?.OriginalPrice ₼</span> 
                                                             </div>
                                                             <div class="product_rating">
                                                                 <ul>
@@ -369,8 +369,8 @@
                                                             <a href="#">@product.Name</a>
                                                         </h4>
                                                          <div class="price_box">
-                                                            <span class="old_price">@product.ProductVariants.First().CurrentPrice ₼</span>
-                                                            <span class="current_price">@product.ProductVariants.First().OriginalPrice ₼</span>
+                                                            <span class="old_price">@product.ProductVariants.FirstOrDefault()?.CurrentPrice ₼</span>
+                                                            <span class="current_price">@product.ProductVariants.FirstOrDefault()?.OriginalPrice ₼</span>
                                                         </div> 
                                                         <div class="product_rating">
                                                             <ul>
@@ -419,8 +419,8 @@
                                                             <a href="#">@product.Name</a>
                                                         </h4>
                                                         <div class="price_box">
-                                                           <span class="old_price">@product.ProductVariants.First().CurrentPrice ₼</span>
-                                                            <span class="current_price">@product.ProductVariants.First().OriginalPrice ₼</span>
+                                                           <span class="old_price">@product.ProductVariants.FirstOrDefault()?.CurrentPrice ₼</span>
+                                                            <span class="current_price">@product.ProductVariants.FirstOrDefault()?.OriginalPrice ₼</span>
                                                         </div> 
                                                         <div class="product_rating">
                                                             <ul>

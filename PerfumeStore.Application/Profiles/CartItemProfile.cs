@@ -13,10 +13,10 @@ namespace PerfumeStore.Application.Profiles
     {
         public CartItemProfile()
         {
-            CreateMap<CartItem, ResultCartItemDto>();
-                //.ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(scr => scr.Product.OriginalPrice))
+            CreateMap<CartItem, ResultCartItemDto>()
+                .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(scr => scr.ProductVariant.OriginalPrice))
 
-                //.ForMember(dest => dest.ProductName, opt => opt.MapFrom(scr => scr.Product));
+                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(scr => scr.ProductVariant.OriginalPrice));
             CreateMap<CartItem, GetByIdCartItemDto>().ReverseMap();
                 
         }

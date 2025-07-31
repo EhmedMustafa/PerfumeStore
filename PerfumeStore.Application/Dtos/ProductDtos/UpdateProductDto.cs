@@ -35,7 +35,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public Category Category { get; set; }
 
         // public ICollection<FragranceNote> notes { get; set; }
-        public ICollection<ProductVariantCreateDto> ProductVariants { get; set; }
+        public IEnumerable<ProductVariantCreateDto> ProductVariants { get; set; }
         public ICollection<ProductNote> ProductNotes { get; set; }
 
     }

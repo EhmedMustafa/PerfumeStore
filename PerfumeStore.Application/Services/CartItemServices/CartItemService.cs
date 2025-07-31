@@ -44,22 +44,22 @@ namespace PerfumeStore.Application.Services.CartItemServices
 
             if(createCartItemDto.Quantity<=0) throw new Exception("Məhsulun sayı sıfır və ya mənfi ola bilməz.");
 
-           // var existingItem= cart.CartItems.FirstOrDefault(ci=>ci.ProductId==createCartItemDto.ProductId);
+            var existingItem = cart.CartItems.FirstOrDefault(ci => ci.ProductVariantId == createCartItemDto.ProductVariantId);
 
-            //if (existingItem != null)
-            //{
-            //    existingItem.Quantity += createCartItemDto.Quantity;
-            //    existingItem.TotalPrice = existingItem.Quantity * product.OriginalPrice;
-            //}
+            if (existingItem != null)
+            {
+                existingItem.Quantity += createCartItemDto.Quantity;
+                existingItem.TotalPrice = existingItem.Quantity * product.ProductVariants.FirstOrDefault().OriginalPrice;
+            }
 
             else 
             {
                 var cartitem = new CartItem
                 {
                     CartId = cartId,
-                    ProductId = createCartItemDto.ProductId,
+                    ProductVariantId = createCartItemDto.ProductVariantId,
                     Quantity = createCartItemDto.Quantity,
-                    //TotalPrice = createCartItemDto.Quantity * product.OriginalPrice,
+                    TotalPrice = createCartItemDto.Quantity * product.ProductVariants.FirstOrDefault().OriginalPrice,
                 };
                 await _genericRepository.AddAsync(cartitem);
             }
@@ -108,12 +108,12 @@ namespace PerfumeStore.Application.Services.CartItemServices
             if( updateCartItemDto.Quantity<=0)
                 throw new Exception("Məhsul miqdarı sıfır və ya mənfi ola bilməz.");
 
-            var product = await _product.GetByIdAsync(cartItem.ProductId);
+            var product = await _product.GetByIdAsync(cartItem.ProductVariantId);
             if (product == null)
                 throw new Exception("Məhsul mövcud deyil.");
 
             cartItem.Quantity=updateCartItemDto.Quantity;
-           // cartItem.TotalPrice=updateCartItemDto.Quantity*product.OriginalPrice;
+            cartItem.TotalPrice=updateCartItemDto.Quantity*product.ProductVariants.FirstOrDefault().OriginalPrice;
 
             await _genericRepository.UpdateAsync(cartItem);
 
