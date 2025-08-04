@@ -11,192 +11,192 @@
 @section Styles {
 <style>
     .price-filter {
-        max-width: 300px;
-        margin-bottom: 20px;
+    max-width: 300px;
+    margin-bottom: 20px;
     }
 
     .inputs {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
     }
 
-        .inputs input {
-            width: 100px;
-            padding: 5px;
-            text-align: center;
-        }
+    .inputs input {
+    width: 100px;
+    padding: 5px;
+    text-align: center;
+    }
 
     .slider-container {
-        position: relative;
-        height: 40px;
+    position: relative;
+    height: 40px;
     }
 
-        .slider-container input[type="range"] {
-            position: absolute;
-            width: 100%;
-            pointer-events: none;
-            -webkit-appearance: none;
-            height: 5px;
-            background: transparent;
-        }
+    .slider-container input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    -webkit-appearance: none;
+    height: 5px;
+    background: transparent;
+    }
 
     input[type="range"]::-webkit-slider-thumb {
-        pointer-events: all;
-        width: 16px;
-        height: 16px;
-        background: crimson;
-        border-radius: 50%;
-        border: none;
-        -webkit-appearance: none;
+    pointer-events: all;
+    width: 16px;
+    height: 16px;
+    background: crimson;
+    border-radius: 50%;
+    border: none;
+    -webkit-appearance: none;
     }
 
     .product-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-        width: 100%;
-        height: 60%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    width: 100%;
+    height: 60%;
     }
 
     /* Product Card */
     .product-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-        border: 1px solid var(--border-color);
-        position: relative;
-        display: block;
-        height: 520px;
-        width:100%;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    position: relative;
+    display: block;
+    height: 520px;
+    width:100%;
     }
 
-        @@media screen and (max-width: 768px) {
-            .hero {
-                height: 400px;
-                margin-top: 0;
-            }
+    @@media screen and (max-width: 768px) {
+    .hero {
+    height: 400px;
+    margin-top: 0;
+    }
 
-         
 
-            .hero h1 {
-                font-size: 2rem;
-            }
 
-            .featured,
-            .categories,
-            .special-offers,
-            .newsletter,
-            footer {
-                padding: 2rem 1rem;
-            }
+    .hero h1 {
+    font-size: 2rem;
+    }
 
-            .newsletter-form {
-                flex-direction: column;
-            }
+    .featured,
+    .categories,
+    .special-offers,
+    .newsletter,
+    footer {
+    padding: 2rem 1rem;
+    }
 
-            .product-price{
-                margin-bottom:auto!important;
-            }
+    .newsletter-form {
+    flex-direction: column;
+    }
 
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
-            }
+    .product-price{
+    margin-bottom:auto!important;
+    }
 
-            .category-card {
-                height: 250px;
-            }
+    .cart-sidebar {
+    width: 100%;
+    right: -100%;
+    }
 
-            .offer-card {
-                grid-template-columns: 1fr;
-            }
+    .category-card {
+    height: 250px;
+    }
 
-            .offer-content {
-                padding: 2rem;
-                text-align: center;
-            }
+    .offer-card {
+    grid-template-columns: 1fr;
+    }
 
-            .offer-card img {
-                height: 300px;
-            }
+    .offer-content {
+    padding: 2rem;
+    text-align: center;
+    }
 
-            .products-container {
-                grid-template-columns: 1fr;
-            }
+    .offer-card img {
+    height: 300px;
+    }
 
-            .product-card {
-                grid-template-columns: repeat(2, 1fr);
-                width:100%;
-                
-            }
+    .products-container {
+    grid-template-columns: 1fr;
+    }
 
-            .filter-toggle {
-                display: flex;
-            }
+    .product-card {
+    grid-template-columns: repeat(2, 1fr);
+    width:100%;
 
-            .close-filter {
-                display: block;
-            }
+    }
 
-            .filters-sidebar {
-                position: fixed;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                max-width: 320px;
-                height: 100vh;
-                z-index: 1000;
-                background: white;
-                padding: 20px;
-                transition: left 0.3s ease;
-                overflow-y: auto;
-                border-radius: 0;
-                border: none;
-            }
+    .filter-toggle {
+    display: flex;
+    }
 
-                .filters-sidebar.active {
-                    left: 0;
-                }
+    .close-filter {
+    display: block;
+    }
 
-            .filter-toggle {
-                left: 20px;
-                right: auto;
-            }
+    .filters-sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    max-width: 320px;
+    height: 100vh;
+    z-index: 1000;
+    background: white;
+    padding: 20px;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    border-radius: 0;
+    border: none;
+    }
 
-            .product-grid {
-                grid-template-columns: repeat(1, 1fr);
-                gap: 60px;
-                
-            }
+    .filters-sidebar.active {
+    left: 0;
+    }
 
-            .product-card {
-                height: 520px;
-            }
+    .filter-toggle {
+    left: 20px;
+    right: auto;
+    }
 
-            .product-image {
-                height: 360px;
-            }
+    .product-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 60px;
 
-            .product-info h3{
-                font-size:18px;
-            }
+    }
 
-            .pagination{
-                margin-left:-470px;
-                background-color:none;
-               
-               
-            }
+    .product-card {
+    height: 520px;
+    }
 
-            html, body {
-                overflow-x: hidden;
-            }
-        }
-        
+    .product-image {
+    height: 360px;
+    }
+
+    .product-info h3{
+    font-size:18px;
+    }
+
+    .pagination{
+    margin-left:-470px;
+    background-color:none;
+
+
+    }
+
+    html, body {
+    overflow-x: hidden;
+    }
+    }
+
 </style>
 }
 
@@ -208,7 +208,7 @@
 
     <section class="featured"style="margin-top:120px;">
         <!-- <h2>Featured Products</h2> -->
-       
+
         <div class="products-container">
 
             <aside class="filters-sidebar">
@@ -219,177 +219,190 @@
                     <button type="reset" onclick="clearAll();" style="border:none;color:#666;background:none;line-height:19px;border-bottom:1px solid"> Hamısıni sil</button>
                     <ul id="selected_filter"></ul>
                 </div>
-                     <form method="get" asp-controller="Kataloq" asp-action="Index" id="priceFilterForm">
+                <form method="get" asp-controller="Kataloq" asp-action="Index" id="priceFilterForm">
 
-                            <div class="price-filter">
-                                <h4>QİYMƏT ARALIĞI</h4>
+                    <div class="price-filter">
+                        <h4>QİYMƏT ARALIĞI</h4>
 
-                                <div class="inputs">
-                                    <input type="number" id="min-price" value="1" min="1" max="1326">
-                                    <span>–</span>
-                                    <input type="number" id="max-price" value="1326" min="1" max="1326">
-                                </div>
+                        <div class="inputs">
+                            <input type="number" id="min-price" value="1" min="1" max="1326">
+                            <span>–</span>
+                            <input type="number" id="max-price" value="1326" min="1" max="1326">
+                        </div>
 
-                                <div class="slider-container">
-                                    <input type="range" id="range-min" min="1" max="1326" value="1">
-                                    <input type="range" id="range-max" min="1" max="1326" value="1326">
-                                </div>
-                            </div>
+                        <div class="slider-container">
+                            <input type="range" id="range-min" min="1" max="1326" value="1">
+                            <input type="range" id="range-max" min="1" max="1326" value="1326">
+                        </div>
+                    </div>
 
 
 
 
                     <div class="filter-group">
-                                 <h3>ƏTİRLƏR</h3>
-                                <div class="filter-section">
-                                    <h4>KATEQORİYALAR</h4>
-                                    @{
-                                        List<int> selectedCategories = ViewBag.SelectedCategories as List<int> ?? new List<int>();
-                                    }
-                                    <div class="checkbox-group">
-                                        <label class="custom-checkbox"style="display:none">
-                                            <input type="checkbox" name="categoryId" value="" @(selectedCategories == null? "checked" : "") />
-                                            <span>Hamısı</span>
-                                        </label>
-                                        <label class="custom-checkbox">
-                                            <input type="checkbox" name="categoryId" value="1" @(selectedCategories.Contains(1) ? "checked" : "") />
-                                            <span>Kişi ətirləri</span>
-                                        </label>
-                                        <label class="custom-checkbox">
-                                            <input type="checkbox" name="categoryId" value="2" @(selectedCategories.Contains(2) ? "checked" : "") />
-                                            <span>Qadın ətirləri</span>
-                                        </label>
-                                        <label class="custom-checkbox">
-                                            <input type="checkbox" name="categoryId" value="3" @(selectedCategories.Contains(3) ? "checked" : "") />
-                                            <span>Unisex ətirləri</span>
-                                        </label>
-                                    </div>
-                                </div>
+                        <h3>ƏTİRLƏR</h3>
+                        <div class="filter-section">
+                            <h4>KATEQORİYALAR</h4>
+                            @{
+                                List<int> selectedCategories = ViewBag.SelectedCategories as List<int> ?? new List<int>();
+                            }
+                            <div class="checkbox-group">
+                                <label class="custom-checkbox"style="display:none">
+                                    <input type="checkbox" name="categoryId" value="" @(selectedCategories == null? "checked" : "") />
+                                    <span>Hamısı</span>
+                                </label>
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="categoryId" value="1" @(selectedCategories.Contains(1) ? "checked" : "") />
+                                    <span>Kişi ətirləri</span>
+                                </label>
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="categoryId" value="2" @(selectedCategories.Contains(2) ? "checked" : "") />
+                                    <span>Qadın ətirləri</span>
+                                </label>
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="categoryId" value="3" @(selectedCategories.Contains(3) ? "checked" : "") />
+                                    <span>Unisex ətirləri</span>
+                                </label>
+                            </div>
+                        </div>
 
-                                        <div class="filter-section">
-                                            <h4>BRENDLƏR</h4>
-                                            <div class="search-bar">
-                                                <input type="text" id="brandSearchInput" class="form-control" placeholder="Brend axtar..." />
-                                                <i class="fas fa-search"></i>
-                                            </div>
+                        <div class="filter-section">
+                            <h4>BRENDLƏR</h4>
+                            <div class="search-bar">
+                                <input type="text" id="brandSearchInput" class="form-control" placeholder="Brend axtar..." />
+                                <i class="fas fa-search"></i>
+                            </div>
 
-                                            @{
-                                                var brands = ViewBag.Allbrands as List<ResultBrandDto>;
-                                                List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
-                                            }
+                            @{
+                                var brands = ViewBag.Allbrands as List<ResultBrandDto>;
+                                List<int> selected = ViewBag.SelectedBrand as List<int> ?? new List<int>();
+                            }
 
-                                            <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
-                                                @foreach (var brand in brands)
-                                                {
-                                                    <label class="custom-checkbox">
-                                                        <input type="checkbox" name="brandId" value="@brand.Id"
-                                                        @(selected.Contains(brand.Id) ? "checked" : "") />
-                                                        <span>@brand.Name</span>
-                                                    </label>
-                                                }
-                                            </div>
-                                        </div>
+                            <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
+                                @foreach (var brand in brands)
+                                {
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="brandId" value="@brand.Id"
+                                        @(selected.Contains(brand.Id) ? "checked" : "") />
+                                        <span>@brand.Name</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
 
-                                        <div class="filter-section">
+                        <div class="filter-section">
 
-                                            <h4><i class="fas fa-spa"></i> Ailə</h4>
+                            <h4><i class="fas fa-spa"></i> Ailə</h4>
 
-                                            @{
-                                                List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
-                                                var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
-                                            }
-                                                <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
-                                                    @foreach (var family in allFamilies)
-                                                    {
-                                                        <label class="custom-checkbox">
-                                                            <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
-                                                            @(selecteds.Contains (family.Id) ? "checked" : "") />
-                                                            <span>@family.Name</span>
-                                                        </label>
-                                                    }
-                                                </div>
-                                        </div>
+                            @{
+                                List<int> selecteds = ViewBag.SelectedFamily  as List<int>?? new List<int>();
+                                var allFamilies = ViewBag.AllFamilies as  List<ResultFragranceFamilyDto>;
+                            }
+                            <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
+                                @foreach (var family in allFamilies)
+                                {
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="fragranceFamilyId" value="@family.Id"
+                                        @(selecteds.Contains (family.Id) ? "checked" : "") />
+                                        <span>@family.Name</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
 
-                                <div class="filter-section">
+                        <div class="filter-section">
 
-                                    <h4><i class="fas fa-spa"></i> Notlar</h4>
+                            <h4><i class="fas fa-spa"></i> Notlar</h4>
 
-                                    @{
-                                        List<int> selectedsnote = ViewBag.SelectedNote as List<int> ?? new List<int>();
-                                        var allnotes = ViewBag.Notes as List<ResultFragranceNoteDto>;
-                                    }
-                                    <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
-                                            @foreach (var note in allnotes)
-                                            {
-                                                <label class="custom-checkbox">
-                                                    <input type="checkbox" name="fragranceNoteId" value="@note.Id"
-                                                    @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
-                                                    <span>@note.Name</span>
-                                                </label>
-                                            }
-                                     </div>
-                                            
+                            @{
+                                List<int> selectedsnote = ViewBag.SelectedNote as List<int> ?? new List<int>();
+                                var allnotes = ViewBag.Notes as List<ResultFragranceNoteDto>;
+                            }
+                            <div class="checkbox-group" style="max-height: 200px; overflow-y: auto;">
+                                @foreach (var note in allnotes)
+                                {
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="fragranceNoteId" value="@note.Id"
+                                        @(ViewBag.SelectedNote?.Contains(note.Id)== true ? "checked" : "") />
+                                        <span>@note.Name</span>
+                                    </label>
+                                }
+                            </div>
 
-                                </div>
 
                         </div>
-                       
-                    </form>
+
+                    </div>
+
+                </form>
 
 
-                         <p>Hazırda axtarış aralığı: <strong>@ViewBag.MinPrice</strong> ₼ - <strong>@ViewBag.MaxPrice</strong> ₼</p>
-                
+                <p>Hazırda axtarış aralığı: <strong>@ViewBag.MinPrice</strong> ₼ - <strong>@ViewBag.MaxPrice</strong> ₼</p>
+
             </aside>
-           
 
-                <div class="product-grid">
-                    @if (Model?.Items != null && Model.Items.Any())
+
+            <div class="product-grid">
+                @if (Model?.Items != null && Model.Items.Any())
+                {
+                    @foreach (var product in Model.Items)
                     {
-                        @foreach (var product in Model.Items)
-                        { 
-                           
+                        var minPrice = product.ProductVariants?.Any() == true
+                        ? product.ProductVariants.Min(x => x.CurrentPrice)
+                        : 0;
+                        var maxPrice = product.ProductVariants?.Any() == true
+                        ? product.ProductVariants.Max(x => x.CurrentPrice)
+                        : 0;
+                        <article class="product-card"
+                        data-gender="@product.CategoryName?.ToLower()"
+                        data-family="@product.FamilyName?.ToLower()"
+                        data-brand="@product.BrandName?.ToLower()"
+                        data-price="" style="border:1px solid">
+                            <div class="product-image"style="width:100%;height:60%">
+                                <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
+                                    <img style="margin-top:20px" src="@product.ImageUrl" alt="@product.Name" />
+                                </a>
 
-                            <article class="product-card"
-                                     data-gender="@product.CategoryName?.ToLower()"
-                                     data-family="@product.FamilyName?.ToLower()"
-                                     data-brand="@product.BrandName?.ToLower()"
-                                     data-price="">
-                                <div class="product-image">
-                                    <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
-                                        <img src="@product.ImageUrl" alt="@product.Name" />
-                                    </a>
-
-                                    <div class="product-badges">
-                                        @if (product.IsNew)
-                                        {
-                                            <span class="badge new">New</span>
-                                        }
-                                        @if (product.IsBestseller)
-                                        {
-                                            <span class="badge bestseller">Bestseller</span>
-                                        }
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
-                                        <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
+                                <div class="product-badges">
+                                    @if (product.IsNew)
+                                    {
+                                        <span class="badge new">New</span>
+                                    }
+                                    @if (product.IsBestseller)
+                                    {
+                                        <span class="badge bestseller">Bestseller</span>
+                                    }
+                                </div>
+                                <div class="product-actions">
+                                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                                    <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
                                     <button class="add-to-cart" data-productId="@product.ProductId" data-quantity="1" type="button">
                                         <i class="fas fa-shopping-cart"></i></button>
-                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="product-info">
-                                    <h3>@product.Name</h3>
-                                    <p class="product-description">
-                                        @product.Description
-                                        <span class="fragrance-family">Family: @product.FamilyName</span>
-
+                            <div class="product-info"style="margin-top:60px">
+                                <h3>@product.Name</h3>
+                                <p class="product-description">
+                                      
+                                        <span style="color:blueviolet;font-size:15px" class="fragrance-family"> @product.BrandName</span>
                                     </p>
-                                    <div class="product-price">
-                                        <span class="current-price"></span>
-                                        <span class="original-price"></span>
-                                    </div>
-                                </div>
 
+                                <div class="product-price">
+
+                                    <div class="product-price">
+                                        @if (minPrice == maxPrice)
+                                        {
+                                            <span class="current-price">@minPrice ₼</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="font-size:25px;color:#00AFD5;text-decoration:none" class="original-price"> @minPrice ₼ - @maxPrice ₼</span>
+                                        }
+                                    </div>
+                                    
+                                </div>
+                            </div>
                             </article>
 
                       

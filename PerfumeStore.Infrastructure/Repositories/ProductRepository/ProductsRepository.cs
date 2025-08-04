@@ -83,7 +83,9 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                     .Include(p => p.Brand)
                     .Include(p => p.Category)
                     .Include(p => p.Family)
+                    .Include(p=>p.ProductVariants)
                     .Include(p => p.ProductNotes)
+                    
                     .ThenInclude(pn=>pn.FragranceNote)
                     .AsQueryable();
 
@@ -102,12 +104,14 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
 
             if (minPrice.HasValue)
             {
-                query = query.Where(p => p.ProductVariants.FirstOrDefault().CurrentPrice >= minPrice.Value);
+                query = query.Where(p =>
+                    p.ProductVariants.Any(v => v.CurrentPrice >= minPrice.Value));
             }
 
             if (maxPrice.HasValue)
             {
-                query = query.Where(p => p.ProductVariants.FirstOrDefault().CurrentPrice <= maxPrice.Value);
+                query = query.Where(p =>
+                    p.ProductVariants.Any(v => v.CurrentPrice <= maxPrice.Value));
             }
 
             var totalCount = await query.CountAsync();

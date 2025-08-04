@@ -114,6 +114,16 @@
             background: #fff;
         }
 
+        .main_menu nav > ul > li > a {
+            display: block;
+            font-size: 16px;
+            line-height: 20px;
+            padding: 10px 23px;
+            text-transform: uppercase;
+            font-weight: 400;
+            position: relative;
+            color: whitesmoke;
+        }
             .search_form input[type="text"] {
                 border: none;
                 padding: 8px 12px;
@@ -375,7 +385,7 @@
                 <a href="https://www.tiktok.com/millshop_esans_agdas?_t=ZS-8vuIioQGKag&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
             </div>
 
-            <div class="col-lg-4"style="margin-right:-300px;">
+            <div class="col-lg-4"style="margin-right:-300px">
                 <div class="header_top_right">
                     <div class="header_right_info">
                         <ul>
@@ -390,14 +400,14 @@
                                     </form>
                                 </div>
                             </li> *@
-                            <li class="header_wishlist" style="margin-right:30px">
+                            <li class="header_wishlist" style="margin-right:30px;margin-top:-20px">
                                 <a href="wishlist.html">
                                     <i class="fa fa-heart-o"></i>
                                     <span class="item_count">4</span>
                                 </a>
                             </li>
-                            <li class="mini_cart_wrapper"style="margin-right:20px">
-                            <li class="mini_cart_wrapper" style="margin-right:20px">
+                           
+                            <li class="mini_cart_wrapper" style="margin-right:20px;font-size:18px">
                                 <div id="cartDropdownContainer">
                                         @await Component.InvokeAsync("CartMenu", new { userId = ViewBag.UserId })
                                     <!-- UserId dinamik ola bilər, hardan gətirirsənsə -->
@@ -410,8 +420,8 @@
                         <ul>
 
                             <li class="language"style="margin-right:-30px">
-                                <a href="#">
-                                    <img src="/icon/azerbaijan.png" alt="Azərbaycan"> AZ <i class="fa fa-angle-down"></i>
+                                <a href="#" style="font-size:16px;margin-top:-15px;color:white">
+                                    <img  src="#" alt=""> AZ <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown_language">
                                     <li><a href="#">Russiya</a></li>
@@ -428,9 +438,9 @@
 
     <header>
         <div class="main_header header_transparent header-mobile-m"style="margin-top:50px">
-            <div class="header_container sticky-header" style="background-color:white;height:150px;">
+            <div class="header_container sticky-header" style="background-color:#0C1355;height:100px">
                 <div class="container-fluid">
-                    <div class="row align-items-center"style="margin-top:40px">
+                    <div class="row align-items-center"style="margin-top:10px">
                         <div class="col-lg-2">
                             <div class="logo">
                                 <a href="/Home"><img src="/logo.png" alt=""></a>

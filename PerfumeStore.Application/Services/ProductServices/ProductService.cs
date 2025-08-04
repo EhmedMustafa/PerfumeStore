@@ -67,7 +67,7 @@ namespace PerfumeStore.Infrastructure.Services
                     FragranceNoteId = n.FragranceNoteId,
                     Type = n.Type,
                 }).ToList()
-
+                
             });
            
             await _productRepository.SaveChangesAsync();

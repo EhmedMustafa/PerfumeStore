@@ -35,6 +35,8 @@ namespace PerfumeStore.Application.Profiles
             CreateMap<ProductNote, ProductNoteDto>()
                 .ForMember(dest => dest.FragranceNoteName, opt => opt.MapFrom(scr => scr.FragranceNote.Name));
 
+
+
         }
     }
 }

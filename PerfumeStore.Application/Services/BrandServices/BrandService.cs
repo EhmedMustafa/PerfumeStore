@@ -31,7 +31,9 @@ namespace PerfumeStore.Application.Services.BrandServices
             var valeus = _genericRepository.AddAsync(new Brand
             {
                 Name = createBrandDto.Name,
+                Tagline=createBrandDto.Tagline,
                 LogoUrl = createBrandDto.LogoUrl,
+                Description=createBrandDto.Description
             });
             await _genericRepository.SaveChangesAsync();
         }

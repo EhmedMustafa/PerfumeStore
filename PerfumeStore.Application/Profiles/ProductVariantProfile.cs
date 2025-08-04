@@ -15,6 +15,8 @@ namespace PerfumeStore.Application.Profiles
         {
             CreateMap<ProductVariant, ResultProductVariantDto>();
             CreateMap<Product, ResultProductVariantDto>().ReverseMap();
+            CreateMap<ProductVariant, ProductVariantCreateDto>();
+
 
         }
     }
