@@ -11,8 +11,9 @@ namespace PerfumeStore.Application.Dtos.CartItemDtos
     public class ResultCartItemDto
     {
         public int CartItemId { get; set; }
-        public int ProductId { get; set; }
-        public ResultProductDto ProductName { get; set; }
+        // public int ProductId { get; set; }
+        // public ResultProductDto Product { get; set; }
+        public int ProductVariantId { get; set; }
         public ResultProductVariantDto ProductVariant { get; set; }  // Variant məlumatları üçün
         //public string ProductName { get; set; }
         public int Quantity { get; set; }

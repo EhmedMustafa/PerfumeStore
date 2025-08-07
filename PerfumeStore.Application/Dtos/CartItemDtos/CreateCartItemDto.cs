@@ -14,7 +14,7 @@ namespace PerfumeStore.Application.Dtos.CartItemDtos
       //  public int CartId { get; set; }
        
 
-       // public int ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public int ProductVariantId { get; set; }
 

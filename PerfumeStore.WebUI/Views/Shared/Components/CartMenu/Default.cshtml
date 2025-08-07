@@ -35,17 +35,17 @@
     {
         @foreach (var item in Model.CartItems)
         {
-            @if (item.ProductName != null)
+            @if (item.ProductVariant != null)
             {
                 <div class="cart_gallery">
                     <div class="cart_item">
                         <div class="cart_img"style="max-height:50%">
                             <a href="#">
-                                <img src="@item.ProductName.ImageUrl" alt="Perfume"loading="Lazy">
+                                <img src="@item.ProductVariant.ProductImageUrl" alt="Perfume"loading="Lazy">
                             </a>
                         </div>
                         <div class="cart_info">
-                            <a href="#">@item.ProductName.Name</a>
+                            <a href="#">@item.ProductVariant.ProductName</a>
                           @*   <p><span>@item.ProductName.OriginalPrice</span></p> *@
                         </div>
                         <div class="cart_remove">

@@ -4,6 +4,7 @@ using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IBrandRepository;
 using PerfumeStore.Application.Interfaces.ICartRepository;
 using PerfumeStore.Application.Interfaces.IProductRepository;
+using PerfumeStore.Application.Interfaces.IProductVariant;
 using PerfumeStore.Application.Profiles;
 using PerfumeStore.Application.Services.BrandServices;
 using PerfumeStore.Application.Services.CartItemItemServices;
@@ -13,10 +14,12 @@ using PerfumeStore.Application.Services.CategoryServices;
 using PerfumeStore.Application.Services.FragranceFamilyService;
 using PerfumeStore.Application.Services.FragranceNoteServices;
 using PerfumeStore.Application.Services.ProductServices;
+using PerfumeStore.Domain.Entities;
 using PerfumeStore.Infrastructure.Data;
 using PerfumeStore.Infrastructure.Repositories;
 using PerfumeStore.Infrastructure.Repositories.CartRepository;
 using PerfumeStore.Infrastructure.Repositories.ProductRepository;
+using PerfumeStore.Infrastructure.Repositories.ProductVariant;
 using PerfumeStore.Infrastructure.Repositories.Repository;
 using PerfumeStore.Infrastructure.Services;
 
@@ -42,6 +45,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartItemService, CartItemService>();
 builder.Services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped(typeof(IProductVariantRepository), typeof(ProductVariantRepository));
 
 var app = builder.Build();
 

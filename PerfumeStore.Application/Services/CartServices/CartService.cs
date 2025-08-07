@@ -86,7 +86,7 @@ namespace PerfumeStore.Application.Services.CartServices
 
         public async Task<GetByIdCartDto> GetCartByUserIdWithItemsAsync(int userId)
         {
-            var values = await _cartRepository.GetCartByIdWithItemsAsync(userId);
+            var values = await _cartRepository.GetCartByUserIdWithItemsAsync(userId);
             var map = _mapper.Map<GetByIdCartDto>(values);
             return map;
         }

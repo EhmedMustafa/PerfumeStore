@@ -3,6 +3,7 @@ using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Dtos.ProductVariantDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IProductRepository;
+using PerfumeStore.Application.Interfaces.IProductVariant;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
 using System;
@@ -15,18 +16,19 @@ namespace PerfumeStore.Infrastructure.Services
         private readonly IGenericRepository<Product> _productRepository;
         private readonly IMapper _mapper;
         private readonly IProductRepository _repository;
-       
+        private readonly IProductVariantRepository _productVariant;
 
-        public ProductService(IGenericRepository<Product> productRepository,IMapper mapper, IProductRepository _Repository)
+        public ProductService(IGenericRepository<Product> productRepository, IMapper mapper, IProductRepository _Repository, IProductVariantRepository productVariant)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _repository = _Repository;
+            _productVariant = productVariant;
         }
 
-      
 
-       
+
+
         public async Task<IEnumerable<ResultProductDto>> GetAllProductAsync()
         {
             var product= await _repository.GetAllWithNotesAsync();
@@ -186,7 +188,7 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task<ResultProductVariantDto> GetByIdProductVariantAsync(int id)
         {
-           var variant = await _productRepository.GetByIdAsync(id);
+           var variant = await _productVariant.GetVariantWithDetailsByIdAsync(id);
             if (variant == null)
                 throw new Exception("Variant tapılmadı");
             var map= _mapper.Map<ResultProductVariantDto>(variant);

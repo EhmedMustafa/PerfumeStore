@@ -88,13 +88,13 @@
                             <tr style="font-size:20px">
                                
                                 <td style="display:flex">
-                                    <img src="@item.ProductName.ImageUrl" class="cart-img" alt="">
-                                    <h6 style="font-size:20px;margin: 25px 0 0 20px" class="mb-1">@item.ProductName.Name</h6>
-                                    @* <p class="@item.ProductName.Size |@item.ProductName.CategoryName</p> *@
+                                    <img src="@item.ProductVariant.ProductImageUrl" class="cart-img" alt="">
+                                    <h6 style="font-size:20px;margin: 25px 0 0 20px" class="mb-1">@item.ProductVariant.ProductName ( @item.ProductVariant.Size)</h6>
+                                    
                                 </td>
-                               @*  <td>@item.ProductName.OriginalPrice</td> *@
+                                
 
-                                <td style="width: 120px;">
+                        <td style="width: 120px;">
                                     <input type="number"
                                            class="form-control text-center quantity-input"
                                            data-id="@item.CartItemId"

@@ -7,9 +7,107 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 
-
 @section Styles {
 <style>
+        #productModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+
+        /* Modal dialog */
+        .modal-dialog {
+            background: #fff;
+            border-radius: 6px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Modal header */
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .modal-header h5 {
+                margin: 0;
+                font-size: 1.25rem;
+            }
+
+        /* Close button */
+        .custom-close-btn {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #000;
+        }
+
+            .custom-close-btn:hover {
+                color: red;
+            }
+
+        /* Modal body */
+        .modal-body {
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+            /* Left column: image */
+            .modal-body .image-col {
+                flex: 0 0 33.3333%; /* təxminən col-md-4 */
+            }
+
+                .modal-body .image-col img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 4px;
+                }
+
+            /* Right column: details */
+            .modal-body .details-col {
+                flex: 1; /* col-md-8 */
+                min-width: 200px;
+            }
+
+        /* Variantlar üçün konteyner */
+        #variantList {
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .modal-body
+
+        {
+            flex-direction: column;
+        }
+
+        .modal-body .image-col,
+        .modal-body .details-col {
+            flex: 1 1 100%;
+        }
+
+        }
+
     .price-filter {
     max-width: 300px;
     margin-bottom: 20px;
@@ -199,7 +297,7 @@
 
 </style>
 }
-
+<body>
 
 <main>
     <<!-- Alert göstəricisi üçün konteyner (səhifənin sağ yuxarısı) -->
@@ -358,11 +456,14 @@
                         data-family="@product.FamilyName?.ToLower()"
                         data-brand="@product.BrandName?.ToLower()"
                         data-price="" style="border:1px solid">
-                            <div class="product-image"style="width:100%;height:60%">
+                            <div class="product-image" style="width:100%;height:60%">
                                 <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
                                     <img style="margin-top:20px" src="@product.ImageUrl" alt="@product.Name" />
                                 </a>
-
+                              
+                                    
+                             
+                                
                                 <div class="product-badges">
                                     @if (product.IsNew)
                                     {
@@ -372,12 +473,16 @@
                                     {
                                         <span class="badge bestseller">Bestseller</span>
                                     }
+                                   
                                 </div>
+                               
                                 <div class="product-actions">
                                     <button class="favorite-btn"><i class="far fa-heart"></i></button>
                                     <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
-                                    <button class="add-to-cart" data-productId="@product.ProductId" data-quantity="1" type="button">
-                                        <i class="fas fa-shopping-cart"></i></button>
+
+                                   
+                                  @*  <button class="add-to-cart" data-productId="@product.ProductId" data-quantity="1" type="button">
+                                    <i class="fas fa-shopping-cart"></i></button>*@
                                 </div>
                             </div>
 
@@ -388,9 +493,11 @@
                                         <span style="color:blueviolet;font-size:15px" class="fragrance-family"> @product.BrandName</span>
                                     </p>
 
+                            
+
                                 <div class="product-price">
 
-                                    <div class="product-price">
+                                    <div style="margin-right:20px" class="product-price">
                                         @if (minPrice == maxPrice)
                                         {
                                             <span class="current-price">@minPrice ₼</span>
@@ -400,9 +507,15 @@
                                             <span style="font-size:25px;color:#00AFD5;text-decoration:none" class="original-price"> @minPrice ₼ - @maxPrice ₼</span>
                                         }
                                     </div>
-                                    
+                                    <button class="add-to-cart" data-bs-toggle="modal" data-bs-target="#productModal"
+                                            data-product-id="@product.ProductId"
+                                            data-product-name="@product.Name"
+                                            data-product-image="@product.ImageUrl" type="button">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
                                 </div>
                             </div>
+                          
                             </article>
 
                       
@@ -494,6 +607,36 @@
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<!-- Modal -->
+<!-- Modal -->
+<!-- Modal -->
+
+
+
+<div id="productModal" role="dialog" aria-modal="true" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="productModalLabel">Məhsul detalları</h5>
+                <button type="button" class="custom-close-btn" aria-label="Bağla">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="image-col">
+                    <img id="modalProductImage" src="https://via.placeholder.com/300x300" alt="Məhsul şəkli" />
+                </div>
+                <div class="details-col">
+                    <h4 id="modalProductName">Məhsulun adı</h4>
+                    <div id="variantList">
+                        <p>Variant 1</p>
+                        <p>Variant 2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -678,7 +821,7 @@
 
 <script>
     $(document).ready(function () {
-        $('.add-to-cart').click(function (e) {
+        $('.add-to-carta').click(function (e) {
             e.preventDefault();
 
             var productId = $(this).data('productid');
@@ -728,9 +871,102 @@
       
     });
 </script>
+
+
+
+    <script>
+        const modal = document.getElementById('productModal');
+
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            const productId = button.getAttribute('data-product-id');
+            const productName = button.getAttribute('data-product-name');
+            const productImage = button.getAttribute('data-product-image');
+
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalProductImage').src = productImage;
+
+            const variantListDiv = document.getElementById('variantList');
+            variantListDiv.innerHTML = 'Yüklənir...';
+
+            // Variantları AJAX ilə yüklə
+            fetch(`/ProductVariants/GetByProductId/${productId}`)
+                .then(res => res.json())
+                .then(variants => {
+                    if (variants.length === 0) {
+                        variantListDiv.innerHTML = '<p>Variant tapılmadı.</p>';
+                        return;
+                    }
+
+                    variantListDiv.innerHTML = '';
+                    variants.forEach(variant => {
+                        variantListDiv.innerHTML += `
+                            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                <div><strong>${variant.size}</strong> - ${variant.currentPrice ?? variant.originalPrice} ₼</div>
+                                <button class="btn btn-sm btn-success" onclick="addToCart(${variant.id})">Səbətə əlavə et</button>
+                            </div>
+                        `;
+                    });
+                });
+        });
+
+        function addToCart(variantId) {
+        fetch('/Cart/AddToCartItem', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productVariantId: variantId, quantity: 1 })
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert("Səbətə əlavə olundu!");
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+                    modal.hide();
+                updateCartDropdown();
+                } else {
+                    alert("Xəta baş verdi.");
+                }
+            });
+        }
+    </script>
+
 <script>
     window.updateCartDropdown = function () {
         $("#cartDropdownContainer").load("/Cart/RefreshCartDropdown");
     }
 </script>
+<script>
+    const modal = document.getElementById('productModal');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = modal.querySelector('.custom-close-btn');
 
+    // Modalı aç
+    openBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+    });
+
+    // Modalı bağla (düymə kliklə)
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+    });
+
+    // Modal arxa fon kliklə bağla
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // ESC düyməsi ilə bağla
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "Escape" && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+</script>
+
+</body>
