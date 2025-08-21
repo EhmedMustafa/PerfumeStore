@@ -45,6 +45,7 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
         {
             var all = await _context.Products
                 .Include(p => p.Category)
+                .Include(p=>p.ProductVariants)
             .Where(p => p.CategoryId==categoryId)
             .OrderBy(p => p.ProductId)
             .ToListAsync();

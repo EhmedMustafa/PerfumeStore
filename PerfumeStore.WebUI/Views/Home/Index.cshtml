@@ -9,7 +9,7 @@
 <!-- slider section starts  -->
 <section class="slider_section slider_section2 mb-66"style="margin-top:-7px">
     <div class="slider_area owl-carousel">
-        <div class="single_slider d-flex align-items-center" data-bgimg="slider/slider1.jpg"style="margin-top:100px;height:700px">
+        <div class="single_slider d-flex align-items-center" data-bgimg="slider/slider1.jpg"style="margin-top:100px;height:600px">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6 offset-lg-6 col-md-6 offset-md-6">
@@ -24,7 +24,7 @@
             </div>
 
         </div>
-        <div class="single_slider d-flex align-items-center" data-bgimg="slider/slider2.jpg" style="margin-top:70px;height:700px">
+        <div class="single_slider d-flex align-items-center" data-bgimg="slider/slider2.jpg" style="margin-top:100px;height:600px">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
@@ -61,16 +61,16 @@
                             {
                                 <li>
                                     <a class="nav-link @(categoryIndex == 0 ? "active" : "")"
-                                       href="#@category"
-                                       data-bs-toggle="tab"
-                                       role="tab"
-                                       aria-controls="@category"
-                                       aria-selected="@(categoryIndex == 0 ? "true" : "false")">
+                                    href="#@category"
+                                    data-bs-toggle="tab"
+                                    role="tab"
+                                    aria-controls="@category"
+                                    aria-selected="@(categoryIndex == 0 ? "true" : "false")">
                                         @(
-                                            category == "Men" ? "KİŞİ" :
-                                            category == "Women" ? "QADIN" :
-                                            category == "Unisex" ? "UNİSEX" : category
-                                            )
+                                                                category == "Men" ? "KİŞİ" :
+                                                                category == "Women" ? "QADIN" :
+                                                                category == "Unisex" ? "UNİSEX" : category
+                                                                )
                                     </a>
                                 </li>
                                 categoryIndex++;
@@ -94,22 +94,29 @@
                         <div class="product_carousel product_column4 owl-carousel">
                             @foreach (var product in Model[category])
                             {
-                                <div class="col-lg-3">
+                                var minPrice = product.ProductVariants?.Any() == true
+                                ? product.ProductVariants.Min(x => x.CurrentPrice) : 0;
+
+                                var maxPrice = product.ProductVariants?.Any() == true
+                                ? product.ProductVariants.Max(x => x.CurrentPrice) : 0;
+
+
+                                <div class="col-lg-3"style="border:1px solid;height:450px;background-color:white;border-radius:10px">
                                     <article class="single_product">
                                         <figure>
                                             <div class="product_thumb">
-                                                <a href="@* /Kataloq/Index?Id"@product.ProductId *@" class="primary_img">
-                                                    <img src="~/best-product/B1-1.png" alt="@product.Name">
+                                                <a href=" /Kataloq/Index?Id@product.ProductId" class="primary_img">
+                                                    <img src="@product.ImageUrl" alt="@product.Name">
                                                 </a>
 
                                                 <div class="action_links">
                                                     <ul>
                                                         <li class="add_to_cart">
                                                             <button style="border:1px solid;" type="button"
-                                                                    class="add-to-cart"
-                                                                    data-productid="@product.ProductId"
-                                                                    data-quantity="1"
-                                                                    title="Səbətə əlavə et">
+                                                            class="add-to-cart"
+                                                            data-productid="@product.ProductId"
+                                                            data-quantity="1"
+                                                            title="Səbətə əlavə et">
                                                                 <i class="fa fa-shopping-cart"></i>
                                                             </button>
                                                         </li>
@@ -127,14 +134,23 @@
                                                 </div>
                                             </div>
                                             <figcaption class="product_content">
-                                                <h4 class="product_name">
+                                                <h4 class="product_name"style="margin-top:40px">
                                                     <a href="#">@product.Name</a>
                                                 </h4>
+
                                                 <div class="price_box">
-                                                     <span class="old_price">@product.ProductVariants.FirstOrDefault()?.CurrentPrice ₼</span>
-                                                    <span class="current_price">@product.ProductVariants.FirstOrDefault()?.OriginalPrice ₼</span> 
+                                                    @if (minPrice==maxPrice)
+                                                    {
+                                                        <span class="current_price">@minPrice ₼</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span style="color:darkturquoise;font-size:20px" class="current_price">@minPrice ₼ - @maxPrice ₼</span>
+                                                    }
+                                                   
                                                 </div>
-                                                <div class="product_rating">
+                                                <br>
+                                                <div style="margin-top:30px" class="product_rating">
                                                     <ul>
                                                         @for (int i = 0; i < 5; i++)
                                                         {

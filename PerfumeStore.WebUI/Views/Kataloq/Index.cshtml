@@ -295,6 +295,53 @@
     }
     }
 
+        #variantList .btn.active {
+            background: linear-gradient(135deg, #4f8ef7, #6ec1e4);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        #variantList .btn:hover {
+            background-color: #f1f1f1;
+        }
+
+        .modal-content {
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @@keyframes fadeInUp {
+            from
+
+        {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        #productModal .modal-body {
+            padding-bottom: 0 !important; /* altdakı boşluğu silir */
+        }
+
+        #productModal h6,
+        #productModal #variantList {
+            margin-bottom: 0 !important;
+        }
+
+        #productModal .modal-footer {
+            display: none !important; /* footer tamamilə silinir */
+        }
+
 </style>
 }
 <body>
@@ -467,16 +514,16 @@
                                 <div class="product-badges">
                                     @if (product.IsNew)
                                     {
-                                        <span class="badge new">New</span>
+                                        <span class="badge new">Yeni</span>
                                     }
                                     @if (product.IsBestseller)
                                     {
-                                        <span class="badge bestseller">Bestseller</span>
+                                        <span class="badge bestseller">Çox Satılan</span>
                                     }
                                    
                                 </div>
                                
-                                <div class="product-actions">
+                                <div class="product-actions"style="height:60px;font-weight:300">
                                     <button class="favorite-btn"><i class="far fa-heart"></i></button>
                                     <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
 
@@ -486,12 +533,12 @@
                                 </div>
                             </div>
 
-                            <div class="product-info"style="margin-top:60px">
+                            <div class="product-info"style="margin-top:50px;">
                                 <h3>@product.Name</h3>
                                 <p class="product-description">
                                       
                                         <span style="color:blueviolet;font-size:15px" class="fragrance-family"> @product.BrandName</span>
-                                    </p>
+                                 </p>
 
                             
 
@@ -612,31 +659,56 @@
 <!-- Modal -->
 <!-- Modal -->
 <!-- Modal -->
+    <!-- Minimal Balaca Modal -->
+    <div id="productModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 320px;">
+            <div class="modal-content border-0 shadow-sm rounded-4">
 
-
-
-<div id="productModal" role="dialog" aria-modal="true" aria-labelledby="productModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="productModalLabel">Məhsul detalları</h5>
-                <button type="button" class="custom-close-btn" aria-label="Bağla">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="image-col">
-                    <img id="modalProductImage" src="https://via.placeholder.com/300x300" alt="Məhsul şəkli" />
+                <!-- Header -->
+                <div class="modal-header bg-light border-0 py-2 px-3">
+                    <h6 id="productModalLabel" class="modal-title fw-semibold mb-0 fs-6">Məhsul Detalları</h6>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Bağla"></button>
                 </div>
-                <div class="details-col">
-                    <h4 id="modalProductName">Məhsulun adı</h4>
-                    <div id="variantList">
-                        <p>Variant 1</p>
-                        <p>Variant 2</p>
+
+                <!-- Body -->
+                <div class="modal-body py-2 px-3">
+                    <div class="d-flex align-items-center">
+
+                        <!-- Şəkil (sol tərəf) -->
+                        <img id="modalProductImage" src="https://via.placeholder.com/70"
+                             alt="Məhsul şəkli"
+                             class="rounded-circle border shadow-sm me-3"
+                             style="width:70px; height:70px; object-fit:cover;" />
+
+                        <!-- Mətnlər (sağ tərəf) -->
+                        <div class="flex-grow-1">
+                            <!-- Məhsul adı -->
+                            <h6 id="modalProductName" class="fw-bold mb-1 fs-6 text-dark" style="margin-bottom:0;">Məhsulun adı</h6>
+
+                            <!-- Variantlar -->
+                            <div id="variantList" class="d-flex flex-wrap gap-1 mb-0">
+                                <span class="badge bg-light text-dark border rounded-pill small">V1</span>
+                                <span class="badge bg-light text-dark border rounded-pill small">V2</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-</div>
+
+
+
+
+
+
+ 
+ 
+
+
+
 
 
 
