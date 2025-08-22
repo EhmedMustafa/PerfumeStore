@@ -22,6 +22,8 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             _context = Context;
         }
 
+       
+
         public async Task<List<Product>> GetAllWithNotesAsync()
         {
             return await _context.Products
@@ -181,6 +183,50 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
         {
             return await _context.Products.Where(p => p.Name.Contains(search)).ToListAsync();
         }
+
+        public async Task<Product> DeleteProduct(int Id)
+        {
+            var product = await _context.Products
+                 .Include(x => x.ProductVariants)
+                 .FirstOrDefaultAsync(p => p.ProductId == Id);
+
+            if (product!= null)
+            {
+                var variantIds= product.ProductVariants.Select(pv=>pv.Id).ToList();
+
+                var cartIds= await _context.CartItems
+                    .Where(ci=>variantIds.Contains(ci.ProductVariantId))
+                    .Select(ci=>ci.CartId)
+                    .Distinct()
+                    .ToListAsync();
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+                foreach (var item in cartIds)
+                {
+                    var cart = await _context.Carts
+                        .Include(c => c.CartItems)
+                        .ThenInclude(ci => ci.ProductVariant)
+                        .FirstOrDefaultAsync(c => c.CartId == item);
+
+                    if (cart !=null)
+                    {
+                        cart.TotalAmount = cart.CartItems.Sum(
+                            ci => ci.Quantity * ci.ProductVariant.CurrentPrice
+                            );
+                    }
+                }
+               await _context.SaveChangesAsync();
+            }
+
+            return product;
+        }
+
+
+
+
+
         //public async Task<List<Product>> GetProductByCategory(int categoryId)
         //{
         //    return await _context.Products.Where(x => x.CategoryId == categoryId).ToListAsync();

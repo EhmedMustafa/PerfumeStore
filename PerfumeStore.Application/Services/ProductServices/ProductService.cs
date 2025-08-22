@@ -101,7 +101,7 @@ namespace PerfumeStore.Infrastructure.Services
             var product = await _productRepository.GetByIdAsync(id);
             if (product != null)
             {
-                await _productRepository.DeleteAsync(product);
+                await _repository.DeleteProduct(id);
                 await _productRepository.SaveChangesAsync();
             }
         }

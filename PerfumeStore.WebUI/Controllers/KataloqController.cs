@@ -78,10 +78,11 @@ namespace PerfumeStore.WebUI.Controllers
                 .Where(v => v.ProductId == productId)
                 .Select(v => new
                 {
-                    v.Id,
-                    v.Size,
-                    v.OriginalPrice,
-                    v.CurrentPrice
+                    id = v.Id,
+                    size = v.Size,
+                    originalPrice = v.OriginalPrice,
+                    currentPrice = v.CurrentPrice,
+                    stockQuantity = 100 // Müvəqqəti olaraq 100 təyin edirəm, sonra database-dən gətirə bilərsiniz
                 })
                 .ToListAsync();
 

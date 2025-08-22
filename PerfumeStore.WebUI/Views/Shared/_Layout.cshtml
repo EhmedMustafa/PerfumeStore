@@ -409,8 +409,7 @@
                            
                             <li class="mini_cart_wrapper" style="margin-right:20px;font-size:18px">
                                 <div id="cartDropdownContainer">
-                                        @await Component.InvokeAsync("CartMenu", new { userId = ViewBag.UserId })
-                                    <!-- UserId dinamik ola bilər, hardan gətirirsənsə -->
+                                    @await Component.InvokeAsync("CartMenu")
                                 </div>
                             </li>
                             </li>

@@ -27,7 +27,7 @@
 </style>
 <a asp-controller="Cart" asp-action="Index" class="cart-icon">
     <i class="fa fa-shopping-cart"></i>
-    <span class="item_count">@ViewBag.TotalQuantity</span>
+    <span class="item_count">@(ViewBag.TotalQuantity ?? 0)</span>
 </a>
 
 <div class="mini_cart mini_cart2" style="background-color:#1e4a61;overflow-y:auto;max-height:400px">

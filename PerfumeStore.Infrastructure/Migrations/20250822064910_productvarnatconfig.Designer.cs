@@ -12,8 +12,8 @@ using PerfumeStore.Infrastructure.Data;
 namespace PerfumeStore.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250731124602_tables")]
-    partial class tables
+    [Migration("20250822064910_productvarnatconfig")]
+    partial class productvarnatconfig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -621,7 +621,7 @@ namespace PerfumeStore.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductVariants");
+                    b.ToTable("ProductVariants", (string)null);
                 });
 
             modelBuilder.Entity("PerfumeStore.Domain.Entities.Cart", b =>
@@ -645,7 +645,7 @@ namespace PerfumeStore.Infrastructure.Migrations
                     b.HasOne("PerfumeStore.Domain.Entities.ProductVariant", "ProductVariant")
                         .WithMany()
                         .HasForeignKey("ProductVariantId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cart");

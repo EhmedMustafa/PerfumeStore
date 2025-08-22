@@ -38,7 +38,8 @@ namespace PerfumeStore.Application.Services.CartItemServices
 
         public async Task AddCartItemAsync(int cartId, CreateCartItemDto createCartItemDto)
         {
-            var cart = await _cartRepository.GetCartByIdWithItemsAsync(cartId);
+
+            var cart = await _cartRepository.GetCartByUserIdWithItemsAsync(cartId); 
 
             if (cart == null)
             {
@@ -70,6 +71,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
             {
                 existingItem.Quantity += createCartItemDto.Quantity;
                 existingItem.TotalPrice = existingItem.Quantity * variant.CurrentPrice;
+                
             }
             else
             {
@@ -89,7 +91,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
             cart.TotalAmount = cart.CartItems?.Sum(ci => ci.TotalPrice) ?? 0;
 
             await _genericRepository.SaveChangesAsync();
-            await _cart.SaveChangesAsync();
+           // await _cart.SaveChangesAsync();
         }
 
 

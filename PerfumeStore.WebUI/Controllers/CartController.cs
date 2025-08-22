@@ -31,22 +31,29 @@ namespace PerfumeStore.WebUI.Controllers
         {
             var userId = 1;
             var cart = await _cartService.GetCartByUserIdWithItemsAsync(userId);
-            return ViewComponent("CartMenu", new { userId = userId }); // ViewComponent çağır
+            return PartialView("_CartDropdownPartial", cart); // Partial view qaytar
         }
 
 
         [HttpPost]
         public async Task<IActionResult> AddToCartItem([FromBody] CreateCartItemDto model)
         {
-
             try
             {
                 int cartId = 1; // ya userId-dən səbəti tap, ya statik, ya da sessiondan götür
 
                 await _cartItemService.AddCartItemAsync(cartId, model);
 
+                // Cart dropdown-ı yeniləmək üçün cart məlumatlarını qaytar
+                var updatedCart = await _cartService.GetCartByUserIdWithItemsAsync(1);
+                int totalQuantity = updatedCart?.CartItems?.Sum(x => x.Quantity) ?? 0;
 
-                return Json(new { success = true, message = "Məhsul səbətə əlavə olundu." });
+                return Json(new { 
+                    success = true, 
+                    message = "Məhsul səbətə əlavə olundu.",
+                    totalQuantity = totalQuantity,
+                    cartItems = updatedCart?.CartItems
+                });
             }
             catch (Exception ex)
             {
@@ -66,15 +73,17 @@ namespace PerfumeStore.WebUI.Controllers
                 
                 if (result)
                 {
-                    TempData["Success"] = "Məhsul səbətdən silindi.";
+                    return Json(new { success = true, message = "Məhsul səbətdən silindi." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Məhsul silinə bilmədi." });
                 }
             }
             catch (Exception ex)
             {
-                TempData["Error"] = ex.Message;
+                return Json(new { success = false, message = ex.Message });
             }
-
-            return RedirectToAction("Index");
         }
 
         [HttpPost]

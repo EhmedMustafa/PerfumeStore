@@ -17,9 +17,9 @@ namespace PerfumeStore.WebUI.Views.Shared.Components.ViewComponents
         {
             var userId = 1;
             var values = await _cartService.GetCartByUserIdWithItemsAsync(userId);
-            int totalquantity= values?.CartItems.Sum(x => x.Quantity)?? 0;
+            int totalQuantity = values?.CartItems?.Sum(x => x.Quantity) ?? 0;
 
-            ViewBag.Totalquantity= totalquantity;
+            ViewBag.TotalQuantity = totalQuantity;
             return View(values);
         }
              
