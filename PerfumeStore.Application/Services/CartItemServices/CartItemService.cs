@@ -56,7 +56,7 @@ namespace PerfumeStore.Application.Services.CartItemServices
 
             var variant = await _productVariant1.GetVariantWithDetailsByIdAsync(createCartItemDto.ProductVariantId);
             if (variant == null)
-                throw new Exception("Məhsul variantı tapılmadı."); // variant null-dursa, burda dayanacaq
+                throw new Exception($"Məhsul variantı tapılmadı. VariantId={createCartItemDto.ProductVariantId}");
 
             if (createCartItemDto.Quantity <= 0)
                 throw new Exception("Məhsulun sayı sıfır və ya mənfi ola bilməz.");

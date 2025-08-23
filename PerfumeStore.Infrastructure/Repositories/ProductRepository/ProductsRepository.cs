@@ -168,6 +168,7 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                 .Include(p=>p.Brand)
                 .Include(p=>p.Family)
                 .Include(p=>p.Category)
+                .Include(p=>p.ProductVariants)
                 .Include(p => p.ProductNotes)
                 .ThenInclude(pn=>pn.FragranceNote)
                 .ThenInclude(fn=>fn.NoteTypes)

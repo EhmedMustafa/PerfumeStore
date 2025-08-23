@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PerfumeStore.Application.Dtos.ProductVariantDtos;
 using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Dtos.ProductDtos
@@ -35,6 +36,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
 
         // public ICollection<FragranceNote> notes { get; set; }
 
+        public List<ProductVariantCreateDto> ProductVariants { get; set; }
         public ICollection<ProductNote> ProductNotes { get; set; } = new List<ProductNote>();
     }
 }

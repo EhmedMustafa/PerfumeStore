@@ -61,6 +61,11 @@ namespace PerfumeStore.Application.Services.CartServices
             //await _product.SaveChangesAsync();  
         }
 
+        public Task AddItemAsync(AddToCartRequest addToCartRequest)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task DeleteCartAsync(int id)
         {
             var values = await _genericRepository.GetByIdAsync(id);

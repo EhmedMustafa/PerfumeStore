@@ -20,7 +20,7 @@ namespace PerfumeStore.Application.Dtos.CartItemDtos
 
         public int Quantity { get; set; }
 
-        
+    
         //public decimal TotalPrice { get; set; } serverde
     }
 }

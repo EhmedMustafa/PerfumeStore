@@ -1,5 +1,6 @@
 ﻿using System.Net.WebSockets;
 using Microsoft.AspNetCore.Mvc;
+using PerfumeStore.Application.Dtos.CartDtos;
 using PerfumeStore.Application.Dtos.CartItemDtos;
 using PerfumeStore.Application.Services.CartItemItemServices;
 using PerfumeStore.Application.Services.CartServices;
@@ -26,64 +27,67 @@ namespace PerfumeStore.WebUI.Controllers
        
             return View(values);
         }
-      
+
         public async Task<IActionResult> RefreshCartDropdown()
         {
             var userId = 1;
             var cart = await _cartService.GetCartByUserIdWithItemsAsync(userId);
-            return PartialView("_CartDropdownPartial", cart); // Partial view qaytar
+            return ViewComponent("CartMenu", new { userId = userId }); // ViewComponent çağır
         }
 
 
         [HttpPost]
         public async Task<IActionResult> AddToCartItem([FromBody] CreateCartItemDto model)
         {
+
             try
             {
                 int cartId = 1; // ya userId-dən səbəti tap, ya statik, ya da sessiondan götür
 
                 await _cartItemService.AddCartItemAsync(cartId, model);
 
-                // Cart dropdown-ı yeniləmək üçün cart məlumatlarını qaytar
-                var updatedCart = await _cartService.GetCartByUserIdWithItemsAsync(1);
-                int totalQuantity = updatedCart?.CartItems?.Sum(x => x.Quantity) ?? 0;
 
-                return Json(new { 
-                    success = true, 
-                    message = "Məhsul səbətə əlavə olundu.",
-                    totalQuantity = totalQuantity,
-                    cartItems = updatedCart?.CartItems
-                });
+                return Json(new { success = true, message = "Məhsul səbətə əlavə olundu." });
             }
+
+
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
             }
-
-           
-
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> AddToCartFromDetails([FromBody] AddToCartRequest model) 
+        //{
+        //    try
+        //    {
+        //        await.
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
         [HttpPost]
         public async Task<IActionResult> DeleteCartItem(int id)
         {
             try
             {
                 var result = await _cartItemService.DeleteCartItemAsync(id);
-                
+
                 if (result)
                 {
-                    return Json(new { success = true, message = "Məhsul səbətdən silindi." });
-                }
-                else
-                {
-                    return Json(new { success = false, message = "Məhsul silinə bilmədi." });
+                    TempData["Success"] = "Məhsul səbətdən silindi.";
                 }
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                TempData["Error"] = ex.Message;
             }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

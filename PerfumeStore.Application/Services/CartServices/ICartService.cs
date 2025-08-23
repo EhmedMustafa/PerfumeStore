@@ -16,6 +16,7 @@ namespace PerfumeStore.Application.Services.CartServices
        // Task UpdateCartAsync(UpdateCartDto updateCartDto);
         Task DeleteCartAsync(int id);
 
+        Task AddItemAsync(AddToCartRequest addToCartRequest);
 
         Task<GetByIdCartDto> GetCartByUserIdWithItemsAsync(int userId);
     }

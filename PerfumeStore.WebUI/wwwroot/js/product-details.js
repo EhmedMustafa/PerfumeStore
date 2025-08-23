@@ -118,39 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Rəy yazma funksionallığı
-    const reviewForm = document.querySelector('.review-form');
-    if (reviewForm) {
-        reviewForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Rəy məlumatlarını al
-            const name = this.querySelector('input[name="name"]').value;
-            const rating = this.querySelector('input[name="rating"]:checked').value;
-            const comment = this.querySelector('textarea[name="comment"]').value;
-
-            // Yeni rəy elementi yarat
-            const reviewItem = document.createElement('div');
-            reviewItem.className = 'review-item';
-            reviewItem.innerHTML = `
-                <div class="review-header">
-                    <span class="reviewer-name">${name}</span>
-                    <span class="review-date">${new Date().toLocaleDateString('az-AZ')}</span>
-                </div>
-                <div class="review-rating">
-                    ${'★'.repeat(rating)}${'☆'.repeat(5-rating)}
-                </div>
-                <div class="review-text">${comment}</div>
-            `;
-
-            // Rəyi əlavə et
-            const reviewsList = document.querySelector('.reviews-list');
-            reviewsList.insertBefore(reviewItem, reviewsList.firstChild);
-
-            // Formu təmizlə
-            this.reset();
-        });
-    }
+  
 
     // Paylaşma düymələri funksionallığı
     const shareButtons = document.querySelectorAll('.share-buttons-container .buttons a');
