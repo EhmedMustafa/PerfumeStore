@@ -8,13 +8,14 @@ namespace PerfumeStore.Application.Dtos.ProductVariantDtos
 {
     public class ProductVariantCreateDto
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
         public string Size { get; set; }
         
         public decimal CurrentPrice { get; set; }
         public decimal OriginalPrice { get; set; }
 
-        public int Id { get; set; }
+        
       //  public string? ImageUrl { get; set; }
        // public int StockQuantity { get; set; }
     }
