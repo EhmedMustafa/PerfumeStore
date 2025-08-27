@@ -53,28 +53,112 @@
         background-color: #d63384;
         }
 
-     
+       @*----- MEhsul olmayanda bos sehife *@
+
+               /* Cart Page General */
+        .cart-page {
+          padding: 60px 0;
+          background: #f9f9fb;
+          min-height: 70vh;
+        }
+
+        .cart-title {
+          text-align: center;
+          font-size: 2.2rem;
+          margin-bottom: 40px;
+          color: #333;
+          font-weight: 700;
+          position: relative;
+          margin-top:50px;
+
+        }
+      
+        .cart-title::after {
+          content: "";
+          display: block;
+          width: 60px;
+          height: 3px;
+          background: #ff5a5f;
+          margin: 12px auto 0;
+          border-radius: 10px;
+        }
+
+        /* Cart Content */
+        .cart-content {
+          background: #fff;
+          border-radius: 16px;
+          padding: 25px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+          text-align: center;
+          padding: 60px 20px;
+          background: #fff;
+          border-radius: 16px;
+          margin-top: 40px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .empty-cart i {
+          font-size: 70px;
+          color: #ff5a5f;
+          margin-bottom: 20px;
+        }
+
+        .empty-cart h3 {
+          font-size: 1.8rem;
+          margin-bottom: 10px;
+          color: #333;
+        }
+
+        .empty-cart p {
+          color: #666;
+          margin-bottom: 25px;
+          font-size: 1rem;
+        }
+
+        .empty-cart .continue-shopping {
+          display: inline-block;
+          padding: 12px 25px;
+          background: #ff5a5f;
+          color: #fff;
+          border-radius: 30px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: 0.3s;
+        }
+
+        .empty-cart .continue-shopping:hover {
+          background: #e0484c;
+          transform: translateY(-2px);
+        }
+
 
     </style>
 </head>
 <body>
 
     @if (Model.CartItems!= null&& Model.CartItems.Any())
-    {
+    { 
+        <h2 style="margin-top:100px" class="cart-title">🛒 Səbətim</h2>
         <div class="container py-5" style="margin-top:50px">
-            <h2 class="mb-4 fw-bold text-center">Səbətim</h2>
+            <h2 class="mb-4 fw-bold text-center">Səbətinizdəki məhsullar</h2>
 
             <!-- Cart Table -->
             <div class="table-responsive mb-5">
                 <table class="table cart-table align-middle" style="text-align:center">
                     <thead>
 
-                        <tr>
+                        <tr style="text-align:center">
                             <th>Məhsul</th>
-                            <th>Qiymət</th>
+                            <th>Məhsulun adı</th>
+                            <th>Həcm</th>
                             <th>Miqdar</th>
-                            <th>Cəmi</th>
-                            <th></th>
+                            <th>Qiymət</th>
+                            <th>Sil</th>
+                            
                         </tr>
 
 
@@ -87,15 +171,13 @@
                         {
                             @foreach (var item in Model.CartItems)
                             {
-                                <tr style="font-size:20px">
+                                <tr style="font-size:20px;text-align:center">
 
                                     <td style="display:flex">
-                                        <img src="@item.ProductVariant.ProductImageUrl" class="cart-img" alt="">
-                                        <h6 style="font-size:20px;margin: 25px 0 0 20px" class="mb-1">@item.ProductVariant.ProductName ( @item.ProductVariant.Size)</h6>
-
+                                        <img style="height:120px;width:120px" src="@item.ProductVariant.ProductImageUrl" class="cart-img" alt="">
                                     </td>
-
-
+                                    <td><h6 style="font-size:20px;margin: 0 0 0 20px" class="mb-1">@item.ProductVariant.ProductName</h6></td>
+                                    <td>@item.ProductVariant.Size</td>
                                     <td style="width: 120px;">
                                         <input type="number"
                                         class="form-control text-center quantity-input"
@@ -104,7 +186,7 @@
                                         min="1"
                                         style="width:80px;" />
                                     </td>
-                                    <td><strong>@item.TotalPrice</strong></td>
+                                    <td><strong>@item.TotalPrice.ToString("0.##") ₼</strong></td>
                                     <td class="text-center">
                                         <form asp-controller="Cart" asp-action="DeleteCartItem" asp-route-id="@item.CartItemId" method="post" onsubmit="return confirm('Silmək istədiyinizə əminsiniz?')">
                                             <button type="submit" class="remove-btn btn btn-sm " title="Sil">
@@ -143,7 +225,7 @@
                             </li>
                         </ul>
                         <a href="/Home" class="btn btn-checkout1 w-100 mt-3">Alış-verişə davam et</a>
-                        <a href="/checkout" class="btn btn-checkout w-100 mt-3">Sifarişi Tamamla</a>
+                        <a href="/Checkout" class="btn btn-checkout w-100 mt-3">Sifarişi Tamamla</a>
                     </div>
                 </div>
             </div>
@@ -156,20 +238,20 @@
         <main class="site-main">
             <section class="cart-page">
                 <div class="container">
-                    <h2 class="text-center mb-5">Səbətim</h2>
-                    <div id="cart-content">
-                        <!-- Cart content will be loaded here -->
-                    </div>
+                    <h2 class="cart-title">🛒 Səbətim</h2>
+
+                  
                 </div>
+
+                <!-- Empty Cart -->
                 <div class="empty-cart">
                     <i class="ti-shopping-cart"></i>
                     <h3>Səbətiniz boşdur</h3>
                     <p>Alış-verişə davam etmək üçün məhsullar əlavə edin</p>
-                    <a href="index.html" class="continue-shopping">Alış-verişə davam et</a>
+                    <a href="/Kataloq" class="continue-shopping">Alış-verişə davam et</a>
                 </div>
             </section>
         </main>
-
     }
 
 

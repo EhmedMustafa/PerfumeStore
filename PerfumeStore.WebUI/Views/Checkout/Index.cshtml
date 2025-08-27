@@ -1,0 +1,240 @@
+﻿
+@model GetByIdCartDto
+<style>
+    .checkout-page {
+        padding: 50px 0;
+        background: #f9f9fb;
+        font-family: "Segoe UI", sans-serif;
+        margin-top:120px;
+    }
+
+    .checkout-wrapper {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .checkout-form, .checkout-summary {
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .checkout-form {
+        flex: 1 1 60%;
+        background:none;
+    }
+
+    .checkout-summary {
+        flex: 1 1 35%;
+        background-color:#F6F6F6;
+    }
+
+        .checkout-form h2, .checkout-summary h2 {
+            margin-bottom: 20px;
+            font-size: 1.0rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-group span {
+            color: red;
+        }
+
+    input[type="text"], input[type="email"], input[type="tel"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .order-table {
+        width: 100%;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+    }
+
+        .order-table th, .order-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+
+            
+        }
+       .order-table th:last-child{
+           text-align:end;
+
+       }
+
+            .order-table th{
+                margin-top:-60px;
+            }
+
+
+            .order-table td:last-child {
+                text-align: right;
+            }
+
+    .promo {
+        margin: 20px 0;
+    }
+
+    .promo-input {
+        display: flex;
+        gap: 10px;
+        margin: 8px 0;
+    }
+
+        .promo-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .promo-input button {
+            background: #0099cc;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .promo-input button:hover {
+                background: #007aa3;
+            }
+
+    .total {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+
+    .confirm-btn {
+        width: 100%;
+        padding: 14px;
+        background: #0099cc;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .confirm-btn:hover {
+            background: #007aa3;
+        }
+
+</style>
+<main class="checkout-page">
+    <div class="container">
+        <div class="checkout-wrapper">
+
+            <!-- Sol tərəf: Ödəniş Tərəfi -->
+            <div class="checkout-form">
+                <h2>Ödəniş Təfərrüatları</h2>
+                <form>
+                    <div class="form-group">
+                        <label>Ad,Soyad <span>*</span></label>
+                        <input type="text" placeholder="Ad və Soyadınızı daxil edin" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobil <span>*</span></label>
+                        <input type="tel" placeholder="Mobil nömrənizi daxil edin" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-poçt</label>
+                        <input type="email" placeholder="E-poçt ünvanı (opsional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Çatdırılma üsulu :</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="delivery" value="store"> Mağazadan əldə etmək</label>
+                            <label><input type="radio" name="delivery" value="address" checked> Ünvanına çatdırılma</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ünvan <span>*</span></label>
+                        <input type="text" placeholder="Yaşadığınız ünvanı daxil edin" required>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sağ tərəf: Sifariş -->
+            <div class="checkout-summary">
+                <h2>Sifarişiniz</h2>
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Məhsul</th>
+                            <th>Qiymət</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (Model?.CartItems!= null&& Model.CartItems.Any())
+                        {
+                            @foreach (var item in Model.CartItems)
+                            {
+                                <tr>
+                                    <td>@item.ProductVariant.ProductName @item.ProductVariant.Size x @item.Quantity </td>
+                                    <td>@item.ProductVariant.CurrentPrice.ToString("0.##") ₼</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <div class="form-group">
+                    <label>Ödəniş üsulunu seçin :</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="payment" checked> Nağd ödəniş</label>
+                        <label><input type="radio" name="payment"> Online ödəniş</label>
+                    </div>
+                </div>
+
+                <div class="promo">
+                    <label>PROMO KOD</label>
+                    <div class="promo-input">
+                        <input type="text" placeholder="Promo kodu daxil edin">
+                        <button type="button">Tətbiq et</button>
+                    </div>
+                    <small>Endirimi əldə etmək üçün promo kodu qeyd edin.</small>
+                </div>
+
+                <div class="total">
+                    <span>Ümumi Məbləğ</span>
+                    <strong>@Model?.TotalAmount.ToString("0.##") ₼</strong>
+                </div>
+
+                <button class="confirm-btn">SİFARİŞİ TƏSDİQLƏYİN</button>
+            </div>
+
+        </div>
+    </div>
+</main>
