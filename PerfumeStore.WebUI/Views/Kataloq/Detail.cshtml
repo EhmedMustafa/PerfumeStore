@@ -445,114 +445,9 @@
     color: white;
     }
 
-    /* Çatdırılma */
-    .delivery-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    padding: 20px;
-    background: var(--light-gray);
-    border-radius: 16px;
-    }
 
-    .delivery-section h3,
-    .payment-section h3 {
-    margin-bottom: 20px;
-    color: var(--accent-color);
-    font-size: 20px;
-    font-weight: 600;
-    }
 
-    .delivery-section ul,
-    .payment-section ul {
-    list-style: none;
-    }
-
-    .delivery-section li,
-    .payment-section li {
-    margin-bottom: 12px;
-    padding: 12px 16px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    }
-
-    .delivery-section li:hover,
-    .payment-section li:hover {
-    transform: translateX(5px);
-    background: var(--gradient);
-    color: white;
-    }
-
-    /* Rəylər */
-    .reviews-summary {
-    margin-bottom: 40px;
-    padding: 24px;
-    background: var(--light-gray);
-    border-radius: 16px;
-    }
-
-    .rating-overall {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    }
-
-    .stars {
-    color: #FFD700;
-    font-size: 24px;
-    }
-
-    .rating-number {
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--primary-color);
-    }
-
-    .total-reviews {
-    color: #6C757D;
-    font-size: 16px;
-    }
-
-    .review-item {
-    border-bottom: 1px solid var(--border-color);
-    padding: 24px 0;
-    transition: var(--transition);
-    }
-
-    .review-item:hover {
-    background: var(--light-gray);
-    padding: 24px;
-    border-radius: 12px;
-    }
-
-    .review-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    }
-
-    .reviewer-name {
-    font-weight: 600;
-    color: var(--primary-color);
-    }
-
-    .review-date {
-    color: #6C757D;
-    font-size: 14px;
-    }
-
-    .review-rating {
-    color: #FFD700;
-    margin-top: 8px;
-    font-size: 18px;
-    }
-
-    .review-text {
-    line-height: 1.8;
-    color: #495057;
-    }
+  
 
     /* Məhsul ölçüləri */
     .product-sizes {
@@ -716,7 +611,7 @@
     display: flex;
     align-items: center;
     font-size: 20px;
-    margin-right: px;
+    margin-right: 0px;
     }
 
     .share-buttons-container li {
@@ -841,83 +736,10 @@
     .total-price {
     flex-direction: column;
     gap: 4px;
-    text-align: center;
-    }
+    text-align: center;}
 
-    }
 
-    @@media (max-width: 480px) {
-    .product-header h1 .brand-name
-
-    {
-    font-size: 18px;
-    }
-
-    .product-header h1 .product-name {
-    font-size: 28px;
-    }
-
-    .current-price .amount {
-    font-size: 32px;
-    }
-
-    .current-price .currency {
-    font-size: 18px;
-    }
-
-    .current-price .usd {
-    font-size: 14px;
-    }
-
-    .thumbnail-list img {
-    width: 70px;
-    height: 70px;
-    }
-
-    .btn-add-to-cart,
-    .btn-wishlist {
-    padding: 12px 24px;
-    }
-
-    .size-options {
-    grid-template-columns: 1fr;
-    }
-
-    }
-
-    @@media (max-width:768px) {
-    .adventages ul
-
-    {
-    margin-left: -20px;
-    gap: 0.1rem;
-    }
-
-    .NoteforPerfum h2{
-    font-size:12px;
-    }
-
-    .adventages img {
-    width: 20px;
-    }
-
-    .adventages ul li {
-    }
-
-    .product-action {
-    width: 80%;
-    margin-left: 50px;
-    }
-
-    .product-info {
-    width: 100%;
-    }
-
-    .NoteforPerfum {
-    font-size: 8px;
-    }
-
-    }
+       
 </style>
 
 
@@ -931,7 +753,7 @@
                 <!-- Sol tərəf - Şəkil -->
                 <div class="product-gallery">
                     <div class="main-image">
-                        <img style="height:600px" src="@(!string.IsNullOrEmpty(Model?.ImageUrl) ? Model.ImageUrl : "/images/default.jpg")" alt="Image">
+                        <img style="height:500px" src="@(!string.IsNullOrEmpty(Model?.ImageUrl) ? Model.ImageUrl : "/images/default.jpg")" alt="Image">
 
                     </div>
                     @*  <div class="thumbnail-list">
@@ -939,6 +761,85 @@
                         <img src="images/acqua-colonia-2.jpg" alt="Acqua di Parma Colonia - Əlavə görüntü 2">
                         <img src="images/acqua-colonia-3.jpg" alt="Acqua di Parma Colonia - Əlavə görüntü 3">
                     </div> *@
+                    @{
+                        var topNotes = Model?.ProductNotes
+                        .Where(pn => pn.Type == NoteType.Top)
+                        .Select(pn => pn.FragranceNote)
+                        .ToList();
+
+                        var middleNotes = Model?.ProductNotes
+                        .Where(pn => pn.Type == NoteType.Middle)
+                        .Select(pn => pn.FragranceNote)
+                        .ToList();
+
+                        var baseNotes = Model?.ProductNotes
+                        .Where(pn => pn.Type == NoteType.Base)
+                        .Select(pn => pn.FragranceNote)
+                        .ToList();
+                    }
+
+                    <div class="tab-pane active" id="notes">
+                        <h2 class="mb-4 text-center">Ətir Piramidası</h2>
+
+                        <div class="pyramid-container">
+                            <div class="pyramid">
+
+                                <!-- Üst notları -->
+                                <div class="pyramid-level top-note">
+                                    <span class="note-label">Üst Notları</span>
+                                </div>
+                                <div class="note-line">
+                                    <span>
+                                        @if (topNotes.Any())
+                                        {
+                                            @string.Join(", ", topNotes.Select(n => n?.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Tapılmadı</span>
+                                        }
+                                    </span>
+                                </div>
+
+                                <!-- Ürək notları -->
+                                <div class="pyramid-level middle-note">
+                                    <span class="note-label">Ürək Notları</span>
+                                </div>
+                                <div class="note-line">
+                                    <span>
+                                        @if (middleNotes.Any())
+                                        {
+                                            @string.Join(", ", middleNotes.Select(n => n?.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Tapılmadı</span>
+                                        }
+                                    </span>
+                                </div>
+
+                                <!-- Baza notları -->
+                                <div class="pyramid-level base-note">
+                                    <span class="note-label">Baza Notları</span>
+                                </div>
+                                <div class="note-line">
+                                    <span>
+                                        @if (baseNotes.Any())
+                                        {
+                                            @string.Join(", ", baseNotes.Select(n => n?.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Tapılmadı</span>
+                                        }
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <!-- Sağ tərəf - Məlumatlar -->
@@ -974,7 +875,7 @@
                                             <input type="number" value="1" min="1" max="10" class="quantity-input">
                                             <button type="button" class="quantity-btn plus">+</button>
                                         </div>
-                                        <span class="size-price">@item.CurrentPrice ₼</span>
+                                        <span class="size-price">@item.CurrentPrice.ToString("0.##") ₼</span>
                                     </label>
                                 }
                             }
@@ -1066,6 +967,8 @@
                                 <li><a target="_blank" href="#"><i class="fa-brands fa-whatsapp fa-lg" style="color: #25D366;"></i></a></li>
                                 <li><a target="_blank" href="#"><i class="fa-brands fa-facebook fa-lg" style="color: #1877F2;"></i></a></li>
                                 <li><a target="_blank" href="#"><i class="fa-brands fa-telegram fa-lg" style="color: #0088cc;"></i></a></li>
+
+
                             </ul>
                         </div>
                     </div>
@@ -1098,191 +1001,103 @@
             </div>
         </div>
     </section>
+
+    <style>
+        .pyramid-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .pyramid {
+            position: relative;
+            display: grid;
+            gap: 24px;
+            align-items: center;
+            margin-right: 200px;
+        }
+
+        .pyramid-level {
+            clip-path: polygon(50% 0, 0 100%, 100% 100%);
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            padding: 28px 0;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+        }
+
+            .pyramid-level .note-label {
+                position: absolute;
+                bottom: 6px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+        /* Gradient rənglər */
+        .top-note {
+            width: 120px;
+            background: linear-gradient(135deg, #ffb6d9, #d36da0);
+        }
+
+        .middle-note {
+            width: 180px;
+            background: linear-gradient(135deg, #d36da0, #9c3d8d);
+        }
+
+        .base-note {
+            width: 240px;
+            background: linear-gradient(135deg, #9c3d8d, #5b2b82);
+        }
+        /* Notların yazıldığı hissə */
+        .note-line {
+            position: relative;
+            left: 200px;
+            top: -70px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+            /*     .note-line::before {
+                                                content: "";
+                                                position: absolute;
+                                                left: -180px;
+                                                top: 5%;
+                                                width: 200px;
+                                                height: 2px;
+                                                background: rgba(0,0,0,0.4);
+                                                transition: background 0.3s ease;
+                                            } */
+            /* Yazılar üçün glass efekt */
+            .note-line span {
+                background: rgba(255,255,255,0.6);
+                backdrop-filter: blur(6px);
+                padding: 4px 8px;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            }
+            /* Hover effekti */
+            .note-line:hover::before {
+                background: #9c3d8d;
+            }
+
+            .note-line:hover span {
+                background: rgba(255,255,255,0.8);
+                transform: scale(1.05);
+                transition: 0.3s;
+            }
+
+    </style>
     <form method="post">
         @Html.AntiForgeryToken()
     </form>
     <!-- Ətraflı məlumatlar -->
-    <section class="product-details">
-        <div class="container">
-            <div class="details-tabs">
-                <!--    <button class="tab-btn active" data-tab="description">Təsvir</button> -->
-                <button class="tab-btn" data-tab="notes">Ətir notları</button>
-                <button class="tab-btn" data-tab="delivery">Çatdırılma</button>
 
-            </div>
-
-            <div class="tab-content">
-                <!-- Təsvir
-
-                <div class="tab-pane active" id="description">
-                <h2>Məhsul haqqında</h2>
-                <p class="description-text">
-                Acqua di Parma Colonia - 1916-cı ildən bəri istehsal olunan klassik İtalyan ətiri.
-                Zərif və təmiz qoxusu ilə seçilən bu ətir, premium keyfiyyətli təbii inqrediyentlərdən
-                hazırlanır. Hər bir püskürtmə ilə İtaliyanın zəngin mədəni irsini və incə zövqünü
-                hiss edə bilərsiniz.
-                </p>
-                <ul class="features-list">
-                <li>Premium keyfiyyətli təbii inqrediyentlər</li>
-                <li>Uzun müddətli qoxu</li>
-                <li>Uniseks istifadə</li>
-                <li>Orijinal məhsul</li>
-                <li>2 il istifadə müddəti</li>
-                </ul>
-                </div>
-
-
-                -->
-                <!-- Ətir notları -->
-                @{
-                    var topNotes = Model?.ProductNotes
-                    .Where(pn => pn.Type == NoteType.Top)
-                    .Select(pn => pn.FragranceNote)
-                    .ToList();
-
-                    var middleNotes = Model?.ProductNotes
-                    .Where(pn => pn.Type == NoteType.Middle)
-                    .Select(pn => pn.FragranceNote)
-                    .ToList();
-
-                    var baseNotes = Model?.ProductNotes
-                    .Where(pn => pn.Type == NoteType.Base)
-                    .Select(pn => pn.FragranceNote)
-                    .ToList();
-                }
-
-                <div class="tab-pane active" id="notes">
-                    <h2>Ətir notları</h2>
-                    <div class="notes-container">
-
-                        <div class="note-group">
-                            <h4>Üst notları:</h4>
-                            @if (topNotes.Any())
-                            {
-                                <ul>
-                                    @foreach (var note in topNotes)
-                                    {
-                                        <li>@note?.Name</li>
-                                    }
-                                </ul>
-                            }
-                            else
-                            {
-                                <p style="color:red">Top not tapılmadı.</p>
-                            }
-
-                        </div>
-
-                        <div class="note-group">
-                            <h4>Ürək notları:</h4>
-                            @if (middleNotes.Any())
-                            {
-                                <ul>
-                                    @foreach (var note in middleNotes)
-                                    {
-                                        <li>@note?.Name</li>
-                                    }
-                                </ul>
-                            }
-                            else
-                            {
-                                <p style="color:red">Middle not tapılmadı.</p>
-                            }
-                        </div>
-
-                        <div class="note-group">
-                            <h4>Baza notları:</h4>
-                            @if (baseNotes.Any())
-                            {
-                                <ul>
-                                    @foreach (var note in baseNotes)
-                                    {
-                                        <li>@note?.Name</li>
-                                    }
-                                </ul>
-                            }
-                            else
-                            {
-                                <p style="color:red">Base not tapılmadı.</p>
-                            }
-                           
-                        </div>
-
-                    </div>
-                </div>
-
-              
-
-                <!-- Çatdırılma -->
-                <div class="tab-pane" id="delivery">
-                    <h2>Çatdırılma və ödəniş</h2>
-                    <div class="delivery-info">
-                        <div class="delivery-section">
-                            <h3>Çatdırılma şərtləri</h3>
-                            <ul>
-                                <li>100 ₼ və yuxarı sifarişlərdə pulsuz çatdırılma</li>
-                                <li>Bakı şəhəri daxilində 1-2 iş günü</li>
-                                <li>Regionlara 3-5 iş günü</li>
-                                <li>Çatdırılma qiyməti: 5 ₼</li>
-                            </ul>
-                        </div>
-                        <div class="payment-section">
-                            <h3>Ödəniş üsulları</h3>
-                            <ul>
-                                <li>Nağd ödəniş</li>
-                                <li>Bank kartları</li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rəylər
-                  <div class="tab-pane" id="reviews">
-                    <h2>İstifadəçi rəyləri</h2>
-                    <div class="reviews-summary">
-                        <div class="rating-overall">
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span class="rating-number">4.5</span>
-                            <span class="total-reviews">(24 rəy)</span>
-                        </div>
-                    </div>
-                    <div class="reviews-list">
-
-                        <div class="review-item">
-                            <div class="review-header">
-                                <div class="reviewer-info">
-                                    <span class="reviewer-name">Əli Məmmədov</span>
-                                    <div class="review-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                                <span class="review-date">15.03.2024</span>
-                            </div>
-                            <p class="review-text">
-                                Çox yaxşı keyfiyyətli məhsul. Qoxusu uzun müddət qalır və çox zərifdir.
-                                Məsləhət görürəm.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                -->
-
-            </div>
-        </div>
-    </section>
-   
+    
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 

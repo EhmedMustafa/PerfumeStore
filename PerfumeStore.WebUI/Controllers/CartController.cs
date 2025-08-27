@@ -46,7 +46,6 @@ namespace PerfumeStore.WebUI.Controllers
 
                 await _cartItemService.AddCartItemAsync(cartId, model);
 
-
                 return Json(new { success = true, message = "Məhsul səbətə əlavə olundu." });
             }
 
@@ -90,6 +89,28 @@ namespace PerfumeStore.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeletefromCartMenu(int id)
+        {
+            try
+            {
+                var result = await _cartItemService.DeleteCartItemAsync(id);
+
+                if (result)
+                {
+                    return Json(new { success = true, message = "Məhsul səbətdən silindi." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Silmək alınmadı." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+
+        }
         [HttpPost]
         public async Task<JsonResult> UpdateCartItemAjax([FromBody] UpdateCartItemDto dto)
         {

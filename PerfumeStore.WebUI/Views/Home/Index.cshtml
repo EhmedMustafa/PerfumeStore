@@ -152,11 +152,11 @@
                                                 <div class="price_box">
                                                     @if (minPrice==maxPrice)
                                                     {
-                                                        <span class="current_price">@minPrice ₼</span>
+                                                        <span class="current_price">@minPrice.ToString("0.##") ₼</span>
                                                     }
                                                     else
                                                     {
-                                                        <span style="color:darkturquoise;font-size:20px" class="current_price">@minPrice ₼ - @maxPrice ₼</span>
+                                                        <span style="color:darkturquoise;font-size:20px" class="current_price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
                                                     }
                                                    
                                                 </div>

@@ -482,7 +482,23 @@
             color: #6c757d;
         }
 
+        .addtocartcss{
+            margin-top:8px;
+        }
 
+        .add-to-cart {
+            border:1px solid;
+            border-radius:12px;
+            height:60px;
+            width:280px;
+            color:white;
+            background-color:black;
+        }
+
+         .add-to-cart:hover {
+            color:white;
+            background-color:darkmagenta;
+        }
     </style>
 }
 <body>
@@ -644,9 +660,9 @@
                         data-family="@product.FamilyName?.ToLower()"
                         data-brand="@product.BrandName?.ToLower()"
                         data-price="" style="border:1px solid">
-                            <div class="product-image" style="width:100%;height:60%">
+                            <div class="product-image" style="width:100%;height:70%">
                                 <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
-                                    <img style="margin-top:20px" src="@product.ImageUrl" alt="@product.Name" />
+                                        <img src="@product.ImageUrl" alt="@product.Name" />
                                 </a>
                               
                                     
@@ -674,34 +690,38 @@
                                 </div>
                             </div>
 
-                            <div class="product-info"style="margin-top:50px;">
+                            <div class="product-info"style="margin-top:0px;">
                                 <h3>@product.Name</h3>
-                                <p class="product-description">
+                                  @*  <p class="product-description">
                                       
                                         <span style="color:blueviolet;font-size:15px" class="fragrance-family"> @product.BrandName</span>
-                                 </p>
+                                 </p>*@
 
                             
 
-                                <div class="product-price">
+                                <div class="product-price"style="margin-top:0px">
 
                                     <div style="margin-right:20px" class="product-price">
                                         @if (minPrice == maxPrice)
                                         {
-                                            <span class="current-price">@minPrice ₼</span>
+                                            <span class="current-price">@minPrice.ToString("0.##") ₼</span>
                                         }
                                         else
                                         {
-                                            <span style="font-size:25px;color:#00AFD5;text-decoration:none" class="original-price"> @minPrice ₼ - @maxPrice ₼</span>
+                                            <span style="font-size:20px;color:#00AFD5;text-decoration:none" class="original-price"> @minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
                                         }
                                     </div>
-                                    <button class="add-to-cart" data-bs-toggle="modal" data-bs-target="#productModal"
-                                            data-product-id="@product.ProductId"
-                                            data-product-name="@product.Name"
-                                            data-product-image="@product.ImageUrl"
-                                            data-product-brand="@product.BrandName" type="button">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
+                                    
+                                    
+                                </div>
+                                <div class="addtocartcss">
+                                        <button class="add-to-cart" data-bs-toggle="modal" data-bs-target="#productModal"
+                                                data-product-id="@product.ProductId"
+                                                data-product-name="@product.Name"
+                                                data-product-image="@product.ImageUrl"
+                                                data-product-brand="@product.BrandName" type="button">
+                                            Səbətə əlavə et
+                                        </button>
                                 </div>
                             </div>
                           
@@ -821,7 +841,7 @@
                         <div class="col-auto">
                             <img id="modalProductImage" src="" alt="Məhsul şəkli"
                                  class="rounded-7 border shadow-md"
-                                 style="width: 200px; height: 200px; object-fit:scale-down;" />
+                                 style="width: 180px; height: 180px; object-fit:scale-down;" />
                         </div>
                         
                         <!-- Product Info -->

@@ -2,6 +2,7 @@
 
 @model GetByIdCartDto
 
+
 <style>
     .mini_cart {
         position: absolute;
@@ -24,6 +25,21 @@
         transform: translateY(0);
         padding: 20px 28px 33px;
     }
+
+    .close-btn {
+        font-size: 20px;
+        color: white;
+    }
+
+    .delete-btn{
+        background:none;
+        border:none;
+        cursor: pointer;
+    }
+        
+     
+        
+
 </style>
 <a asp-controller="Cart" asp-action="Index" class="cart-icon">
     <i class="fa fa-shopping-cart"></i>
@@ -40,16 +56,18 @@
                 <div class="cart_gallery">
                     <div class="cart_item">
                         <div class="cart_img"style="max-height:50%">
-                            <a href="#">
+                            <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@item.ProductVariant.ProductId">
                                 <img src="@item.ProductVariant.ProductImageUrl" alt="Perfume"loading="Lazy">
                             </a>
                         </div>
                         <div class="cart_info">
-                            <a href="#">@item.ProductVariant.ProductName</a>
-                          @*   <p><span>@item.ProductName.OriginalPrice</span></p> *@
+                            <a href="#">@item.ProductVariant.ProductName -@item.ProductVariant.Size</a>
+                            <span>@item.Quantity x @item.ProductVariant.CurrentPrice.ToString("0.##") ₼</span>
                         </div>
-                        <div class="cart_remove">
-                            <a href="#"><i class="fa fa-times"></i></a>
+                        <div class="cart_remove" id="cart-item-@item.CartItemId">
+                            <form asp-controller="Cart" asp-action="DeletefromCartMenu" asp-route-id="@item.CartItemId" method="post" class="delete-form">
+                                <button type="submit" class="delete-btn"><span class="close-btn">&times;</span></button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -78,3 +96,38 @@
         </div>
     </div>
 </div>
+<script>
+    document.querySelectorAll(".delete-form").forEach(form => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // səhifə refresh olmasın
+
+            fetch(form.action, {
+                method: "POST"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // HTML-dən məhsulu sil
+                    form.closest(".cart_remove").remove();
+
+                    // səbət sayını azalt (əgər icon varsa)
+                    let count = document.getElementById("cart-count");
+                    if (count) {
+                        count.innerText = parseInt(count.innerText) - 1;
+                    }
+
+                    alert(data.message);
+                    updateCartDropdown();
+                } else {
+                    alert("Xəta: " + data.message);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    window.updateCartDropdown = function () {
+        $("#cartDropdownContainer").load("/Cart/RefreshCartDropdown");
+    }
+</script>
