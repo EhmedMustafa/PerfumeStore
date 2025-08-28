@@ -65,7 +65,7 @@ namespace PerfumeStore.WebUI.Controllers
             return View(pagedResult);
         }
 
-
+        [HttpGet("Id")]
         public async Task<IActionResult> Detail(int Id) 
         {
             var value= await _productService.GetProductByIdWithNotesAsync( Id );

@@ -447,7 +447,7 @@
 
 
 
-  
+
 
     /* Məhsul ölçüləri */
     .product-sizes {
@@ -738,7 +738,7 @@
     gap: 4px;
     text-align: center;}
 
-        
+
 </style>
 
 
@@ -777,66 +777,70 @@
                         .ToList();
                     }
 
-                    <div class="tab-pane active" id="notes">
-                        <h2 class="mb-4 text-center">Ətir Piramidası</h2>
+                    @if (Model?.ProductVariants!= null && Model.ProductVariants.Any())
+                    {
+                        <div class="tab-pane active" id="notes">
+                            <h2 class="mb-4 text-center">Ətir Piramidası</h2>
 
-                        <div class="pyramid-container">
-                            <div class="pyramid">
+                            <div class="pyramid-container">
+                                <div class="pyramid">
 
-                                <!-- Üst notları -->
-                                <div class="pyramid-level top-note">
-                                    <span class="note-label">Üst Notları</span>
-                                </div>
-                                <div class="note-line">
-                                    <span>
-                                        @if (topNotes.Any())
-                                        {
-                                            @string.Join(", ", topNotes.Select(n => n?.Name))
-                                        }
-                                        else
-                                        {
-                                            <span class="text-danger">Tapılmadı</span>
-                                        }
-                                    </span>
-                                </div>
+                                    <!-- Üst notları -->
+                                    <div class="pyramid-level top-note">
+                                        <span class="note-label">Üst Notları</span>
+                                    </div>
+                                    <div class="note-line">
+                                        <span>
+                                            @if (topNotes.Any())
+                                            {
+                                                @string.Join(", ", topNotes.Select(n => n?.Name))
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">Tapılmadı</span>
+                                            }
+                                        </span>
+                                    </div>
 
-                                <!-- Ürək notları -->
-                                <div class="pyramid-level middle-note">
-                                    <span class="note-label">Ürək Notları</span>
-                                </div>
-                                <div class="note-line">
-                                    <span>
-                                        @if (middleNotes.Any())
-                                        {
-                                            @string.Join(", ", middleNotes.Select(n => n?.Name))
-                                        }
-                                        else
-                                        {
-                                            <span class="text-danger">Tapılmadı</span>
-                                        }
-                                    </span>
-                                </div>
+                                    <!-- Ürək notları -->
+                                    <div class="pyramid-level middle-note">
+                                        <span class="note-label">Ürək Notları</span>
+                                    </div>
+                                    <div class="note-line">
+                                        <span>
+                                            @if (middleNotes.Any())
+                                            {
+                                                @string.Join(", ", middleNotes.Select(n => n?.Name))
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">Tapılmadı</span>
+                                            }
+                                        </span>
+                                    </div>
 
-                                <!-- Baza notları -->
-                                <div class="pyramid-level base-note">
-                                    <span class="note-label">Baza Notları</span>
-                                </div>
-                                <div class="note-line">
-                                    <span>
-                                        @if (baseNotes.Any())
-                                        {
-                                            @string.Join(", ", baseNotes.Select(n => n?.Name))
-                                        }
-                                        else
-                                        {
-                                            <span class="text-danger">Tapılmadı</span>
-                                        }
-                                    </span>
-                                </div>
+                                    <!-- Baza notları -->
+                                    <div class="pyramid-level base-note">
+                                        <span class="note-label">Baza Notları</span>
+                                    </div>
+                                    <div class="note-line">
+                                        <span>
+                                            @if (baseNotes.Any())
+                                            {
+                                                @string.Join(", ", baseNotes.Select(n => n?.Name))
+                                            }
+                                            else
+                                            {
+                                                <span class="text-danger">Tapılmadı</span>
+                                            }
+                                        </span>
+                                    </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    
 
 
                 </div>
@@ -893,7 +897,7 @@
                         </button>
 
                         <button class="btn-add-to-cart1">
-                            BIR KLİKLƏ AL
+                            BİR KLİKLƏ AL
                        </button>
                        
                     </div>

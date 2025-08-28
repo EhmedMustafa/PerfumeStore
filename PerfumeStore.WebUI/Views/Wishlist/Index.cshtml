@@ -1,0 +1,166 @@
+﻿@model List<ResultProductDto>
+
+<style>
+    .wishlist-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+        .wishlist-table th,
+        .wishlist-table td {
+            padding: 14px 18px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .wishlist-table th {
+            background: #f8f9fb;
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .wishlist-table td {
+            font-size: 14px;
+            color: #555;
+        }
+
+    .wishlist-img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* Düymələr */
+    .btn {
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        text-decoration: none;
+        font-weight: 500;
+        margin: 0 4px;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn-remove {
+        background: #ff5b5b;
+        color: #fff;
+    }
+
+        .btn-remove:hover {
+            background: #e04848;
+        }
+
+    .btn-cart {
+        background: #4cafef;
+        color: #fff;
+    }
+
+        .btn-cart:hover {
+            background: #379cd6;
+        }
+
+</style>
+
+<main class="site-main">
+    <section class="wishlist-container">
+        <div class="container">
+            <div class="wishlist-header">
+                <h1 class="wishlist-title">Favori Məhsullarım</h1>
+                <p class="wishlist-subtitle">Sevdiyiniz məhsulları burada görə bilərsiniz</p>
+            </div>
+
+            @if (Model.Any())
+            {
+                <div class="wishlist-table-wrapper">
+                    <table class="wishlist-table">
+                        <thead>
+                            <tr>
+                                <th>Məhsul</th>
+                                <th>Məhsulun adı</th>
+                                <th>Miqdar</th>
+                                <th>Qiymət</th>
+                                <th>Əməliyyatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var minPrice= item.ProductVariants?.Any()== true
+                                ? item.ProductVariants.Min(x => x.CurrentPrice) : 0;
+
+                                var maxPrice = item.ProductVariants?.Any() == true
+                                ? item.ProductVariants.Max(x => x.CurrentPrice) : 0;
+
+                                <tr>
+                                    <td>
+                                        <img src="@item.ImageUrl" alt="@item.Name" class="wishlist-img" />
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>---</td>
+                                    <td>
+                                        @if (minPrice == maxPrice)
+                                        {
+                                            <span class="current_price">@minPrice.ToString("0.##") ₼</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:darkturquoise;font-size:20px" class="current_price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
+                                        }
+                                    </td>
+                                   @* <td>@item.Price AZN</td> *@
+
+
+                                    <td>
+                                        <a href="@Url.Action("Remove", "Wishlist", new { id = item.ProductId })" class="btn btn-remove">Sil</a>
+                                        <a href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })" class="btn btn-cart">Səbətə əlavə et</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-wishlist">
+                    <div class="empty-wishlist-icon">
+                        <i class="ti-heart-broken"></i>
+                    </div>
+                    <p class="empty-wishlist-text">Favoriləriniz boşdur</p>
+                    <a href="@Url.Action("Index", "Home")" class="back-to-shop">Mağazaya Qayıt</a>
+                </div>
+            }
+        </div>
+    </section>
+</main>
+
+@*
+<main class="site-main">
+    <section class="wishlist-container">
+      <div class="container">
+        <div class="wishlist-header">
+          <h1 class="wishlist-title">Favori Məhsullarım</h1>
+          <p class="wishlist-subtitle">Sevdiyiniz məhsulları burada görə bilərsiniz</p>
+        </div>
+        <div class="wishlist-items" id="wishlistItems">
+          <!-- Wishlist items will be dynamically added here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+<div class="empty-wishlist">
+    <div class="empty-wishlist-icon">
+        <i class="ti-heart-broken"></i>
+    </div>
+    <p class="empty-wishlist-text">Favoriləriniz boşdur</p>
+    <a href="index.html" class="back-to-shop">Mağazaya Qayıt</a>
+</div>*@
