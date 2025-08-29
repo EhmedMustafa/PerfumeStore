@@ -93,12 +93,12 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                var minPrice= item.ProductVariants?.Any()== true
-                                ? item.ProductVariants.Min(x => x.CurrentPrice) : 0;
-
+                                var minPrice = item.ProductVariants?.Any() == true
+                                ? item.ProductVariants.Min(x => x.CurrentPrice)
+                                : 0;
                                 var maxPrice = item.ProductVariants?.Any() == true
-                                ? item.ProductVariants.Max(x => x.CurrentPrice) : 0;
-
+                                ? item.ProductVariants.Max(x => x.CurrentPrice)
+                                : 0;
                                 <tr>
                                     <td>
                                         <img src="@item.ImageUrl" alt="@item.Name" class="wishlist-img" />

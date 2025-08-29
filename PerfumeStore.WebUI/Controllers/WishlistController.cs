@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
+using PerfumeStore.WebUI.Models;
 
 namespace PerfumeStore.WebUI.Controllers
 {
     public class WishlistController : Controller
     {
-        private static List<ResultProductDto> wistlist = new List<ResultProductDto>();
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
@@ -18,28 +18,37 @@ namespace PerfumeStore.WebUI.Controllers
             _mapper = mapper;
         }
 
-        public async Task <IActionResult> Index()
+        public IActionResult Index()
         {
-            var dtoList =  _mapper.Map<List<ResultProductDto>>(wistlist);
-            return View(dtoList);
+            var wishlist = HttpContext.Session.GetObjectFromJson<List<ResultProductDto>>("Wishlist") ?? new List<ResultProductDto>();
+            return View(wishlist);
         }
 
-        public async Task<IActionResult> Add(int id) 
+        [HttpPost]
+        public async Task<IActionResult> AddToSession(int id)
         {
-            
-            var product = await _productService.GetByIdProductAsync(id);
-            var map = _mapper.Map<ResultProductDto>(product);
+            var wishlist = HttpContext.Session.GetObjectFromJson<List<ResultProductDto>>("Wishlist") ?? new List<ResultProductDto>();
 
-            if (map.ProductVariants != null && map.ProductVariants.Any())
+            var exists = wishlist.Any(x => x.ProductId == id);
+            bool added;
+
+            if (!exists)
             {
-                map.ProductVariants.FirstOrDefault().CurrentPrice = map.ProductVariants.First().CurrentPrice;
+                var product = await _productService.GetByIdProductAsync(id);
+                var map = _mapper.Map<ResultProductDto>(product);
+                wishlist.Add(map);
+                added = true;
+            }
+            else
+            {
+                wishlist.RemoveAll(x => x.ProductId == id);
+                added = false;
             }
 
-            if (!wistlist.Any(x => x.ProductId == id))
-                wistlist.Add(map);
-            return RedirectToAction("Index");
+            HttpContext.Session.SetObjectAsJson("Wishlist", wishlist);
+
+            return Json(new { added = added, count = wishlist.Count });
         }
-
-
     }
+
 }

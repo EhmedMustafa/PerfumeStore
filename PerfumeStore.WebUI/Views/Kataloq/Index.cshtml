@@ -654,6 +654,7 @@
                         var maxPrice = product.ProductVariants?.Any() == true
                         ? product.ProductVariants.Max(x => x.CurrentPrice)
                         : 0;
+
                         <article class="product-card"
                         data-gender="@product.CategoryName?.ToLower()"
                         data-family="@product.FamilyName?.ToLower()"
@@ -680,7 +681,9 @@
                                 </div>
                                
                                 <div class="product-actions"style="height:60px;font-weight:300">
-                                        <button class="favorite-btn">@Html.ActionLink("İstəyə əlavə et", "Add", "Wishlist", new { id = product.ProductId }, null)<i class="far fa-heart"></i></button>
+                                        <button class="favorite-btn" data-product-id="@product.ProductId">
+                                            <i class="far fa-heart"></i>
+                                        </button>
                                     <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
 
                                    
@@ -1318,4 +1321,48 @@
     });
 </script> *@
 
+@*Wishlist *@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert -->
+    <script>
+        $(document).ready(function () {
+            $('.favorite-btn').click(function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var productId = btn.data('product-id');
+
+                $.ajax({
+                    url: '/Wishlist/AddToSession',
+                    type: 'POST',
+                    data: { id: productId },
+                    success: function (response) {
+                        if (response.added) {
+                            btn.find('i').removeClass('far').addClass('fas');
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Məhsul istəyə əlavə olundu!',
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        } else {
+                            btn.find('i').removeClass('fas').addClass('far');
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'info',
+                                title: 'Məhsul istəkdən çıxarıldı',
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        }
+                        $('#wishlist-count').text(response.count);
+                    },
+                    error: function () {
+                        alert('Xəta baş verdi!');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
