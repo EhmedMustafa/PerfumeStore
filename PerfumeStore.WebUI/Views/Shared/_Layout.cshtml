@@ -183,6 +183,29 @@
             }
 
         }
+
+        .wishlist-link {
+            position: relative;
+            display: inline-block;
+        }
+
+            .wishlist-link i {
+                font-size: 20px; /* ikon ölçüsü */
+            }
+
+        #wishlist-count {
+            position: absolute;
+            top: -0px; /* yuxarı çək */
+            right: -10px; /* sağa çək */
+            background:#00AFD5;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+       
     </style>
 
 
@@ -400,8 +423,8 @@
                                     </form>
                                 </div>
                             </li> *@
-                            <li class="header_wishlist" style="margin-right:30px;margin-top:-20px">
-                                <a href="/Wishlist/Index">
+                            <li class="header_wishlist" style="margin-right:30px;margin-top:-18px">
+                                <a href="/Wishlist/Index" class="wishlist-link">
                                     <i class="fa fa-heart-o"></i>
                                     <span id="wishlist-count">@ViewBag.WishlistCount</span>
                                 </a>
@@ -409,7 +432,7 @@
 
                            
                             <li class="mini_cart_wrapper" style="margin-right:20px;font-size:18px">
-                                <div id="cartDropdownContainer">
+                                <div id="cartDropdownContainer" class="icon-bag">
                                     @await Component.InvokeAsync("CartMenu", new { userId=ViewBag.UserId }) 
                                 </div>
                             </li>

@@ -1,14 +1,16 @@
 ﻿@model List<ResultProductDto>
 
 <style>
+   
     .wishlist-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
+        margin: 80px 0 60px 0;
         background: #fff;
-        border-radius: 12px;
+        border-bottom:none;
         overflow: hidden;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
     }
 
         .wishlist-table th,
@@ -30,6 +32,16 @@
             color: #555;
         }
 
+        .wishlist-table td img {
+           height:120px;
+           width:120px;
+           
+        }
+
+        .wishlist-table th {
+            background:#00afd5;
+            color:white;
+        }
     .wishlist-img {
         width: 70px;
         height: 70px;
@@ -67,100 +79,187 @@
             background: #379cd6;
         }
 
+    .empty-wishlist {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 300px;
+        text-align: center;
+        
+    }
+
+    .empty-wishlist-content {
+        background: #f9f9f9;
+        height:100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        width:100%;
+
+    }
+
+    .empty-wishlist-icon {
+        font-size: 60px;
+        color: #e74c3c;
+        margin-bottom: 20px;
+    }
+
+    .empty-wishlist-title {
+        font-size: 22px;
+        font-weight: 400;
+        margin-bottom: 10px;
+    }
+
+    .empty-wishlist-subtitle {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 20px;
+    }
+
+    .back-to-shop {
+        background: #00AFD5;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+        margin-bottom:20px;
+    }
+
+        .back-to-shop:hover {
+            background: #00AFD5;
+            color: #fff;
+        }
+
+    .wishlist-container h3 {
+        text-align:center;
+        font-weight:400;
+        color:black;
+    }
+
+    .wishlist-container {
+        margin-top: 100px;
+    }
 </style>
 
 <main class="site-main">
     <section class="wishlist-container">
+        <h3>İSTƏK SİYAHISI</h3>
         <div class="container">
-            <div class="wishlist-header">
-                <h1 class="wishlist-title">Favori Məhsullarım</h1>
-                <p class="wishlist-subtitle">Sevdiyiniz məhsulları burada görə bilərsiniz</p>
+
+            <div id="wishlist-table-wrapper" class="wishlist-table-wrapper" style="display:none;">
+                <table class="wishlist-table">
+                    <thead>
+                        <tr>
+                            <th>Məhsul</th>
+                            <th>Məhsulun adı</th>
+                            <th>Qiymət</th>
+                            <th>Sil</th>
+                            <th>Səbət</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wishlist-body">
+                        <!-- JS ilə məhsullar burada göstəriləcək -->
+                    </tbody>
+                </table>
             </div>
 
-            @if (Model.Any())
-            {
-                <div class="wishlist-table-wrapper">
-                    <table class="wishlist-table">
-                        <thead>
-                            <tr>
-                                <th>Məhsul</th>
-                                <th>Məhsulun adı</th>
-                                <th>Miqdar</th>
-                                <th>Qiymət</th>
-                                <th>Əməliyyatlar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                var minPrice = item.ProductVariants?.Any() == true
-                                ? item.ProductVariants.Min(x => x.CurrentPrice)
-                                : 0;
-                                var maxPrice = item.ProductVariants?.Any() == true
-                                ? item.ProductVariants.Max(x => x.CurrentPrice)
-                                : 0;
-                                <tr>
-                                    <td>
-                                        <img src="@item.ImageUrl" alt="@item.Name" class="wishlist-img" />
-                                    </td>
-                                    <td>@item.Name</td>
-                                    <td>---</td>
-                                    <td>
-                                        @if (minPrice == maxPrice)
-                                        {
-                                            <span class="current_price">@minPrice.ToString("0.##") ₼</span>
-                                        }
-                                        else
-                                        {
-                                            <span style="color:darkturquoise;font-size:20px" class="current_price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
-                                        }
-                                    </td>
-                                   @* <td>@item.Price AZN</td> *@
-
-
-                                    <td>
-                                        <a href="@Url.Action("Remove", "Wishlist", new { id = item.ProductId })" class="btn btn-remove">Sil</a>
-                                        <a href="@Url.Action("AddToCart", "Cart", new { id = item.ProductId })" class="btn btn-cart">Səbətə əlavə et</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-            else
-            {
-                <div class="empty-wishlist">
+            <div id="empty-wishlist" class="empty-wishlist" style="display:none;">
+                <div class="empty-wishlist-content">
                     <div class="empty-wishlist-icon">
-                        <i class="ti-heart-broken"></i>
+                        <i class="fa fa-heart-o"></i>
                     </div>
-                    <p class="empty-wishlist-text">Favoriləriniz boşdur</p>
-                    <a href="@Url.Action("Index", "Home")" class="back-to-shop">Mağazaya Qayıt</a>
+                    <h2 class="empty-wishlist-title">İstək siyahınız boşdur.</h2>
+                    <p class="empty-wishlist-subtitle">Sevdiyiniz məhsulları bura əlavə edə bilərsiniz</p>
+                    <a href="/Home" class="btn btn-primary back-to-shop">
+                        <i class="fa fa-shopping-bag"></i> Mağazaya Qayıt
+                    </a>
                 </div>
-            }
+            </div>
+
         </div>
     </section>
 </main>
 
-@*
-<main class="site-main">
-    <section class="wishlist-container">
-      <div class="container">
-        <div class="wishlist-header">
-          <h1 class="wishlist-title">Favori Məhsullarım</h1>
-          <p class="wishlist-subtitle">Sevdiyiniz məhsulları burada görə bilərsiniz</p>
-        </div>
-        <div class="wishlist-items" id="wishlistItems">
-          <!-- Wishlist items will be dynamically added here -->
-        </div>
-      </div>
-    </section>
-  </main>
 
-<div class="empty-wishlist">
-    <div class="empty-wishlist-icon">
-        <i class="ti-heart-broken"></i>
-    </div>
-    <p class="empty-wishlist-text">Favoriləriniz boşdur</p>
-    <a href="index.html" class="back-to-shop">Mağazaya Qayıt</a>
-</div>*@
+<script>
+    function removeFromWishlist(id) {
+        $.ajax({
+            url: '/Wishlist/RemoveFromSession/' + id,
+            type: 'POST',
+            success: function (response) {
+                if (response.removed) {
+                    // məsələn, səhifəni reload et
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>
+
+
+@*--------------------------------------------------------------------------------------------------------------------*@
+
+@* WishList ucun  *@
+ <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function getWishlist() {
+            return JSON.parse(localStorage.getItem("wishlist")) || [];
+        }
+
+        function removeFromWishlist(id) {
+            let wishlist = getWishlist();
+            wishlist = wishlist.filter(p => p.id !== id);
+            localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            renderWishlist();
+        }
+
+        function renderWishlist() {
+            const wishlist = getWishlist();
+            const tableWrapper = document.getElementById("wishlist-table-wrapper");
+            const emptyWrapper = document.getElementById("empty-wishlist");
+            const tbody = document.getElementById("wishlist-body");
+
+            tbody.innerHTML = "";
+
+            if (wishlist.length === 0) {
+                tableWrapper.style.display = "none";
+                emptyWrapper.style.display = "block";
+                return;
+            }
+
+            tableWrapper.style.display = "block";
+            emptyWrapper.style.display = "none";
+
+            wishlist.forEach(item => {
+                let priceText = item.minPrice === item.maxPrice
+                    ? `${item.minPrice} ₼`
+                    : `${item.minPrice} ₼ - ${item.maxPrice} ₼`;
+
+                let row = `
+            <tr>
+                <td><img src="${item.image}" alt="${item.name}" class="wishlist-img" /></td>
+                <td>${item.name}</td>
+                <td>${priceText}</td>
+                <td>
+                    <a href="javascript:void(0)" onclick="removeFromWishlist(${item.id})">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="/Cart/AddToCart?id=${item.id}" class="btn btn-cart">Səbətə əlavə et</a>
+                </td>
+            </tr>
+        `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // global etmək üçün
+        window.removeFromWishlist = removeFromWishlist;
+
+        // ilk render
+        renderWishlist();
+    });
+
+ </script>                   

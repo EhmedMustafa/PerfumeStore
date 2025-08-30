@@ -43,6 +43,7 @@ namespace PerfumeStore.Application.Services.ProductServices
 
 
         Task<ResultProductVariantDto> GetByIdProductVariantAsync(int id);
+        Task<ResultProductDto> GetByIdProductforWishlist(int id);
     }
 }
 

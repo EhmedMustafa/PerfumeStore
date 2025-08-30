@@ -18,7 +18,7 @@ namespace PerfumeStore.Application.Interfaces.IProductRepository
         Task <List<Product>> GetBestsellerProductsAsync(int count);
         Task <List<Product>> GetNewProductsAsync();
         Task<Product> GetProductByIdWithNotes(int id);
-
+        Task<Product> GetByIdProductforWishlist(int id);
         Task <Product> DeleteProduct(int Id);
         Task<PaginatedResult<Product>> GetPagedProductsAsync(List<int> categoryIds, List<int> brandId, List<int> fragranceFamilyId,List<int> FragranceNoteId, int page, int pageSize,int? minPrice,int? maxPrice);
         Task<PaginatedResult<Product>> GetPagedProductsByCategoryAsync(int categoryId, int page, int pageSize);

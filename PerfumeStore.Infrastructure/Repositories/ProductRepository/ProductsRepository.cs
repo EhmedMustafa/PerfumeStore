@@ -224,6 +224,13 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             return product;
         }
 
+        public async Task<Product> GetByIdProductforWishlist(int id)
+        {
+            return await _context.Products
+                 .Include(x => x.ProductVariants)
+                 .FirstOrDefaultAsync(x => x.ProductId == id);
+        }
+
 
 
 

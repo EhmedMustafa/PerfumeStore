@@ -195,6 +195,13 @@ namespace PerfumeStore.Infrastructure.Services
             return map;
 
         }
+
+        public async Task<ResultProductDto> GetByIdProductforWishlist(int id)
+        {
+            var product= await _repository.GetByIdProductforWishlist(id);
+            var map = _mapper.Map<ResultProductDto>(product);
+            return map;
+        }
     }
 
 

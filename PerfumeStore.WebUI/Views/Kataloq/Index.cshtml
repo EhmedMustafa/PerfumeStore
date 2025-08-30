@@ -681,7 +681,12 @@
                                 </div>
                                
                                 <div class="product-actions"style="height:60px;font-weight:300">
-                                        <button class="favorite-btn" data-product-id="@product.ProductId">
+                                        <button class="favorite-btn"
+                                                data-product-id="@product.ProductId"
+                                                data-product-name="@product.Name"
+                                                data-product-minprice="@product.ProductVariants.Min(x => x.CurrentPrice)"
+                                                data-product-maxprice="@product.ProductVariants.Max(x => x.CurrentPrice)"
+                                                data-product-image="@product.ImageUrl">
                                             <i class="far fa-heart"></i>
                                         </button>
                                     <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
@@ -1320,49 +1325,84 @@
       }
     });
 </script> *@
+@*----------------------------------------------------------------------------------------------------------------------------------*@
+
 
 @*Wishlist *@
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert -->
     <script>
-        $(document).ready(function () {
-            $('.favorite-btn').click(function (e) {
-                e.preventDefault();
-                var btn = $(this);
-                var productId = btn.data('product-id');
+        document.addEventListener("DOMContentLoaded", function () {
+            const wishlistBtns = document.querySelectorAll(".favorite-btn");
 
-                $.ajax({
-                    url: '/Wishlist/AddToSession',
-                    type: 'POST',
-                    data: { id: productId },
-                    success: function (response) {
-                        if (response.added) {
-                            btn.find('i').removeClass('far').addClass('fas');
-                            Swal.fire({
-                                toast: true,
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Məhsul istəyə əlavə olundu!',
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                        } else {
-                            btn.find('i').removeClass('fas').addClass('far');
-                            Swal.fire({
-                                toast: true,
-                                position: 'top-end',
-                                icon: 'info',
-                                title: 'Məhsul istəkdən çıxarıldı',
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                        }
-                        $('#wishlist-count').text(response.count);
-                    },
-                    error: function () {
-                        alert('Xəta baş verdi!');
+            // Wishlist-i localStorage-dan oxumaq
+            function getWishlist() {
+                return JSON.parse(localStorage.getItem("wishlist")) || [];
+            }
+
+            // Wishlist-i yazmaq
+            function setWishlist(wishlist) {
+                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            }
+
+            // Məhsul əlavə etmək və ya silmək
+            function toggleWishlist(product) {
+                let wishlist = getWishlist();
+
+                const index = wishlist.findIndex(p => p.id === product.id);
+
+                if (index === -1) {
+                    // Əlavə et
+                    wishlist.push(product);
+                } else {
+                    // Sil
+                    wishlist.splice(index, 1);
+                }
+
+                setWishlist(wishlist);
+                updateUI();
+            }
+
+            // UI-ni yenilə (ürəyin dolu/boş olması)
+            function updateUI() {
+                const wishlist = getWishlist();
+
+                wishlistBtns.forEach(btn => {
+                    const productId = parseInt(btn.dataset.productId);
+
+                    const icon = btn.querySelector("i");
+
+                    if (wishlist.some(p => p.id === productId)) {
+                        icon.classList.remove("far"); // boş ürək
+                        icon.classList.add("fas", "text-danger"); // dolu ürək qırmızı
+                    } else {
+                        icon.classList.remove("fas", "text-danger");
+                        icon.classList.add("far"); // boş ürək
                     }
                 });
+            }
+
+            // Click eventləri bağla
+            wishlistBtns.forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const product = {
+                        id: parseInt(this.dataset.productId),
+                        name: this.dataset.productName,
+                        minPrice: parseFloat(this.dataset.productMinprice),
+                        maxPrice: parseFloat(this.dataset.productMaxprice),
+                        image: this.dataset.productImage
+                    };
+
+                    toggleWishlist(product);
+                });
             });
+            // İlk yüklənmədə UI-ni yenilə
+            updateUI();
         });
     </script>
+
+     
+
+
 </body>
