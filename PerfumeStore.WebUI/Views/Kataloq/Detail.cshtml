@@ -779,66 +779,58 @@
 
                     @if (Model?.ProductVariants!= null && Model.ProductVariants.Any())
                     {
-                        <div class="tab-pane active" id="notes">
+                        <div class="fragrance-pyramid">
                             <h2 class="mb-4 text-center">Ətir Piramidası</h2>
 
-                            <div class="pyramid-container">
-                                <div class="pyramid">
+                            <div class="pyramid">
+                                <!-- Üst notlar -->
+                                <div class="pyramid-level top">
+                                    <div class="note-text">
+                                        <strong>Üst Notlar:</strong><br />
+                                        @if (topNotes.Any())
+                                        {
+                                            @string.Join(", ", topNotes.Select(n => n?.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Tapılmadı</span>
+                                        }
+                                    </div>
+                                </div>
 
-                                    <!-- Üst notları -->
-                                    <div class="pyramid-level top-note">
-                                        <span class="note-label">Üst Notları</span>
+                                <!-- Orta notlar -->
+                                <div class="pyramid-level middle">
+                                    <div class="note-text">
+                                        <strong>Ürək Notlar:</strong><br />
+                                        @if (middleNotes.Any())
+                                        {
+                                            @string.Join(", ", middleNotes.Select(n => n?.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Tapılmadı</span>
+                                        }
                                     </div>
-                                    <div class="note-line">
-                                        <span>
-                                            @if (topNotes.Any())
-                                            {
-                                                @string.Join(", ", topNotes.Select(n => n?.Name))
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">Tapılmadı</span>
-                                            }
-                                        </span>
-                                    </div>
+                                </div>
 
-                                    <!-- Ürək notları -->
-                                    <div class="pyramid-level middle-note">
-                                        <span class="note-label">Ürək Notları</span>
+                                <!-- Baza notlar -->
+                                <div class="pyramid-level base">
+                                    <div class="note-text">
+                                        <strong>Baza Notlar:</strong><br />
+                                        @if (baseNotes.Any())
+                                        {
+                                            @string.Join(", ", baseNotes.Select(n => n?.Name))
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Tapılmadı</span>
+                                        }
                                     </div>
-                                    <div class="note-line">
-                                        <span>
-                                            @if (middleNotes.Any())
-                                            {
-                                                @string.Join(", ", middleNotes.Select(n => n?.Name))
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">Tapılmadı</span>
-                                            }
-                                        </span>
-                                    </div>
-
-                                    <!-- Baza notları -->
-                                    <div class="pyramid-level base-note">
-                                        <span class="note-label">Baza Notları</span>
-                                    </div>
-                                    <div class="note-line">
-                                        <span>
-                                            @if (baseNotes.Any())
-                                            {
-                                                @string.Join(", ", baseNotes.Select(n => n?.Name))
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">Tapılmadı</span>
-                                            }
-                                        </span>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
+
+
                     }
                     
 
@@ -1011,93 +1003,65 @@
     </section>
 
     <style>
-        .pyramid-container {
+        .fragrance-pyramid {
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin-top: 50px;
+            margin: 50px 0;
+            font-family: "Segoe UI", sans-serif;
         }
 
         .pyramid {
-            position: relative;
-            display: grid;
-            gap: 24px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-right: 200px;
+            gap: 14px;
         }
 
+        /* Ümumi qat */
         .pyramid-level {
+            position: relative;
             clip-path: polygon(50% 0, 0 100%, 100% 100%);
             color: #fff;
             text-align: center;
-            font-weight: bold;
-            padding: 28px 0;
-            position: relative;
-            border-radius: 6px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            padding: 16px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
 
-            .pyramid-level .note-label {
-                position: absolute;
-                bottom: 6px;
-                left: 50%;
-                transform: translateX(-50%);
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: 1px;
-            }
-        /* Gradient rənglər */
-        .top-note {
-            width: 120px;
+        /* Yazıların oxunaqlılığı */
+        .note-text {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(6px);
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: #222;
+            font-size: clamp(12px, 1vw, 14px);
+            font-weight: 500;
+            max-width: 90%;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        /* Rənglər və ölçülər */
+        .pyramid-level.top {
+            width: 140px;
             background: linear-gradient(135deg, #ffb6d9, #d36da0);
         }
 
-        .middle-note {
-            width: 180px;
+        .pyramid-level.middle {
+            width: 220px;
             background: linear-gradient(135deg, #d36da0, #9c3d8d);
         }
 
-        .base-note {
-            width: 240px;
+        .pyramid-level.base {
+            width: 300px;
             background: linear-gradient(135deg, #9c3d8d, #5b2b82);
         }
-        /* Notların yazıldığı hissə */
-        .note-line {
-            position: relative;
-            left: 200px;
-            top: -70px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #333;
-        }
-            /*     .note-line::before {
-                                                content: "";
-                                                position: absolute;
-                                                left: -180px;
-                                                top: 5%;
-                                                width: 200px;
-                                                height: 2px;
-                                                background: rgba(0,0,0,0.4);
-                                                transition: background 0.3s ease;
-                                            } */
-            /* Yazılar üçün glass efekt */
-            .note-line span {
-                background: rgba(255,255,255,0.6);
-                backdrop-filter: blur(6px);
-                padding: 4px 8px;
-                border-radius: 8px;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            }
-            /* Hover effekti */
-            .note-line:hover::before {
-                background: #9c3d8d;
-            }
 
-            .note-line:hover span {
-                background: rgba(255,255,255,0.8);
-                transform: scale(1.05);
-                transition: 0.3s;
-            }
+
 
         .btn-add-to-cart1 {
             background: linear-gradient(135deg, #00c6ff, #0072ff); /* açıq mavi → dərin mavi */

@@ -888,7 +888,15 @@
 
 
 
-
+    <div id="toast-container"style="
+        position:fixed;
+        top:20px;
+        right:20px;
+        z-index:9999;
+    "></div>
+    
+    
+    
  
  
 
@@ -1345,6 +1353,41 @@
             function setWishlist(wishlist) {
                 localStorage.setItem("wishlist", JSON.stringify(wishlist));
             }
+            // Toast mesajı göstərmək
+
+            function showtoast (message,type="success"){
+                const container =document.getElementById("toast-container");
+                const toast= document.createElement("div");
+
+                toast.textContent = message;
+                toast.style.padding = "12px 20px";
+                toast.style.marginTop = "10px";
+                toast.style.borderRadius = "8px";
+                toast.style.color = "#fff";
+                toast.style.fontSize = "14px";
+                toast.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+                toast.style.opacity = "0";
+                toast.style.transition = "opacity 0.3s ease";
+
+                if(type==="success"){toast.style.backgroundColor="#28a745";} // yaşıl
+
+                else if (type==="erros"){toast.style.backgroundColor= "#dc3545";}
+
+                else {toast.style.backgroundColor= "#333";}
+
+                container.appendChild(toast);
+
+                setTimeout(()=> (toast.style.opacity ="1"),100);
+
+                setTimeout(()=> {
+                    toast.style.opacity="0";
+                    setTimeout(()=> container.removeChild(toast),300);
+                  },3000);
+                }
+
+
+
+            
 
             // Məhsul əlavə etmək və ya silmək
             function toggleWishlist(product) {
@@ -1355,13 +1398,21 @@
                 if (index === -1) {
                     // Əlavə et
                     wishlist.push(product);
+                    showtoast("Məhsul istək siyahısına əlavə olundu ✅","success");
                 } else {
                     // Sil
                     wishlist.splice(index, 1);
+                    showtoast("Məhsul istək siyahısından silindi ❌", "error");
                 }
 
                 setWishlist(wishlist);
                 updateUI();
+            }
+
+            // Wishlist sayını yeniləmək
+            function updateWishlistCount() {
+                const wishlist = getWishlist();
+                document.getElementById("wishlist-count").textContent = wishlist.length;
             }
 
             // UI-ni yenilə (ürəyin dolu/boş olması)
@@ -1370,7 +1421,6 @@
 
                 wishlistBtns.forEach(btn => {
                     const productId = parseInt(btn.dataset.productId);
-
                     const icon = btn.querySelector("i");
 
                     if (wishlist.some(p => p.id === productId)) {
@@ -1381,6 +1431,9 @@
                         icon.classList.add("far"); // boş ürək
                     }
                 });
+
+                // sayını da yenilə
+                updateWishlistCount();
             }
 
             // Click eventləri bağla
@@ -1397,10 +1450,13 @@
                     toggleWishlist(product);
                 });
             });
-            // İlk yüklənmədə UI-ni yenilə
+
+            // İlk yüklənmədə UI-ni və sayını yenilə
             updateUI();
+            updateWishlistCount();
         });
     </script>
+
 
      
 
