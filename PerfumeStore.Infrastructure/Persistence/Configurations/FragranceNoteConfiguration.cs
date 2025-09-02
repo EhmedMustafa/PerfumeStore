@@ -22,6 +22,8 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
+            builder.Property(p => p.ImageUrl)
+                .IsRequired();
            
 
             // 3. Çoxa çox əlaqə (FragranceNote ↔ Product)
@@ -29,6 +31,8 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
             
 
             builder.HasIndex(p => p.Name).IsUnique();
+
+           
 
 
             builder.HasMany(fn => fn.NoteTypes)

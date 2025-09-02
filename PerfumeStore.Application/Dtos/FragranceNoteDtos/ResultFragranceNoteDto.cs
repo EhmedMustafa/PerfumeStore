@@ -13,6 +13,7 @@ namespace PerfumeStore.Application.Dtos.FragranceNoteDtos
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ImageUrl { get; set; }
         public ICollection<NoteType> Types { get; set; }
 
         public ICollection<ResultProductDto> Products { get; set; }  // Bu not hansı məhsullardadır

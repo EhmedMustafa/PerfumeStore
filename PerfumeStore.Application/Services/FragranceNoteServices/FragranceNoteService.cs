@@ -31,6 +31,7 @@ namespace PerfumeStore.Application.Services.FragranceNoteServices
             var values =  _genericRepository.AddAsync(new FragranceNote
             {
                 Name = createFragranceNoteDto.Name,
+                ImageUrl= createFragranceNoteDto.ImageUrl,
                 NoteTypes= new List<FragranceNoteType> 
                 {
                     new FragranceNoteType { Type= NoteType.Top },
@@ -70,6 +71,7 @@ namespace PerfumeStore.Application.Services.FragranceNoteServices
         {
             var valeus = await _genericRepository.GetByIdAsync(updateFragranceNoteDto.Id);
             valeus.Name=updateFragranceNoteDto.Name;
+            valeus.ImageUrl = updateFragranceNoteDto.ImageUrl;
 
             if (updateFragranceNoteDto.Types != null && updateFragranceNoteDto.Types.Any())
             {

@@ -779,56 +779,73 @@
 
                     @if (Model?.ProductVariants!= null && Model.ProductVariants.Any())
                     {
-                        <div class="fragrance-pyramid">
-                            <h2 class="mb-4 text-center">Ətir Piramidası</h2>
+                        <div class="fragrance-notes">
+                            <h2 class="text-center">Ətir Notları</h2>
 
-                            <div class="pyramid">
-                                <!-- Üst notlar -->
-                                <div class="pyramid-level top">
-                                    <div class="note-text">
-                                        <strong>Üst Notlar:</strong><br />
-                                        @if (topNotes.Any())
+                            <!-- Top Notes -->
+                            <div class="note-section">
+                                <h3>Üst Notlar</h3>
+                                <div class="note-grid">
+                                    @if (topNotes.Any())
+                                    {
+                                        foreach (var note in topNotes)
                                         {
-                                            @string.Join(", ", topNotes.Select(n => n?.Name))
+                                            <div class="note-item">
+                                                <img src="/note/467691.jpg" alt="@note.Name" />
+                                                <span>@note.Name</span>
+                                            </div>
                                         }
-                                        else
-                                        {
-                                            <span class="text-danger">Tapılmadı</span>
-                                        }
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Tapılmadı</span>
+                                    }
                                 </div>
+                            </div>
 
-                                <!-- Orta notlar -->
-                                <div class="pyramid-level middle">
-                                    <div class="note-text">
-                                        <strong>Ürək Notlar:</strong><br />
-                                        @if (middleNotes.Any())
+                            <!-- Middle Notes -->
+                            <div class="note-section">
+                                <h3>Ürək Notlar</h3>
+                                <div class="note-grid">
+                                    @if (middleNotes.Any())
+                                    {
+                                        foreach (var note in middleNotes)
                                         {
-                                            @string.Join(", ", middleNotes.Select(n => n?.Name))
+                                            <div class="note-item">
+                                                <img src="#" alt="@note.Name" />
+                                                <span>@note.Name</span>
+                                            </div>
                                         }
-                                        else
-                                        {
-                                            <span class="text-danger">Tapılmadı</span>
-                                        }
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Tapılmadı</span>
+                                    }
                                 </div>
+                            </div>
 
-                                <!-- Baza notlar -->
-                                <div class="pyramid-level base">
-                                    <div class="note-text">
-                                        <strong>Baza Notlar:</strong><br />
-                                        @if (baseNotes.Any())
+                            <!-- Base Notes -->
+                            <div class="note-section">
+                                <h3>Baza Notlar</h3>
+                                <div class="note-grid">
+                                    @if (baseNotes.Any())
+                                    {
+                                        foreach (var note in baseNotes)
                                         {
-                                            @string.Join(", ", baseNotes.Select(n => n?.Name))
+                                            <div class="note-item">
+                                                <img src="#" alt="@note.Name" />
+                                                <span>@note.Name</span>
+                                            </div>
                                         }
-                                        else
-                                        {
-                                            <span class="text-danger">Tapılmadı</span>
-                                        }
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Tapılmadı</span>
+                                    }
                                 </div>
                             </div>
                         </div>
+
 
 
                     }
@@ -1003,64 +1020,64 @@
     </section>
 
     <style>
-        .fragrance-pyramid {
-            display: flex;
-            justify-content: center;
-            margin: 50px 0;
+        .fragrance-notes {
+            margin: 40px auto;
+            max-width: 900px;
             font-family: "Segoe UI", sans-serif;
         }
 
-        .pyramid {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
+            .fragrance-notes h2 {
+                margin-bottom: 20px;
+                font-size: 22px;
+                font-weight: bold;
+            }
+
+        .note-section {
+            margin-bottom: 35px;
         }
 
-        /* Ümumi qat */
-        .pyramid-level {
-            position: relative;
-            clip-path: polygon(50% 0, 0 100%, 100% 100%);
-            color: #fff;
+            .note-section h3 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                text-align: center;
+                color: #444;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+        .note-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .note-item {
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100px;
-            padding: 16px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
         }
 
-        /* Yazıların oxunaqlılığı */
-        .note-text {
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(6px);
-            padding: 10px 14px;
-            border-radius: 10px;
-            color: #222;
-            font-size: clamp(12px, 1vw, 14px);
-            font-weight: 500;
-            max-width: 90%;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
+            .note-item img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                border-radius: 12px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+                margin-bottom: 8px;
+                background: #fff;
+                padding: 6px;
+            }
 
-        /* Rənglər və ölçülər */
-        .pyramid-level.top {
-            width: 140px;
-            background: linear-gradient(135deg, #ffb6d9, #d36da0);
-        }
+            .note-item span {
+                display: block;
+                font-size: 14px;
+                color: #222;
+                font-weight: 500;
+            }
 
-        .pyramid-level.middle {
-            width: 220px;
-            background: linear-gradient(135deg, #d36da0, #9c3d8d);
-        }
-
-        .pyramid-level.base {
-            width: 300px;
-            background: linear-gradient(135deg, #9c3d8d, #5b2b82);
-        }
-
+            .note-item:hover {
+                transform: scale(1.08);
+            }
 
 
         .btn-add-to-cart1 {

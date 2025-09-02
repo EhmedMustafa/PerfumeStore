@@ -9,6 +9,7 @@ namespace PerfumeStore.Application.Dtos.FragranceNoteDtos
     public class CreateFragranceNoteDto
     {
         public string Name { get; set; }
+        public string ImageUrl { get; set; }
 
     }
 }
