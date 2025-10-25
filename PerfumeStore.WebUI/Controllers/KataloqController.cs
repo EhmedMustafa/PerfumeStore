@@ -10,6 +10,7 @@ using PerfumeStore.Infrastructure.Data;
 
 namespace PerfumeStore.WebUI.Controllers
 {
+
     public class KataloqController : Controller
     {
         private readonly IProductService _productService;
@@ -53,22 +54,27 @@ namespace PerfumeStore.WebUI.Controllers
                min,
                max
            );
+
+            var categoryCounts = await _productService.GetCategoryCountsAsync();
+
+
             ViewBag.SelectedCategories = categoryId;
             ViewBag.SelectedBrand = brandId;
             ViewBag.SelectedFamily = fragranceFamilyId;
             ViewBag.SelectedNote = fragranceNoteId;
             ViewBag.MinPrice = min;
             ViewBag.MaxPrice = max;
+            ViewBag.CategoryCounts = categoryCounts;
 
 
 
             return View(pagedResult);
         }
 
-        [HttpGet("Id")]
-        public async Task<IActionResult> Detail(int Id) 
+        [HttpGet("Detail/{id}")]
+        public async Task<IActionResult> Detail(int id) 
         {
-            var value= await _productService.GetProductByIdWithNotesAsync( Id );
+            var value= await _productService.GetProductByIdWithNotesAsync(id);
             return View(value);
         }
 

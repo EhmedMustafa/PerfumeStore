@@ -17,11 +17,11 @@ namespace PerfumeStore.WebUI.Controllers
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index(int count=6)
+        public async Task<IActionResult> Index(int count=12)
         {
             var newproduct = await _productService.GetNewProductsAsync();
             ViewBag.NewProducts = newproduct;
-            var bestsellproduct = await _productService.GetBestsellerProductsAsync(count=12);
+            var bestsellproduct = await _productService.GetBestsellerProductsAsync(count);
             ViewBag.Bestsellproduct = bestsellproduct;
 
             // categoryId-l?ri ?z?n? uy?unla?d?r!
@@ -48,6 +48,17 @@ namespace PerfumeStore.WebUI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> SearchAjax(string search) 
+        {
+            if (string.IsNullOrWhiteSpace(search))
+                return Json(new List<object>());
+
+            var result= await _productService.GetProductBySearchAsync(search);
+            return Json(result);
         }
     }
 }

@@ -37,13 +37,15 @@ namespace PerfumeStore.Application.Services.ProductServices
 
         Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate);
         Task<List<ResultProductDto>> GetProductTake(int count);
-        Task<List<ResultProductDto>> GetProductBySearch(string search);
+        Task<List<ResultProductDto>> GetProductBySearchAsync(string search);
         Task<List<ResultProductDto>> GetProductByPriceFilter(int? minPrice, int? maxPrice);
         Task<List<ResultProductDto>> GetProductByCategory(int? categoryId);
 
 
         Task<ResultProductVariantDto> GetByIdProductVariantAsync(int id);
         Task<ResultProductDto> GetByIdProductforWishlist(int id);
+
+        Task<Dictionary<int, int>> GetCategoryCountsAsync();
     }
 }
 

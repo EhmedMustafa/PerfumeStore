@@ -7,7 +7,7 @@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 
-@section Styles {
+
 <style>
         #productModal {
             position: fixed;
@@ -499,7 +499,33 @@
             color:white;
             background-color:darkmagenta;
         }
-    </style>
+
+    .product-img-containers {
+        position: relative; /* ikon şəkilə görə yerləşsin */
+        display: inline-block;
+    }
+
+    .product-gender-icon {
+        position: absolute;
+        top: 10px; /* yuxarıdan məsafə */
+        right: 30px; /* sağdan məsafə */
+        font-size: 22px;
+        z-index: 10;
+    }
+
+        /* Rəngləri gender-ə görə fərqləndirə bilərsən */
+        .product-gender-icon.men {
+            color: #74c0fc; /* mavi */
+        }
+
+        .product-gender-icon.women {
+            color: red;
+        }
+
+        .product-gender-icon.unisex {
+            color: darkblue;
+        }
+</style>
 }
 <body>
 
@@ -555,15 +581,15 @@
                                 </label>
                                 <label class="custom-checkbox">
                                     <input type="checkbox" name="categoryId" value="1" @(selectedCategories.Contains(1) ? "checked" : "") />
-                                    <span>Kişi ətirləri</span>
+                                        <span>Kişi ətirləri (@ViewBag.CategoryCounts[1])</span>
                                 </label>
                                 <label class="custom-checkbox">
                                     <input type="checkbox" name="categoryId" value="2" @(selectedCategories.Contains(2) ? "checked" : "") />
-                                    <span>Qadın ətirləri</span>
+                                        <span>Qadın ətirləri (@ViewBag.CategoryCounts[2])</span>
                                 </label>
                                 <label class="custom-checkbox">
                                     <input type="checkbox" name="categoryId" value="3" @(selectedCategories.Contains(3) ? "checked" : "") />
-                                    <span>Unisex ətirləri</span>
+                                        <span>Unisex ətirləri  (@ViewBag.CategoryCounts[3])</span>
                                 </label>
                             </div>
                         </div>
@@ -660,7 +686,36 @@
                         data-family="@product.FamilyName?.ToLower()"
                         data-brand="@product.BrandName?.ToLower()"
                         data-price="" style="border:1px solid">
+
                             <div class="product-image" style="width:100%;height:70%">
+                                    @{
+                                        var gender = product?.CategoryName;
+                                        string iconclass = "";
+                                        string genderaz = "";
+
+                                        switch (gender)
+                                        {
+                                            case "Men":
+                                                iconclass = "fas fa-mars";
+                                                break;
+
+                                            case "Women":
+                                                iconclass = "fas fa-venus";
+                                                break;
+
+                                            case "Unisex":
+                                                iconclass = "fas fa-venus-mars";
+                                                break;
+                                        }
+                                    }
+                                    @if (!string.IsNullOrEmpty(iconclass))
+                                    {
+                                        @if (!string.IsNullOrEmpty(iconclass))
+                                        {
+                                            <i class="@iconclass product-gender-icon @(gender.ToLower())"></i>
+                                        }
+                                    }
+
                                 <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId">
                                         <img src="@product.ImageUrl" alt="@product.Name" />
                                 </a>
@@ -830,7 +885,7 @@
 <!-- Modal -->
     <!-- Product Selection Modal -->
     <div id="productModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-        <div class="modal-dialog"style="overflow:hidden;max-width:550px">
+        <div class="modal-dialog"style="overflow:hidden;max-width:600px">
             <div class="modal-content border-0 shadow-lg rounded-4">
                 
                 <!-- Header -->

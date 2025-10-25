@@ -123,11 +123,22 @@ namespace PerfumeStore.Infrastructure.Services
             var map= _mapper.Map<List<ResultProductDto>>(values);
             return map;
         }
-        public async Task<List<ResultProductDto>> GetProductBySearch(string search) 
+        public async Task<List<ResultProductDto>> GetProductBySearchAsync(string search) 
         {
-            var values = await _repository.GetProductBySearch(search);
-            var map = _mapper.Map<List<ResultProductDto>>(values);
-            return map;
+            var products = await _repository.GetProductBySearch(search);
+
+            return products.Select(p => new ResultProductDto
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                ProductVariants = p.ProductVariants?
+               .Select(a => new ProductVariantCreateDto
+               {
+                   CurrentPrice = a.CurrentPrice
+
+               }).ToList() ?? new List<ProductVariantCreateDto>()
+            }).ToList();
         }
         public async Task<List<ResultProductDto>> GetProductTake(int count) 
         {
@@ -201,6 +212,11 @@ namespace PerfumeStore.Infrastructure.Services
             var product= await _repository.GetByIdProductforWishlist(id);
             var map = _mapper.Map<ResultProductDto>(product);
             return map;
+        }
+
+        public async Task<Dictionary<int, int>> GetCategoryCountsAsync()
+        {
+            return await _repository.GetCategoryCount();
         }
     }
 

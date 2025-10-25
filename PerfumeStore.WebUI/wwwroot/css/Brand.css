@@ -300,11 +300,7 @@ body {
     font-size: 18px;
 }
 
-.original-price {
-    color: #999;
-    text-decoration: line-through;
-    font-size: 13px;
-}
+
 
 .product-disclaimer {
     font-size: 1.2rem;

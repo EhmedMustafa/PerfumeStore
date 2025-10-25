@@ -4,7 +4,19 @@
     @foreach (var category in Model)
     {
         <li>
-            <a href="/Kataloq/Index?categoryId=@category.Id">@category.Name</a>
+            <a href="/Kataloq/Index?categoryId=@category.Id">
+
+                @{
+                    string azName = category.Name switch
+                    {
+                        "Men" => "Kişi",
+                        "Women" => "Qadın",
+                        "Unisex" => "Unisex",_ => category.Name
+
+                    };
+                }
+                @azName
+                </a>
         </li>
     }
 </ul>

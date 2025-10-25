@@ -757,9 +757,9 @@
                                             </ul>
                                         </li>
                                         <li class="search_box_always_visible">
-                                            <form action="#" class="search_form">
-                                                <input style="margin-right:60px" type="text" placeholder="Axtar..." />
-                                                <button type="submit"><i class="fa fa-search"></i></button>
+                                            <form id="searchForm" class="position-relative" autocomplete="off">
+                                                <input style="width:400px" type="text" id="searchBox" class="form-control" placeholder="Ətir axtar..." />
+                                                <div id="searchResults" class="list-group position-absolute w-100" style="z-index:1000;"></div>
                                             </form>
                                         </li>
                                     </ul>
@@ -786,7 +786,7 @@
         <div class="footer_top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-7">
+                    <div style="margin-right:120px" class="col-lg-4 col-md-6 col-sm-7">
                         <div class="widgets_container contact_us">
                            
                             <div class="footer_desc">
@@ -803,15 +803,14 @@
                            
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-6 col-sm-5">
-                        <div class="widgets_container widget_menu">
+                    <div style="margin-right:120px"  class="col-lg-2 col-md-6 col-sm-5">
+                        <div  class="widgets_container widget_menu">
                             <h3>millshop_esans</h3>
                             <div class="footer_menu">
                                 <ul>
-                                    <li><a href="#">Ana səhifə</a></li>
-                                    <li><a href="#">Brendlər</a></li>
+                                    <li><a href="/Home">Ana səhifə</a></li>
+                                    <li><a href="/BrandNames">Brendlər</a></li>
                                     <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Yeni ətirlər</a></li>
                                     <li><a href="#">Haqımızda</a></li>
                                     <li><a href="#">Əlaqə</a></li>
                                    
@@ -819,166 +818,9 @@
                             </div>
                         </div>
                     </div>
+                  
                     <div class="col-lg-3 col-md-6">
-                        <div class="widgets_container widgets_p_product">
-                           
-                            <div class="small_product_container small_product_column1 owl-carousel">
-                                
-                                <div class="small_product_list">
-                                    <h3>Seçilmiş Məhsullar</h3>
-                                    <article class="single_product">
-                                        <figure>
-                                            <div class="product_thumb">
-                                                <a href="#" class="primary_img">
-                                                    <img src=" /onsale/D12-1.png" alt="">
-                                                </a>
-                                                <a href="#" class="secondary_img">
-                                                    <img src=" /onsale/D12-2.png" alt="">
-                                                </a>
-
-
-                                            </div>
-                                            <figcaption class="product_content">
-                                                <h4 class="product_name">
-                                                    <a href="#" style="color: white;">Bvlgari Women Goldea</a>
-                                                </h4>
-
-                                                <div class="price_box">
-                                                    <span class="old_price">Rs. 3999</span>
-                                                    <span class="current_price" style="color: white;">Rs. 3700</span>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </article>
-                                    <article class="single_product">
-                                        <figure>
-                                            <div class="product_thumb">
-                                                <a href="#" class="primary_img">
-                                                    <img src=" /onsale/D11-1.png" alt="">
-                                                </a>
-                                                <a href="#" class="secondary_img">
-                                                    <img src=" /onsale/D11-2.png" alt="">
-                                                </a>
-
-
-                                            </div>
-                                            <figcaption class="product_content">
-                                                <h4 class="product_name">
-                                                    <a href="#" style="color: white;">Jimmy Choo Illicit Flower
-                                                    </a>
-                                                </h4>
-                                                <div class="price_box">
-                                                    <span class="old_price">Rs. 4999</span>
-                                                    <span class="current_price" style="color: white;">Rs.
-                                                        4200</span>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </article>
-                                    <article class="single_product">
-                                        <figure>
-                                            <div class="product_thumb">
-                                                <a href="#" class="primary_img">
-                                                    <img src=" /best-product/B5-1.png" alt="">
-                                                </a>
-                                                <a href="#" class="secondary_img">
-                                                    <img src=" /best-product/B5-2.png" alt="">
-                                                </a>
-
-                                            </div>
-                                            <figcaption class="product_content">
-                                                <h4 class="product_name">
-                                                    <a href="#" style="color: white;">Jimmy Choo Women Fever</a>
-                                                </h4>
-
-                                                <div class="price_box">
-                                                    <span class="old_price">Rs. 7499</span>
-                                                    <span class="current_price" style="color: white;">Rs. 7200</span>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </article>
-                                </div>
-                                <div class="small_product_list">
-                                    <article class="single_product">
-                                        <figure>
-                                            <div class="product_thumb">
-                                                <a href="#" class="primary_img">
-                                                    <img src=" /best-product/B4-1.png" alt="">
-                                                </a>
-                                                <a href="#" class="secondary_img">
-                                                    <img src=" /best-product/B4-2.png" alt="">
-                                                </a>
-
-
-                                            </div>
-                                            <figcaption class="product_content">
-                                                <h4 class="product_name">
-                                                    <a href="#" style="color: white;">Mugler Aura Women</a>
-                                                </h4>
-
-                                                <div class="price_box">
-                                                    <span class="old_price">Rs. 7999</span>
-                                                    <span class="current_price" style="color: white;">Rs. 7550</span>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </article>
-                                    <article class="single_product">
-                                        <figure>
-                                            <div class="product_thumb">
-                                                <a href="#" class="primary_img">
-                                                    <img src=" /onsale/D1-1.png" alt="">
-                                                </a>
-                                                <a href="#" class="secondary_img">
-                                                    <img src=" /onsale/D1-2.png" alt="">
-                                                </a>
-
-
-                                            </div>
-                                            <figcaption class="product_content">
-                                                <h4 class="product_name">
-                                                    <a href="#" style="color: white;">Paco Rabbane Pure XS for her
-                                                    </a>
-                                                </h4>
-                                                <div class="price_box">
-                                                    <span class="old_price">Rs. 6550</span>
-                                                    <span class="current_price" style="color: white;">Rs.
-                                                        4250</span>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </article>
-                                    <article class="single_product">
-                                        <figure>
-                                            <div class="product_thumb">
-                                                <a href="#" class="primary_img">
-                                                    <img src=" /new-product/N5-1.png" alt="">
-                                                </a>
-                                                <a href="#" class="secondary_img">
-                                                    <img src=" /new-product/N5-2.png" alt="">
-                                                </a>
-
-
-                                            </div>
-                                            <figcaption class="product_content">
-                                                <h4 class="product_name">
-                                                    <a href="#" style="color: white;">Kenzo Women World</a>
-                                                </h4>
-
-                                                <div class="price_box">
-                                                    <span class="old_price">Rs. 5999</span>
-                                                    <span class="current_price" style="color: white;">Rs. 5900</span>
-                                                </div>
-                                            </figcaption>
-                                        </figure>
-                                    </article>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="widgets_container widgets_p_product">
+                        <div  class="widgets_container widgets_p_product">
                            
                             <div class="ml-40">
                                 <h3>Əlaqə</h3>
@@ -986,7 +828,7 @@
 									<span class="fa fa-location-arrow"></span>
 									Ofisimiz
 								</p>
-								<p> <a href="#"target="_blank">
+								<p> <a href=""target="_blank">
                                              Azərbaycan, Ağdaş şəhəri</a></p>
 								<p class="sm-head">
 									<span class="fa fa-phone"></span>
@@ -1028,9 +870,9 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="footer_payment text-right">
                             <ul>
-                                <li><a style="font-size: 30px;" href="https://www.instagram.com/millshop_esans/" target="_blank"><i class="fa-BrandNamess fa-instagram" style="color:white"></i></a></li>
-                                <li><a style="font-size: 30px;" href="https://api.whatsapp.com/send/?phone=994504303122&text&type=phone_number&app_absent=0" target="_blank"><i class="fa-BrandNamess fa-whatsapp" style="color:white"></i></a></li>
-                                <li><a style="font-size: 30px;" href="https://www.tiktok.com/millshop_esans_agdas?_t=ZS-8vuIioQGKag&_r=1" target="_blank"><i class="fa-BrandNamess fa-tiktok"style="color:white"></i></a></li>
+                                <li><a style="font-size: 30px;" href="https://www.instagram.com/millshop_esans/" target="_blank"><i class="fa-brands fa-instagram"style="color:white"></i></a></li>
+                                <li><a style="font-size: 30px;" href="https://api.whatsapp.com/send/?phone=994504303122&text&type=phone_number&app_absent=0" target="_blank"><i class="fa-brands fa-whatsapp"style="color:white"></i></a></li>
+                                <li><a style="font-size: 30px;" href="https://www.tiktok.com/millshop_esans_agdas?_t=ZS-8vuIioQGKag&_r=1" target="_blank"><i class="fa-brands fa-tiktok"style="color:white"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -1069,5 +911,57 @@
             $("#cartDropdownContainer").load("/Cart/RefreshCartDropdown");
         }
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchBox = document.getElementById("searchBox");
+            const searchResults = document.getElementById("searchResults");
+
+            searchBox.addEventListener("keyup", function () {
+                const query = searchBox.value.trim();
+
+                if (query.length < 2) {
+                    searchResults.innerHTML = "";
+                    return;
+                }
+
+                fetch(`/Home/SearchAjax?search=${encodeURIComponent(query)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        searchResults.innerHTML = "";
+
+                        if (data.length === 0) {
+                            searchResults.innerHTML = `<div class="list-group-item">Heç nə tapılmadı</div>`;
+                            return;
+                        }
+
+                        data.forEach(item => {
+                            console.log(item);
+                            const el = document.createElement("a");
+                            el.href = `/Kataloq/Detail/${item.id}`;
+                            el.className = "list-group-item list-group-item-action d-flex align-items-center";
+
+                            el.innerHTML = `
+                              
+                                <img src="${item.imageUrl}" style="width:50px;height:50px;object-fit:cover;margin-right:10px;" />
+                                <div>
+                                    <div><strong>${item.name}</strong></div>
+                                    
+                                </div>
+                            `;
+
+                            searchResults.appendChild(el);
+                        });
+                    });
+            });
+
+            // nəticələrdən kənara klik olunanda bağlansın
+            document.addEventListener("click", function (e) {
+                if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.innerHTML = "";
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

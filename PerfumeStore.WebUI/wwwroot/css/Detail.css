@@ -360,9 +360,14 @@ hr {
 .description-text {
     margin-bottom: 24px;
     line-height: 1.8;
-    font-size: 16px;
-    color: #495057;
+    font-size: 24px;
+    color: #4950;
 }
+
+    .description-text p {
+        text-align:center;
+        color:red;
+    }
 
 .features-list {
     list-style: none;

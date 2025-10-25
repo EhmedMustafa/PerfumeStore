@@ -89,13 +89,15 @@ namespace PerfumeStore.Application.Services.BrandServices
                     IsBestseller = p.IsBestseller,
                     Disclaimer = p.Disclaimer,
                     BrandId = p.BrandId,
-                    //ProductVariants = p.ProductVariants.Select(v => new ResultProductVariantDto
-                    //{
-                    //    Size = v.Size,
-                    //    CurrentPrice = v.CurrentPrice,
-                    //    OriginalPrice = v.OriginalPrice,
-                    //    ProductId=v.ProductId
-                    //}).ToList()// İlk variantı göstərmək üçün
+                    CategoryId=p.CategoryId,
+                    CategoryName=p.Category.Name,
+                    ProductVariants = brand.products.FirstOrDefault()?.ProductVariants.Select(v=> new ProductVariantCreateDto
+                    {
+                        Size = v.Size,
+                        CurrentPrice = v.CurrentPrice,
+                        OriginalPrice = v.OriginalPrice,
+                        ProductId = v.ProductId
+                    }).ToList()// İlk variantı göstərmək üçün
 
                 }).ToList()
             };

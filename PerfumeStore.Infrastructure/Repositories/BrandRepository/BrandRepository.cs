@@ -30,6 +30,9 @@ namespace PerfumeStore.Infrastructure.Repositories.Repository
         {
             return await _appDbContext.Brands
                 .Include(b => b.products)
+                .ThenInclude(p => p.Category)
+                .ThenInclude(pv=>pv.Products)
+                .ThenInclude(pv=>pv.ProductVariants)
                 .FirstOrDefaultAsync(b => b.Id == brandId);
         }
     }

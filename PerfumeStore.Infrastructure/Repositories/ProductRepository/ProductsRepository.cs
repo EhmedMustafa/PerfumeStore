@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using PerfumeStore.Application.Dtos.ProductDtos;
+using PerfumeStore.Application.Dtos.ProductVariantDtos;
 using PerfumeStore.Application.Interfaces.IProductRepository;
 using PerfumeStore.Domain.Entities;
 using PerfumeStore.Infrastructure.Data;
@@ -37,6 +38,8 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
         public async Task<List<Product>> GetBestsellerProductsAsync(int count)
         {
             return await _context.Products
+                .Include (p => p.Category) 
+                .Include(x=>x.ProductVariants)
                 .Where(p=>p.IsBestseller)
                 .OrderByDescending(p=>p.ProductId)
                 .Take(count)
@@ -71,7 +74,10 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
         public async Task<List<Product>> GetNewProductsAsync()
         {
             return await _context.Products
+                .Include(x=>x.ProductVariants)
+                .Include(x=>x.Category)
                 .Where(p=>p.IsNew)
+               
                 .OrderByDescending (p=>p.ProductId)
                 .ToListAsync();
         }
@@ -182,9 +188,10 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
 
         public async Task<List<Product>> GetProductBySearch(string search)
         {
-            return await _context.Products.Where(p => p.Name.Contains(search)).ToListAsync();
+            return await _context.Products
+                .Include(p => p.ProductVariants)
+                .Where(p => p.Name.Contains(search) || p.Description.Contains(search)).ToListAsync();
         }
-
         public async Task<Product> DeleteProduct(int Id)
         {
             var product = await _context.Products
@@ -229,6 +236,13 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
             return await _context.Products
                  .Include(x => x.ProductVariants)
                  .FirstOrDefaultAsync(x => x.ProductId == id);
+        }
+
+        public async Task<Dictionary<int,int>> GetCategoryCount()
+        {
+          return await  _context.Products
+             .GroupBy(p => p.CategoryId)
+             .ToDictionaryAsync(g => g.Key, g => g.Count());
         }
 
 

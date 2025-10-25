@@ -1,6 +1,68 @@
 ﻿
 @model ResultBrandDto
 
+
+
+<style>
+
+    .product-card {
+    border:1px solid;
+    }
+    .product-image img {
+    width:90%;
+    height:90%;
+    margin-top:40px;
+    margin-left:20px;
+    }
+
+    .product-info {
+    margin-top:30px;
+    font-weight:200;
+    }
+
+    .product-info h3 {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight:400;
+    font-size:20px;
+    }
+
+    .current-price{
+        color:#00afd5;
+        font-size:40px;
+        margin-top:30px;
+        font-weight:300;
+    }
+
+    .badge.bestseller {
+        background:red;
+    }
+
+    .product-img-containers {
+        position: relative; /* ikon şəkilə görə yerləşsin */
+        display: inline-block;
+    }
+
+    .product-gender-icon {
+        position: absolute;
+        top: 10px; /* yuxarıdan məsafə */
+        right: 30px; /* sağdan məsafə */
+        font-size: 22px;
+        z-index: 10;
+    }
+
+        /* Rəngləri gender-ə görə fərqləndirə bilərsən */
+        .product-gender-icon.men {
+            color: #74c0fc; /* mavi */
+        }
+
+        .product-gender-icon.women {
+            color: red;
+        }
+
+        .product-gender-icon.unisex {
+            color: darkblue;
+        }
+</style>
 <body>
     <!-- Breadcrumb naviqasiyası -->
     <div class="breadcrumb">
@@ -10,71 +72,115 @@
             </ul>
         </div>
     </div>
-   
-        <section class="brand-info" style="margin-top:80px">
-            <div class="container">
-                <div class="brand-content">
-                    <div class="brand-image">
-                        <img src="@Model.LogoUrl" alt="@Model.Name">
+
+    <section class="brand-info" style="margin-top:80px">
+        <div class="container">
+            <div class="brand-content">
+                <div class="brand-image">
+                    <img src="@Model.LogoUrl" alt="@Model.Name">
+                </div>
+                <div class="brand-details">
+                    <div class="brand-header">
+                        <h1>@Model.Name</h1>
+                        <p class="brand-tagline">@Model.Tagline</p>
                     </div>
-                    <div class="brand-details">
-                        <div class="brand-header">
-                            <h1>@Model.Name</h1>
-                            <p class="brand-tagline">@Model.Tagline</p>
-                        </div>
-                        <p class="brand-description">
-                            @Model.Description
-                        </p>
-                    </div>
+                    <p class="brand-description">
+                        @Model.Description
+                    </p>
                 </div>
             </div>
-        </section>
-        @if (Model.products != null && Model.products.Any())
-        {
-            <section class="products-section" style="margin-bottom:80px">
-                <div class="container">
-                    <div class="section-header">
-                        @* <h2>@Model.Name</h2> *@
-                    </div>
-                    <div class="product-grid">
+        </div>
+    </section>
+    @if (Model.products != null && Model.products.Any())
+    {
+        <section class="products-section" style="margin-bottom:80px">
+            <div class="container">
+                <div class="section-header">
+                    @* <h2>@Model.Name</h2> *@
+                </div>
+                <div class="product-grid">
 
-                        @foreach (var product in Model.products)
-                        {
-                            <article class="product-card"
-                                     data-gender="@product.CategoryName?.ToLower()"
-                                     data-family="@product.FamilyName?.ToLower()"
-                                     data-brand="@product.BrandName?.ToLower()"
-                                     data-price="">
-                                <div class="product-image">
-                                    <img src="~/new-product/N1-2.png" alt="@product.Name" />
-                                    <div class="product-badges">
-                                        @if (product.IsNew)
-                                        {
-                                            <span class="badge new">New</span>
-                                        }
-                                        @if (product.IsBestseller)
-                                        {
-                                            <span class="badge bestseller">Bestseller</span>
-                                        }
-                                    </div>
-                                    <div class="product-actions">
-                                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
-                                        <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
-                                        <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
-                                    </div>
+                    @foreach (var product in Model.products)
+                    {
+
+                        var minPrice = product.ProductVariants?.Any() == true
+                        ? product.ProductVariants.Min(x => x.CurrentPrice) : 0;
+
+                        var maxPrice = product.ProductVariants?.Any() == true
+                        ? product.ProductVariants.Max(x => x.CurrentPrice) : 0;
+
+                        <article class="product-card"
+                        data-gender="@product.CategoryName?.ToLower()"
+                        data-family="@product.FamilyName?.ToLower()"
+                        data-brand="@product.BrandName?.ToLower()"
+
+
+                        data-price="">
+                            <div class="product-image">
+                                <a asp-controller="Kataloq" asp-action="Detail" asp-route-id="@product.ProductId"><img src="@product.ImageUrl" alt="@product.Name" /></a>
+                                <div class="product-badges">
+                                    @if (product.IsNew)
+                                    {
+                                        <span class="badge new">Təzə</span>
+                                    }
+                                    @if (product.IsBestseller)
+                                    {
+                                        <span class="badge bestseller">Çox satılan</span>
+                                    }
                                 </div>
+                                <div class="product-actions">
+                                    <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                                    <span class="product-disclaimer">Şəkil tanıtım xarakteri daşıyır</span>
+                                    <button class="add-to-cart"><i class="fas fa-shopping-cart"></i></button>
+                                </div>
+                            </div>
 
-                                <div class="product-info">
-                                    <h3>@product.Name</h3>
-                                    <p class="product-description">
+                            <div class="product-info">
+                                @{
+                                    var gender = product?.CategoryName;
+                                    string iconclass = "";
+                                    string genderaz = "";
+
+                                    switch (gender)
+                                    {
+                                        case "Men":
+                                            iconclass = "fas fa-mars";
+                                            break;
+
+                                        case "Women":
+                                            iconclass = "fas fa-venus";
+                                            break;
+
+                                        case "Unisex":
+                                            iconclass = "fas fa-venus-mars";
+                                            break;
+                                    }
+                                }
+                                @if (!string.IsNullOrEmpty(iconclass))
+                                {
+                                    @if (!string.IsNullOrEmpty(iconclass))
+                                    {
+                                        <i class="@iconclass product-gender-icon @(gender.ToLower())"></i>
+                                    }
+                                }
+
+                                <h3>@product.Name</h3>
+                                @*  <p class="product-description">
                                         @product.Description
                                         <span class="fragrance-family">Family: @product.FamilyName</span>
+                                    </p> *@
+                                <div class="product-price">
 
-                                    </p>
-                                   @*  <div class="product-price">
-                                        <span class="current-price">@product.CurrentPrice ₼</span>
-                                        <span class="original-price">@product.OriginalPrice ₼</span>
-                                    </div> *@
+                                    @if (minPrice == maxPrice)
+                                    {
+                                        <span class="current-price">@minPrice.ToString("0.##") ₼</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="current-price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
+                                    } 
+                                        
+                                    </div> 
                                 </div>
                             </article>
 
