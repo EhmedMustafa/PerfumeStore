@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +29,13 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductVariant
                 Console.WriteLine($"Variant tapıldı: ID = {variant.Id}, Size = {variant.Size}");
 
             return variant;
+        }
+
+        public async Task<List<Domain.Entities.ProductVariant>> GetVariantsByProductIdAsync(int productId)
+        {
+            return await _appDbContext.ProductVariants
+                .Where(v => v.ProductId == productId)
+                .ToListAsync();
         }
     }
 }

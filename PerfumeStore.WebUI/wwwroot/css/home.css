@@ -1,0 +1,931 @@
+/* ======================================================
+   MILLSHOP ESANS — Premium Home Page Design System
+   ====================================================== */
+
+/* ---- Google Fonts Import ---- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ---- CSS Variables ---- */
+:root {
+    --gold: #C9A96E;
+    --gold-light: #E8D5B5;
+    --gold-dark: #A07D4A;
+    --navy: #0C1355;
+    --navy-light: #1A2366;
+    --charcoal: #2C2C2C;
+    --smoke: #F5F3EF;
+    --cream: #FBF9F6;
+    --white: #FFFFFF;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 15px 50px rgba(0, 0, 0, 0.12);
+    --shadow-gold: 0 8px 30px rgba(201, 169, 110, 0.15);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-fast: all 0.25s ease;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+/* ==============================
+   Animations
+   ============================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px 5px rgba(201, 169, 110, 0.15);
+    }
+}
+
+.animate-in {
+    animation: fadeInUp 0.8s ease-out both;
+}
+
+.animate-in-delay-1 {
+    animation-delay: 0.1s;
+}
+
+.animate-in-delay-2 {
+    animation-delay: 0.2s;
+}
+
+.animate-in-delay-3 {
+    animation-delay: 0.3s;
+}
+
+/* ==============================
+   Section Titles — Premium
+   ============================== */
+.section_title h2 {
+    font-family: var(--font-display) !important;
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    color: var(--charcoal) !important;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+.section_title h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    border-radius: 2px;
+}
+
+.section_title {
+    margin-bottom: 40px !important;
+    text-align: center;
+}
+
+/* ==============================
+   Product Cards — Pink Minimal Centered
+   ============================== */
+.modern-product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Boşluq bir qədər azaldıldı */
+    margin-bottom: 40px;
+}
+
+.modern-card-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 350px;
+
+    /* Şəkildəki açıq çəhrayı/nude fon */
+
+    /* Çox oval deyil, şəkildəki kimi 12px */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    overflow: hidden;
+
+
+
+}
+
+
+
+.modern-card-img-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
+    transition: transform 0.5s ease;
+}
+
+.modern-card-img-wrapper:hover img {
+    transform: scale(1.06);
+}
+
+/* Badges */
+.modern-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #4A3C31;
+    /* Tünd qəhvəyi/qara şəkildəki kimi */
+    padding: 4px 12px;
+    border-radius: 25px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    z-index: 10;
+}
+
+.modern-badge i {
+    display: none;
+    /* Şəkildə badge daxilində ikon yoxdur */
+}
+
+/* Action Buttons */
+.modern-card-actions {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 12px;
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.modern-card-img-wrapper:hover .modern-card-actions {
+    opacity: 1;
+}
+
+.modern-action-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FFF;
+    color: var(--charcoal);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-fast);
+}
+
+.modern-action-btn:hover {
+    background: var(--charcoal);
+    color: #FFF;
+    transform: translateY(-4px);
+}
+
+/* Gender Icon */
+.modern-gender-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    color: #aaa;
+    z-index: 10;
+}
+
+/* Info Section (Texts below the image) */
+.modern-card-info {
+    padding: 0 10px;
+    text-align: center;
+    /* Tən mərkəzə */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Bütün elementləri mərkəzləyir */
+}
+
+.modern-card-rating {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 8px;
+    /* Ad mətndən yuxarıda */
+    justify-content: center;
+}
+
+.modern-card-rating i {
+    color: #4A3C31;
+    /* Qara rəngə yaxın tünd ulduzlar */
+    font-size: 11px;
+}
+
+.modern-card-title {
+    font-family: var(--font-display) !important;
+    /* Lüks (Serif) şrift */
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #2F2A28;
+    /* Çox tünd boz/qara */
+    margin-bottom: 6px;
+    line-height: 1.4;
+    text-transform: capitalize;
+}
+
+.modern-card-title a {
+    color: inherit !important;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.modern-card-title a:hover {
+    color: var(--gold-dark) !important;
+}
+
+.modern-card-brand {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 6px;
+    display: none;
+    /* Şəkildə brend adı yoxdur, amma lazım olsa görünə bilər */
+}
+
+.modern-card-price {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+    /* Tünd rəng qiymət */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    /* Tək və endirimli qiymət arası məsafə */
+}
+
+.old_price {
+    text-decoration: line-through;
+    color: #999;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* ==============================
+   Tab Buttons — Eksklüziv
+   ============================== */
+.product_tab_btn .nav {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.product_tab_btn .nav-link {
+    font-family: var(--font-body) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 2px;
+    padding: 10px 28px !important;
+    border-radius: 30px !important;
+    border: 2px solid transparent;
+    color: var(--charcoal) !important;
+    background: var(--smoke);
+    transition: var(--transition);
+}
+
+.product_tab_btn .nav-link:hover {
+    border-color: var(--gold-light);
+    color: var(--gold-dark) !important;
+}
+
+.product_tab_btn .nav-link.active {
+    background: linear-gradient(135deg, var(--navy), var(--navy-light)) !important;
+    color: var(--white) !important;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(12, 19, 85, 0.3);
+}
+
+/* ==============================
+   Banner Cards — Premium
+   ============================== */
+.banner_area .single_banner {
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    transition: var(--transition);
+}
+
+.banner_area .single_banner:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.banner_area .single_banner .banner_thumb img {
+    transition: transform 0.6s ease;
+}
+
+.banner_area .single_banner:hover .banner_thumb img {
+    transform: scale(1.05);
+}
+
+.banner_area .banner_content {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.banner_area .banner_content h2 {
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+}
+
+.banner_area .banner_content h3 {
+    font-family: var(--font-body) !important;
+    letter-spacing: 2px;
+}
+
+/* ==============================
+   Blog Cards — Modern
+   ============================== */
+.single_blog {
+    border-radius: var(--radius) !important;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.single_blog:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-6px);
+}
+
+.single_blog .blog_thumb {
+    overflow: hidden;
+}
+
+.single_blog .blog_thumb img {
+    transition: transform 0.5s ease;
+}
+
+.single_blog:hover .blog_thumb img {
+    transform: scale(1.08);
+}
+
+.single_blog .blog_content {
+    padding: 20px !important;
+}
+
+.single_blog .post_title a {
+    font-family: var(--font-display) !important;
+    font-size: 18px !important;
+    font-weight: 600;
+    color: var(--charcoal);
+    transition: var(--transition-fast);
+}
+
+.single_blog .post_title a:hover {
+    color: var(--gold);
+}
+
+.single_blog .post_desc {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.single_blog .btn_more a {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: var(--transition-fast);
+    position: relative;
+}
+
+.single_blog .btn_more a::after {
+    content: ' →';
+    transition: var(--transition-fast);
+}
+
+.single_blog .btn_more a:hover {
+    color: var(--gold-dark);
+}
+
+/* ==============================
+   Hero Slider (Kinematik + Video)
+   ============================== */
+.hero-slider-wrap {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.hero-slider .owl-stage-outer,
+.hero-slider .owl-stage,
+.hero-slider .owl-item {
+    height: 800px;
+}
+
+.hero-slide {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* OwlCarousel Nav Arrows */
+.hero-slider .owl-nav div {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFF;
+    font-size: 20px;
+    transition: var(--transition);
+    z-index: 20;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-slider .owl-nav div:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.hero-slider .owl-prev {
+    left: 30px;
+}
+
+.hero-slider .owl-next {
+    right: 30px;
+}
+
+/* OwlCarousel Dots */
+.hero-slider .owl-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.hero-slider .owl-dot span {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: var(--transition);
+}
+
+.hero-slider .owl-dot.active span {
+    background: #FFF;
+    transform: scale(1.2);
+}
+
+/* ===== Video Slide ===== */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* YouTube iframe arxa plan */
+.hero-video-iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120vw;
+    height: 120vh;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    /* Overlay-in altında qalır, klikləmək olmaz */
+    border: none;
+    z-index: 1;
+}
+
+.video-slide-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-slide-content .potd-badge {
+    margin-bottom: 20px;
+}
+
+.video-slide-content .potd-title {
+    text-align: center;
+}
+
+.video-slide-content .potd-desc {
+    text-align: center;
+    max-width: 100%;
+    font-style: italic;
+}
+
+.video-slide-content .potd-btn {
+    margin-top: 10px;
+}
+
+/* ==============================
+   Qısa Tanıtım Videoları (YouTube Shorts)
+   ============================== */
+.video_promotions_area {
+    padding: 20px 0;
+}
+
+.shorts-wrapper {
+    position: relative;
+    width: 100%;
+    /* 9:16 Aspect Ratio (Tiktok/Shorts Format) */
+    padding-bottom: 177.77%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    background: #000;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.shorts-wrapper:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+}
+
+.shorts-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Arxa Plan Şəkli */
+.potd-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+/* Tünd Overlay (Şəklin üzərinə yarı-şəffaf qara qat) */
+.potd-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0.45) 0%,
+            rgba(0, 0, 0, 0.25) 50%,
+            rgba(0, 0, 0, 0.15) 100%);
+    z-index: 2;
+}
+
+.potd-container {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    max-width: 1300px;
+    width: 100%;
+    padding: 0 60px;
+    gap: 60px;
+}
+
+/* Sol: Məlumat */
+.potd-details-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.potd-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #FFF;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-radius: 30px;
+    margin-bottom: 25px;
+    width: max-content;
+}
+
+.potd-title {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 18px;
+    line-height: 1.1;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.potd-desc {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin-bottom: 35px;
+    max-width: 500px;
+    font-style: italic;
+}
+
+/* 💸 Animasiyalı Qiymət 💸 */
+.potd-price-wrap {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+}
+
+.potd-price-old {
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: line-through;
+    font-weight: 500;
+}
+
+.potd-price {
+    font-family: var(--font-body);
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--gold-light);
+    animation: priceHighlight 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+}
+
+@keyframes priceHighlight {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0px rgba(232, 213, 181, 0);
+    }
+
+    100% {
+        transform: scale(1.08);
+        text-shadow: 0 5px 25px rgba(232, 213, 181, 0.7);
+        color: #E8D5B5;
+    }
+}
+
+.potd-btn {
+    display: inline-block;
+    padding: 16px 45px;
+    background: transparent;
+    color: #FFF !important;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 0;
+    /* Kino stili, kəskin künclər */
+    text-transform: uppercase;
+    text-decoration: none !important;
+    transition: var(--transition);
+    width: max-content;
+}
+
+.potd-btn:hover {
+    background: #FFF;
+    color: var(--charcoal) !important;
+    border-color: #FFF;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Sağ: Şəkil */
+.potd-image-col {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.potd-img {
+    max-height: 550px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
+    transition: transform 0.6s ease;
+}
+
+.potd-container:hover .potd-img {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .potd-container {
+        flex-direction: column;
+        padding: 80px 30px;
+        text-align: center;
+    }
+
+    .potd-details-col {
+        align-items: center;
+    }
+
+    .potd-title {
+        font-size: 42px;
+    }
+
+    .potd-desc {
+        max-width: 100%;
+    }
+
+    .potd-img {
+        max-height: 350px;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .potd-container {
+        padding: 60px 20px;
+    }
+
+    .potd-title {
+        font-size: 34px;
+    }
+
+    .potd-img {
+        max-height: 250px;
+    }
+}
+
+/* ==============================
+   Long Banner
+   ============================== */
+.banner_style_two .banner_content h3.text-tomato {
+    color: var(--gold) !important;
+    font-family: var(--font-body) !important;
+    letter-spacing: 2px;
+}
+
+/* ==============================
+   Section Backgrounds
+   ============================== */
+.home_section_two {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--white) 100%);
+    padding: 60px 0;
+    border-radius: 0;
+}
+
+.blog_section {
+    background: var(--smoke);
+    padding: 60px 0 !important;
+}
+
+/* ==============================
+   Toast & Alerts
+   ============================== */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+#alertContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1055;
+    width: 350px;
+}
+
+.alert {
+    border-radius: var(--radius-sm) !important;
+    font-family: var(--font-body);
+    border: none !important;
+    box-shadow: var(--shadow-md);
+}
+
+/* ==============================
+   Responsive
+   ============================== */
+@media (max-width: 768px) {
+    .section_title h2 {
+        font-size: 24px !important;
+    }
+
+    .product-card-wrapper {
+        min-height: 380px;
+    }
+
+    .product-card-img {
+        height: 200px !important;
+    }
+
+    .slider_content h2 {
+        font-size: 32px !important;
+    }
+
+    .product_tab_btn .nav-link {
+        padding: 8px 18px !important;
+        font-size: 11px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card-actions {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .product_tab_btn .nav {
+        flex-wrap: wrap;
+    }
+}

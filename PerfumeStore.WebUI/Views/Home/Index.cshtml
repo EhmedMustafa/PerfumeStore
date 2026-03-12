@@ -1,589 +1,252 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
 @model Dictionary<string, List<ResultProductDto>>
 
-<style>
-    .product-img-containers {
-        position: relative; /* ikon şəkilə görə yerləşsin */
-        display: inline-block;
-    }
+<link rel="stylesheet" href="~/css/home.css" />
 
-    .product-gender-icon {
-        position: absolute;
-        top: 10px; /* yuxarıdan məsafə */
-        right: 30px; /* sağdan məsafə */
-        font-size: 22px;
-        z-index: 10;
-    }
+<div id="alertContainer"></div>
 
-        /* Rəngləri gender-ə görə fərqləndirə bilərsən */
-        .product-gender-icon.men {
-            color: #74c0fc; /* mavi */
-        }
+<!-- ==============================
+     Hero Slider (Kinematik + Video)
+     ============================== -->
+<section class="hero-slider-wrap">
+    <div class="hero-slider owl-carousel">
 
-        .product-gender-icon.women {
-            color: red;
-        }
-
-        .product-gender-icon.unisex {
-            color: darkblue;
-        }
-   
-</style>
-
-
-
-
-
-    <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1055; width: 300px;"></div>
-
-    <!-- slider section starts  -->
-    <section class="slider_section slider_section2 mb-66"style="margin-top:-7px">
-        <div class="slider_area owl-carousel">
-            <div class="single_slider d-flex align-items-center" data-bgimg="slider/slider1.jpg"style="margin-top:100px;height:600px">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-6 col-md-6 offset-md-6">
-                            <div class="slider_content slider_content2 content_right">
-                                <h1>Kişilər üçün kolleksiya</h1>
-                                <h2>Wild Stone</h2>
-                                <p>Rozmarin və neroli notlarının zəngin aromatik qoxusu, tonka paxlası və ağ ağacların incəliyi ilə birləşərək kostyumlu görünüş üçün mükəmməl tamamlayıcı yaradır.</p>
-                                <a href="#" class="button">İndi Al <i class="fa fa-arrow-right"></i></a>
-                            </div>
-                        </div>
+        <!-- ===== Slide 1: Günün Ətri (Kinematik) ===== -->
+  @*       <div class="hero-slide potd-slide">
+            <div class="potd-hero-bg" style="background-image: url('/images/hero-bg.png');"></div>
+            <div class="potd-hero-overlay"></div>
+            <div class="potd-container">
+                <div class="potd-details-col">
+                    <span class="potd-badge">Günün Ətri</span>
+                    <h1 class="potd-title">Wild Stone Extrait</h1>
+                    <p class="potd-desc">Qoxunuzu kəşf edin. Anı yaşayın.</p>
+                    <div class="potd-price-wrap">
+                        <span class="potd-price-old">120.00 ₼</span>
+                        <span class="potd-price">85.00 ₼</span>
                     </div>
+                    <a href="/Kataloq" class="potd-btn">Kolleksiyaya Bax</a>
                 </div>
-
-            </div>
-            <div class="single_slider d-flex align-items-center" data-bgimg="slider/slider2.jpg" style="margin-top:100px;height:600px">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-7">
-                            <div class="slider_content slider_content2 content_left">
-                                <h1>İzləyin</h1>
-                                <h2>Maison Micallef</h2>
-                                <p>Bu ətir həm Bourbon vanilinin qastronomik notlarını, həm də tuberoza və yasəminin incə notlarını ön plana çıxaran möhtəşəm eliksirdir. Bu gözəl birləşmə tropik cənnəti xatırladır.</p>
-                                <a href="#" class="button">İndi Al <i class="fa fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="potd-image-col">
+                    <img class="potd-img" src="/products/Men/13-removebg-preview.png" alt="Wild Stone">
                 </div>
-
             </div>
+        </div> *@
+
+        <!-- ===== Slide 2: Şəkil Arxa Plan (Dinamik) ===== -->
+        <div class="hero-slide potd-slide">
+            <div class="potd-hero-bg"><img src="/products//3fa332d85b6935376b010460837de1c8.jpg" alt="Alternate Text" /></div>
+         @*    <div class="potd-hero-overlay"></div>
+            
+            <div class="potd-container">
+                <div class="potd-details-col" style="align-items: center; text-align: center; padding: 0;">
+                    <span class="potd-badge">Yeni Kolleksiya</span>
+                    <h1 class="potd-title">Elysian & Co.</h1>
+                    <p class="potd-desc" style="max-width: 600px;">
+                        Gətirdiyimiz hər bir notada luks və zəriflik gizlidir. Öz xarakterinizi kəşf edin.
+                    </p>
+                    <a href="/Kataloq" class="potd-btn">Kataloqa Bax</a>
+                </div>
+            </div> *@
         </div>
-    </section>
-
-
-    <!-- product area starts -->
-    @{
-        var tabs = Model.Keys.ToList(); // "Men", "Women", "Unisex"
-        var categoryIndex = 0;
-    }
-
-    <div class="product_area product_area_two mb-65">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section_title">
-                        <h2>Eksklüziv</h2>
-                        <div class="product_tab_btn">
-                            <ul class="nav" role="tablist">
-                                @foreach (var category in tabs)
-                                {
-                                    <li>
-                                        <a class="nav-link @(categoryIndex == 0 ? "active" : "")"
-                                        href="#@category"
-                                        data-bs-toggle="tab"
-                                        role="tab"
-                                        aria-controls="@category"
-                                        aria-selected="@(categoryIndex == 0 ? "true" : "false")">
-                                            @(
-                                                        category == "Men" ? "KİŞİ" :
-                                                        category == "Women" ? "QADIN" :
-                                                        category == "Unisex" ? "UNİSEX" : category
-                                                        )
-</a>
-                                    </li>
-                                    categoryIndex++;
-                                }
-                            </ul>
-                        </div>
-                    </div>
+          <div class="hero-slide potd-slide">
+            <div class="potd-hero-bg"><img src="/products/c4adb361873f57f4a7de626592976f65.jpg" alt="Alternate Text" /></div>
+      @*       <div class="potd-hero-overlay"></div>
+            
+            <div class="potd-container">
+                <div class="potd-details-col" style="align-items: center; text-align: center; padding: 0;">
+                    <span class="potd-badge">Yeni Kolleksiya</span>
+                    <h1 class="potd-title">Elysian & Co.</h1>
+                    <p class="potd-desc" style="max-width: 600px;">
+                        Gətirdiyimiz hər bir notada luks və zəriflik gizlidir. Öz xarakterinizi kəşf edin.
+                    </p>
+                    <a href="/Kataloq" class="potd-btn">Kataloqa Bax</a>
                 </div>
-            </div>
-
-            @{
-                categoryIndex = 0;
-            }
-
-            <div class="tab-content">
-                @foreach (var category in tabs)
-                {
-                    var isActive = categoryIndex == 0 ? "show active" : "";
-                    <div class="tab-pane fade @isActive" id="@category" role="tabpanel">
-                        <div class="row">
-                            <div class="product_carousel product_column4 owl-carousel">
-                                @foreach (var product in Model[category])
-                                {
-                                    var minPrice = product.ProductVariants?.Any() == true
-                                    ? product.ProductVariants.Min(x => x.CurrentPrice) : 0;
-
-                                    var maxPrice = product.ProductVariants?.Any() == true
-                                    ? product.ProductVariants.Max(x => x.CurrentPrice) : 0;
-
-
-                                    <div class="col-lg-3"style="border:1px solid;height:450px;background-color:white;border-radius:10px">
-                                        <article class="single_product">
-                                            <figure>
-
-                                                <div class="product-img-containers">
-                                                    <a asp-controller="kataloq" asp-action="Detail" asp-route-id="@product.ProductId"  class="primary_img">
-                                                        <img style="height:260px;width:auto" src="@product.ImageUrl"  alt="@product.Name">
-                                                    </a>
-
-                                                    <div class="action_links">
-                                                        <ul>
-                                                            <li class="add_to_cart">
-                                                                <button style="border:1px solid" type="button"
-                                                                class="add-to-cart"
-                                                                data-productid="@product.ProductId"
-                                                                data-quantity="1"
-                                                                title="Səbətə əlavə et">
-                                                                    <i  class="fa fa-shopping-cart"></i>
-                                                                </button>
-                                                            </li>
-
-
-
-                                                            @* <li class="quick_button">
-                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Sürətli baxış">
-                                                                <i class="fa fa-eye"></i>
-                                                            </a>
-                                                        </li> *@
-                                                        </ul>
-                                                    <button style="border:1px solid;margin-top:6px" class="favorite-btn" title="İstək siyahısına əlavə et"
-                                                                data-product-id="@product.ProductId"
-                                                                data-product-name="@product.Name"
-                                                                data-product-minprice="@product.ProductVariants.Min(x => x.CurrentPrice)"
-                                                                data-product-maxprice="@product.ProductVariants.Max(x => x.CurrentPrice)"
-                                                                data-product-image="@product.ImageUrl">
-                                                            <i style="font-size:21px" class="fa fa-heart-o"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <figcaption class="product_content">
-                                                    @{
-                                                        var gender = product?.CategoryName;
-                                                        string iconclass = "";
-                                                        string genderaz = "";
-
-                                                        switch (gender)
-                                                        {
-                                                            case "Men":
-                                                                iconclass = "fas fa-mars";
-                                                                break;
-
-                                                            case "Women":
-                                                                iconclass = "fas fa-venus";
-                                                                break;
-
-                                                            case "Unisex":
-                                                                iconclass = "fas fa-venus-mars";
-                                                                break;
-                                                        }
-                                                    }
-                                                    @if (!string.IsNullOrEmpty(iconclass))
-                                                    {
-                                                        @if (!string.IsNullOrEmpty(iconclass))
-                                                        {
-                                                            <i class="@iconclass product-gender-icon @(gender.ToLower())"></i>
-                                                        }
-                                                    }
-                                                    <h4 class="product_name"style="margin-top:20px;font-weight:400;font-size:18px">
-                                                        <a href="#">@product.Name</a>
-                                                    </h4>
-
-                                                    <div style="margin-left:6px;margin-top:30px" class="price_box">
-                                                        @if (minPrice == maxPrice)
-                                                        {
-                                                            <span class="current_price">@minPrice.ToString("0.##") ₼</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span style="color:darkturquoise;font-size:30px;font-weight:400" class="current_price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
-                                                        }
-
-                                                    </div>
-                                                    <br>
-
-                                                    <div style="margin-top:25px" class="product_rating">
-                                                        <ul>
-                                                            @for (int i = 0; i < 5; i++)
-                                                            {
-                                                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                            }
-                                                        </ul>
-                                                    </div>
-                                                </figcaption>
-                                            </figure>
-                                        </article>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    categoryIndex++;
-                }
-            </div>
+            </div> *@
         </div>
+          <div class="hero-slide potd-slide">
+            <div class="potd-hero-bg"><img src="/products//b016407e99debf0bdc0136d339751f44.jpg" alt="Alternate Text" /></div>
+        </div>
+
     </div>
+</section>
+<!-- hero slider ends -->
 
 
+<!-- Eksklüziv product area starts -->
+@{
+    var tabs = Model.Keys.ToList();
+    var categoryIndex = 0;
+}
 
-    <!-- product area ends -->
-    <!-- banner area starts -->
-    <div class="banner_area mb-66">
-        <!-- Banner area -->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <figure class="single_banner">
-                        <div class="banner_thumb">
-                            <a href="#">
-                                <img src=" /banner/banner1.jpg" alt="">
-                            </a>
-                            <div class="banner_content">
-                                <h3>Endirimlər</h3> <!-- Sale up to -->
-                                <h2>50%</h2>
-                                <p>Ətir <span> & </span> Bədən spreyi</p>
-                            </div>
-                        </div>
-                    </figure>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <figure class="single_banner">
-                        <div class="banner_thumb">
-                            <a href="#">
-                                <img src=" /banner/banner2.jpg" alt="">
-                            </a>
-                            <div class="banner_content">
-                                <h3>Endirimlər</h3>
-                                <h2>70%</h2>
-                                <p>Dezodorantlar</p>
-                            </div>
-                        </div>
-                    </figure>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <figure class="single_banner">
-                        <div class="banner_thumb">
-                            <a href="#">
-                                <img src=" /banner/banner3.jpg" alt="">
-                            </a>
-                            <div class="banner_content">
-                                <h3>Endirimlər</h3>
-                                <h2>30%</h2>
-                                <p>Odekolon</p>
-                            </div>
-                        </div>
-                    </figure>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- banner area ends -->
-    <!-- home section area starts  -->
-
-    <div class="home_section_two color_two mb-70">
-        <div class="container">
-            <div class="row justify-content-center">
-
-
-
-                <div class="col-lg-9 col-md-12">
-                    <div class="home_section_right">
-
-                        @{
-                            var newProducts = ViewBag.NewProducts as List<ResultProductDto>;
-                        }
-                        <!-- product area starts  -->
-                        @if (ViewBag.NewProducts != null)
-                        {
-                            <section class="new_product_area mb-65">
-                                <div class="container">
-                                    <div class="section_title">
-                                        <h2>Yeni Gələnlər</h2>
-                                    </div>
-                                    <div class="row">
-                                        <div class="product_carousel product_column3 owl-carousel">
-                                            @foreach (var product in (List<ResultProductDto>)ViewBag.NewProducts)
-                                            {
-                                                var minPrice = product.ProductVariants?.Any() == true
-                                                ? product.ProductVariants.Min(x => x.CurrentPrice) : 0;
-
-                                                var maxPrice = product.ProductVariants?.Any() == true
-                                                ? product.ProductVariants.Max(x => x.CurrentPrice) : 0;
-
-                                                <div class="col-lg-3">
-
-                                                    <article class="single_product">
-                                                        <figure>
-
-                                                            <div class="product-img-containe">
-
-                                                                @{
-                                                                    var gender = product?.CategoryName;
-                                                                    string iconclass = "";
-                                                                    string genderaz = "";
-
-                                                                    switch (gender)
-                                                                    {
-                                                                        case "Men":
-                                                                            iconclass = "fas fa-mars";
-                                                                            break;
-
-                                                                        case "Women":
-                                                                            iconclass = "fas fa-venus";
-                                                                            break;
-
-                                                                        case "Unisex":
-                                                                            iconclass = "fas fa-venus-mars";
-                                                                            break;
-                                                                    }
-                                                                }
-                                                                @if (!string.IsNullOrEmpty(iconclass))
-                                                                {
-
-                                                                    <i class="@iconclass product-gender-icon @(gender.ToLower())"></i>
-
-
-                                                                }
-                                                                <a href="#" class="primary_img">
-                                                                    <img src="@product.ImageUrl" alt="@product.Name">
-                                                                </a>
-
-
-                                                                <div class="action_links"style="margin-left:10px">
-                                                                    <ul>
-                                                                        <li class="add_to_cart">
-                                                                            <button style="border:1px solid;" type="button"
-                                                                            class="add-to-cart"
-                                                                            data-productid="@product.ProductId"
-                                                                            data-quantity="1"
-                                                                            title="Səbətə əlavə et">
-                                                                                <i class="fa fa-shopping-cart"></i>
-                                                                            </button>
-                                                                        </li>
-
-                                                                    <button style="border:1px solid;margin-top:6px" class="favorite-btn"  title="İstək siyahısına əlavə et"
-                                                                            data-product-id="@product.ProductId"
-                                                                            data-product-name="@product.Name"
-                                                                            data-product-minprice="@product.ProductVariants.Min(x => x.CurrentPrice)"
-                                                                            data-product-maxprice="@product.ProductVariants.Max(x => x.CurrentPrice)"
-                                                                            data-product-image="@product.ImageUrl">
-                                                                        <i style="font-size:21px" class="fa fa-heart-o"></i>
-                                                                    </button>
-                                                                        @* <li class="quick_button">
-                                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#modal_box" title="Sürətli baxış">
-                                                                                <i class="fa fa-eye"></i>
-                                                                            </a>
-                                                                        </li>*@
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <figcaption class="product_content">
-                                                                <h4 class="product_name">
-                                                                    <a href="#">@product.Name</a>
-                                                                </h4>
-                                                                <div class="price_box">
-                                                                    @if(minPrice==maxPrice)
-                                                                    {
-                                                                        <span class="old_price">@minPrice.ToString("0.##") ₼</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span class="current_price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
-                                                                    }
-
-                                                                </div>
-                                                                <div class="product_rating">
-                                                                    <ul>
-                                                                        @for (int i = 0; i < 5; i++)
-                                                                        {
-                                                                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                                        }
-                                                                    </ul>
-                                                                </div>
-                                                            </figcaption>
-                                                        </figure>
-                                                    </article>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        }
-
-
-                        <!-- product area ends -->
-                        <!-- Long banner area starts  -->
-                        <div class="banner_area banner_style_two mb-58">
-
-                            <div class="single_banner">
-                                <div class="banner_thumb">
-                                    <a href="#">
-                                        <img src="/banner/banner4.png" alt="">
-
-                                    </a>
-                                    <div class="banner_content">
-                                        <h3 style="color: tomato;">Endirimlər </h3>
-                                        <h2>45%</h2>
-                                        <p>Versace</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Long Banner area ends -->
-                        <!-- product section starts  -->
-                        <div class="product_area">
-                            @{
-                                var bestsellproduct = ViewBag.Bestsellproduct as List<ResultProductDto>;
-                            }
-                            @if (ViewBag.Bestsellproduct != null)
+<div class="product_area product_area_two mb-65 animate-in animate-in-delay-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section_title">
+                    <h2>Eksklüziv</h2>
+                    <div class="product_tab_btn">
+                        <ul class="nav" role="tablist">
+                            @foreach (var category in tabs)
                             {
-
+                                <li>
+                                    <a class="nav-link @(categoryIndex == 0 ? "active" : "")"
+                                       href="#@category"
+                                       data-bs-toggle="tab"
+                                       role="tab"
+                                       aria-controls="@category"
+                                       aria-selected="@(categoryIndex == 0 ? "true" : "false")">
+                                        @(category == "Men" ? "KİŞİ" :
+                                          category == "Women" ? "QADIN" :
+                                          category == "Unisex" ? "UNİSEX" : category)
+                                    </a>
+                                </li>
+                                categoryIndex++;
                             }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @{ categoryIndex = 0; }
+
+        <div class="tab-content">
+            @foreach (var category in tabs)
+            {
+                var isActive = categoryIndex == 0 ? "show active" : "";
+                <div class="tab-pane fade @isActive" id="@category" role="tabpanel">
+                    <div class="row">
+                        <div class="product_carousel product_column4 owl-carousel">
+                            @foreach (var product in Model[category])
+                            {
+                                @await Html.PartialAsync("_ProductCard", product)
+                            }
+                        </div>
+                    </div>
+                </div>
+                categoryIndex++;
+            }
+        </div>
+    </div>
+</div>
+<!-- product area ends -->
+
+<!-- video promotions area starts -->
+<div class="video_promotions_area mb-66 animate-in animate-in-delay-2">
+    <div class="container">
+        
+        <div class="row mb-30">
+            <div class="col-12 text-center">
+                <div class="section_title">
+                    <h2>Günün Fərqliləri</h2>
+                    <p>Dünyanın ən eksklüziv qoxuları ilə qısa tanışlıq</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Video 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="shorts-wrapper">
+                    <!-- YouTube Shorts Embed Yeri -->
+                    <iframe src="https://assets.pinterest.com/ext/embed.html?id=928867491907363183" height="1167" width="600" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="shorts-wrapper">
+                    <!-- YouTube Shorts Embed Yeri -->
+                    <iframe src="https://assets.pinterest.com/ext/embed.html?id=10977592837457499" height="899" width="450" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="col-lg-4 col-md-6 mb-4 d-md-none d-lg-block">
+                <div class="shorts-wrapper">
+                    <!-- YouTube Shorts Embed Yeri -->
+                    <iframe src="https://assets.pinterest.com/ext/embed.html?id=861032022553685212" height="900" width="450" frameborder="0" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- video promotions area ends -->
+<!-- banner area ends -->
+
+<!-- home section area starts -->
+<div class="home_section_two color_two mb-70 animate-in animate-in-delay-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-md-12">
+                <div class="home_section_right">
+
+                    <!-- Yeni Gələnlər -->
+                    @if (ViewBag.NewProducts != null)
+                    {
+                        <section class="new_product_area mb-65">
+                            <div class="container">
+                                <div class="section_title">
+                                    <h2>Yeni Gələnlər</h2>
+                                </div>
+                                <div class="row">
+                                    <div class="product_carousel product_column3 owl-carousel">
+                                        @foreach (var product in (List<ResultProductDto>)ViewBag.NewProducts)
+                                        {
+                                            @await Html.PartialAsync("_ProductCard", product)
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    }
+
+                    <!-- Long banner area -->
+                    <div class="banner_area banner_style_two mb-58">
+                        <div class="single_banner">
+                            <div class="banner_thumb">
+                                <a href="#">
+                                    <img src="/banner/banner4.png" alt="">
+                                </a>
+                                <div class="banner_content">
+                                    <h3 class="text-tomato">Endirimlər</h3>
+                                    <h2>45%</h2>
+                                    <p>Versace</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ən çox satılanlar -->
+                    @if (ViewBag.Bestsellproduct != null)
+                    {
+                        <div class="product_area">
                             <div class="section_title section_title_style2">
                                 <h2>Ən çox satılanlar</h2>
                             </div>
-                            <div class="row ">
+                            <div class="row">
                                 <div class="product_carousel product_column3 owl-carousel">
-                                          @foreach (var product in (List<ResultProductDto>)ViewBag.Bestsellproduct)
-                                            {
-                                                var minPrice = product.ProductVariants?.Any() == true
-                                                ? product.ProductVariants.Min(x => x.CurrentPrice) : 0;
-
-                                                var maxPrice = product.ProductVariants?.Any() == true
-                                                ? product.ProductVariants.Max(x => x.CurrentPrice) : 0;
-
-                                                <div class="col-lg-3">
-                                                    <div class="product_items">
-                                                        <article class="single_product">
-                                                            <figure>
-                                                                <div class="product_thumb">
-                                                                    <a href="#" class="primary_img">
-                                                                        <div class="product-img-containe">
-                                                                   
-                                                                                @{
-                                                                                    var gender = product?.CategoryName;
-                                                                                    string iconclass = "";
-                                                                                    string genderaz = "";
-
-                                                                                    switch (gender)
-                                                                                    {
-                                                                                        case "Men":
-                                                                                            iconclass = "fas fa-mars";
-                                                                                            break;
-
-                                                                                        case "Women":
-                                                                                            iconclass = "fas fa-venus";
-                                                                                            break;
-
-                                                                                        case "Unisex":
-                                                                                            iconclass = "fas fa-venus-mars";
-                                                                                            break;
-                                                                                    }
-                                                                                }
-                                                                                @if (!string.IsNullOrEmpty(iconclass))
-                                                                                {
-
-                                                                                    <i class="@iconclass product-gender-icon @(gender.ToLower())"></i>
-
-
-                                                                                }
-
-                                                                    
-                                                                        </div>
-                                                                <img style="height:300px;width:100%" src="@product.ImageUrl" alt="">
-                                                                </a>
-
-                                                                <div class="action_links">
-                                                                    <ul>
-                                                                        <li class="add_to_cart">
-                                                                            <button style="border:1px solid;" type="button"
-                                                                            class="add-to-cart"
-                                                                            data-productid="@product.ProductId"
-                                                                            data-quantity="1"
-                                                                            title="Səbətə əlavə et">
-                                                                                <i class="fa fa-shopping-cart"></i>
-                                                                            </button>
-                                                                        </li>
-                                                                <button style="border:1px solid;margin-top:6px" class="favorite-btn" title="İstək siyahısına əlavə et"
-                                                                        data-product-id="@product.ProductId"
-                                                                        data-product-name="@product.Name"
-                                                                        data-product-minprice="@product.ProductVariants.Min(x => x.CurrentPrice)"
-                                                                        data-product-maxprice="@product.ProductVariants.Max(x => x.CurrentPrice)"
-                                                                        data-product-image="@product.ImageUrl">
-                                                                    <i style="font-size:21px" class="fa fa-heart-o"></i>
-                                                                </button>
-                                                                        
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <figcaption class="product_content">
-                                                                <h4 class="product_name">
-                                                                    <a href="#">@product.Name</a>
-                                                                </h4>
-                                                                <div class="price_box">
-                                                                    @if (minPrice == maxPrice)
-                                                                    {
-                                                                        <span class="old_price">@minPrice.ToString("0.##") ₼</span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span class="current_price">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
-                                                                    }
-                                                        </div> 
-                                                        <div class="product_rating">
-                                                            <ul>
-                                                                @for (int i = 0; i < 5; i++)
-                                                                    {
-                                                                    <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                                    } 
-                                                            </ul>
-                                                        </div>
-                                                    </figcaption>
-                                                </figure>
-                                            </article>
-                                                      
-                                                        
-                                                    </div>
-                                                </div>
-                                                
-                                               
-                                            }
+                                    @foreach (var product in (List<ResultProductDto>)ViewBag.Bestsellproduct)
+                                    {
+                                        @await Html.PartialAsync("_ProductCard", product)
+                                    }
                                 </div>
-                                
                             </div>
                         </div>
-                    </div>
-
-                    <!-- product section ends -->
+                    }
                 </div>
             </div>
-
         </div>
     </div>
-
-
-
+</div>
 <!-- home section area ends -->
-<!-- blog section starts  -->
 
-<section class="blog_section blog_two color_two mb-65">
+<!-- blog section starts -->
+<section class="blog_section blog_two color_two mb-65 animate-in animate-in-delay-1">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -600,22 +263,18 @@
                         <figure>
                             <div class="blog_thumb">
                                 <a href="#">
-                                    <img src=" /blog/blog1.jpg" alt="">
+                                    <img src="/blog/blog1.jpg" alt="">
                                 </a>
                             </div>
                             <figcaption class="blog_content">
                                 <h4 class="post_title">
-                                    <a href="#">
-                                        Ətir Ətirləri
-                                    </a>
+                                    <a href="#">Ətir Ətirləri</a>
                                 </h4>
                                 <p class="post_desc">
                                     Ətir sadəcə qoxu deyil – o, bir xatirə, bir hiss, bəzən də bir insanın imzasıdır. Tarix boyu insanlar ətirdən yalnız gözəllik və təravət üçün deyil, həm də özlərini ifadə etmək, yadda qalmaq və xüsusi anları unudulmaz etmək üçün istifadə ediblər.
                                 </p>
                                 <footer class="btn_more">
-                                    <a href="#">
-                                        Ətraflı Oxu...
-                                    </a>
+                                    <a href="#">Ətraflı Oxu...</a>
                                 </footer>
                             </figcaption>
                         </figure>
@@ -627,22 +286,18 @@
                         <figure>
                             <div class="blog_thumb">
                                 <a href="#">
-                                    <img src=" /blog/blog2.jpg" alt="">
+                                    <img src="/blog/blog2.jpg" alt="">
                                 </a>
                             </div>
                             <figcaption class="blog_content">
                                 <h4 class="post_title">
-                                    <a href="#">
-                                        Gündəlik üçün
-                                    </a>
+                                    <a href="#">Gündəlik üçün</a>
                                 </h4>
                                 <p class="post_desc">
                                     Ətir seçimi hər zaman zövq məsələsidir. Ancaq gündəlik istifadə üçün seçilən ətirlər həm yüngül, həm də rahat olmalıdır. Onlar insanın əhvalına, enerjisinə və üslubuna uyğun olmalı, eyni zamanda qarşı tərəfdə xoş təəssürat yaratmalıdır.
                                 </p>
                                 <footer class="btn_more">
-                                    <a href="#">
-                                        Ətraflı Oxu...
-                                    </a>
+                                    <a href="#">Ətraflı Oxu...</a>
                                 </footer>
                             </figcaption>
                         </figure>
@@ -654,22 +309,18 @@
                         <figure>
                             <div class="blog_thumb">
                                 <a href="#">
-                                    <img src=" /blog/blog3.jpg" alt="">
+                                    <img src="/blog/blog3.jpg" alt="">
                                 </a>
                             </div>
                             <figcaption class="blog_content">
                                 <h4 class="post_title">
-                                    <a href="#">
-                                        Qarderob Kolleksiyası
-                                    </a>
+                                    <a href="#">Qarderob Kolleksiyası</a>
                                 </h4>
                                 <p class="post_desc">
                                     Qarderob yalnız geyimlər toplusu deyil – o, insanın üslubunu, xarakterini və gündəlik həyat tərzini əks etdirir. Düzgün seçilmiş qarderob kolleksiyası həm işdə, həm də şəxsi həyatda özünəinam və rahatlıq yaradır.
                                 </p>
                                 <footer class="btn_more">
-                                    <a href="#">
-                                        Ətraflı Oxu...
-                                    </a>
+                                    <a href="#">Ətraflı Oxu...</a>
                                 </footer>
                             </figcaption>
                         </figure>
@@ -681,22 +332,18 @@
                         <figure>
                             <div class="blog_thumb">
                                 <a href="#">
-                                    <img src=" /blog/blog4.jpg" alt="">
+                                    <img src="/blog/blog4.jpg" alt="">
                                 </a>
                             </div>
                             <figcaption class="blog_content">
                                 <h4 class="post_title">
-                                    <a href="#">
-                                        Partiya üçün Ən Yaxşı Ətir
-                                    </a>
+                                    <a href="#">Partiya üçün Ən Yaxşı Ətir</a>
                                 </h4>
                                 <p class="post_desc">
                                     Partiyalar və xüsusi tədbirlər üçün geyim qədər ətrin də seçimi çox önəmlidir. Çünki ətriniz sizi tamamlayır, əhvalınızı yüksəldir və yadda qalan təəssürat yaradır. Düzgün seçilmiş ətir gecəni unudulmaz edə bilər.
                                 </p>
                                 <footer class="btn_more">
-                                    <a href="#">
-                                        Ətraflı Oxu...
-                                    </a>
+                                    <a href="#">Ətraflı Oxu...</a>
                                 </footer>
                             </figcaption>
                         </figure>
@@ -706,145 +353,14 @@
         </div>
     </div>
 </section>
+<!-- blog section ends -->
 
-<div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <button type="button" data-dismiss="modal" aria-label="close" class="close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="modal_body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-5 col-sm-12">
-                            <div class="modal_tab">
-                                <div class="tab-content product-details-large">
-                                    <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                                        <div class="modal_tab_img">
-                                            <a href="#"><img src=" /new-product/N1-1.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab2" role="tabpanel">
-                                        <div class="modal_tab_img">
-                                            <a href="#"><img src=" /new-product/N2-1.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab3" role="tabpanel">
-                                        <div class="modal_tab_img">
-                                            <a href="#"><img src=" /new-product/N3.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab4" role="tabpanel">
-                                        <div class="modal_tab_img">
-                                            <a href="#"><img src=" /new-product/N4-1.png" alt=""></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal_tab_button">
-                                    <ul class="nav product_navactive owl-carousel" role="tablist">
-                                        <li>
-                                            <a href="#tab1" class="nav-link active" data-toggle="tab" role="tab"
-                                               aria-controls="tab1" aria-selected="false">
-                                                <img src=" /new-product/N1-1.png" alt="">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#tab2" class="nav-link" data-toggle="tab" role="tab"
-                                               aria-controls="tab2" aria-selected="false">
-                                                <img src=" /new-product/N2-1.png" alt="">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#tab3" class="nav-link" data-toggle="tab" role="tab"
-                                               aria-controls="tab3" aria-selected="false">
-                                                <img src=" /new-product/N3.png" alt="">
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#tab4" class="nav-link" data-toggle="tab" role="tab"
-                                               aria-controls="tab4" aria-selected="false">
-                                                <img src=" /new-product/N4-1.png" alt="">
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+<div id="toast-container"></div>
 
-                        <div class="col-lg-7 col-md-7 col-sm-12">
-                            <div class="modal_right">
-                                <div class="modal_title mb-10">
-                                    <h2>Paco Rabbane Men Invictus</h2>
-                                </div>
-                                <div class="modal_price mb-10">
-                                    <span class="new_price">Rs. 7600</span>
-                                    <span class="old_price">Rs. 8100</span>
-                                </div>
-                                <div class="modal_description mb-15">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis earum
-                                        nesciunt consequatur deleniti nam dicta eligendi iusto quaerat dolores
-                                        debitis, est natus omnis consequuntur sequi. Ipsam sint rerum minus eos?
-                                    </p>
-                                </div>
-                                <div class="variants_selects">
-                                    <div class="variants_size">
-                                        <h2>Size</h2>
-                                        <select class="select_option">
-                                            <option value="1" selected>10ml</option>
-                                            <option value="1">25ml</option>
-                                            <option value="1">50ml</option>
-                                            <option value="1">100ml</option>
-                                            <option value="1">250ml</option>
-                                        </select>
-                                    </div>
-                                    <div class="variants_fragrance">
-                                        <h2>Fragrance</h2>
-                                        <select class="select_option">
-                                            <option value="1" selected>Rose</option>
-                                            <option value="1">Chocolate</option>
-                                            <option value="1">Sweet</option>
-                                            <option value="1">Fruit</option>
-                                            <option value="1">Intense</option>
-                                        </select>
-                                    </div>
-                                    <div class="modal_add_to_cart">
-                                        <form action="#">
-                                            <input type="number" min="1" max="100" step="1" value="1">
-                                            <button type="submit">Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="modal_social">
-                                    <h2>Follow us on</h2>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                        <li class="pinterest"><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                                        <li class="google-plus">
-                                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        </li>
-                                        <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-    <div id="toast-container" style="
-        position:fixed;
-        top:20px;
-        right:20px;
-        z-index:9999;
-    "></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Add to Cart AJAX -->
 <script>
     $(document).ready(function () {
         $('.add-to-cart').click(function (e) {
@@ -853,21 +369,15 @@
             var productId = $(this).data('productid');
             var quantity = $(this).data('quantity');
 
-            var data = {
-                productId: productId,
-                quantity: quantity
-            };
-
             $.ajax({
                 url: '/Cart/AddToCartItem',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(data),
+                data: JSON.stringify({ productId: productId, quantity: quantity }),
                 success: function (response) {
                     if (response.success) {
                         showAlert('success', response.message);
-                          //updateCartSummary();   // 🔄 Sayı yenilə
-                          updateCartDropdown(); // 🧺 Məhsulları yenilə
+                        updateCartDropdown();
                     } else {
                         showAlert('danger', "Xəta: " + response.message);
                     }
@@ -878,7 +388,6 @@
             });
         });
 
-        // Alert göstərən funksiya
         function showAlert(type, message) {
             var alertHtml = `
                 <div class="alert alert-${type} alert-dismissible fade show" role="alert">
@@ -886,37 +395,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Bağla"></button>
                 </div>
             `;
-
             $('#alertContainer').html(alertHtml);
-
-            // 3 saniyədən sonra avtomatik bağla
-            setTimeout(() => {
-                $('.alert').alert('close');
-            }, 3000);
+            setTimeout(() => { $('.alert').alert('close'); }, 3000);
         }
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert -->
-@*------------ Wishlist*@
+<!-- Wishlist -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const wishlistBtns = document.querySelectorAll(".favorite-btn");
 
-        // Wishlist-i localStorage-dan oxumaq
         function getWishlist() {
             return JSON.parse(localStorage.getItem("wishlist")) || [];
         }
 
-        // Wishlist-i yazmaq
         function setWishlist(wishlist) {
             localStorage.setItem("wishlist", JSON.stringify(wishlist));
         }
-        // Toast mesajı göstərmək
 
-        function showtoast (message,type="success"){
-            const container =document.getElementById("toast-container");
-            const toast= document.createElement("div");
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
 
             toast.textContent = message;
             toast.style.padding = "12px 20px";
@@ -928,74 +429,56 @@
             toast.style.opacity = "0";
             toast.style.transition = "opacity 0.3s ease";
 
-            if(type==="success"){toast.style.backgroundColor="#28a745";} // yaşıl
-
-            else if (type==="erros"){toast.style.backgroundColor= "#dc3545";}
-
-            else {toast.style.backgroundColor= "#333";}
+            if (type === "success") { toast.style.backgroundColor = "#28a745"; }
+            else if (type === "error") { toast.style.backgroundColor = "#dc3545"; }
+            else { toast.style.backgroundColor = "#333"; }
 
             container.appendChild(toast);
+            setTimeout(() => (toast.style.opacity = "1"), 100);
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                setTimeout(() => container.removeChild(toast), 300);
+            }, 3000);
+        }
 
-            setTimeout(()=> (toast.style.opacity ="1"),100);
-
-            setTimeout(()=> {
-                toast.style.opacity="0";
-                setTimeout(()=> container.removeChild(toast),300);
-              },3000);
-            }
-
-
-
-
-
-        // Məhsul əlavə etmək və ya silmək
         function toggleWishlist(product) {
             let wishlist = getWishlist();
-
             const index = wishlist.findIndex(p => p.id === product.id);
 
             if (index === -1) {
-                // Əlavə et
                 wishlist.push(product);
-                showtoast("Məhsul istək siyahısına əlavə olundu ✅","success");
+                showToast("Məhsul istək siyahısına əlavə olundu ✅", "success");
             } else {
-                // Sil
                 wishlist.splice(index, 1);
-                showtoast("Məhsul istək siyahısından silindi ❌", "error");
+                showToast("Məhsul istək siyahısından silindi ❌", "error");
             }
 
             setWishlist(wishlist);
             updateUI();
         }
 
-        // Wishlist sayını yeniləmək
         function updateWishlistCount() {
             const wishlist = getWishlist();
-            document.getElementById("wishlist-count").textContent = wishlist.length;
+            const countEl = document.getElementById("wishlist-count");
+            if (countEl) countEl.textContent = wishlist.length;
         }
 
-        // UI-ni yenilə (ürəyin dolu/boş olması)
         function updateUI() {
             const wishlist = getWishlist();
-
             wishlistBtns.forEach(btn => {
                 const productId = parseInt(btn.dataset.productId);
                 const icon = btn.querySelector("i");
-
                 if (wishlist.some(p => p.id === productId)) {
-                    icon.classList.remove("far"); // boş ürək
-                    icon.classList.add("fas", "text-danger"); // dolu ürək qırmızı
+                    icon.classList.remove("far");
+                    icon.classList.add("fas", "text-danger");
                 } else {
                     icon.classList.remove("fas", "text-danger");
-                    icon.classList.add("far"); // boş ürək
+                    icon.classList.add("far");
                 }
             });
-
-            // sayını da yenilə
             updateWishlistCount();
         }
 
-        // Click eventləri bağla
         wishlistBtns.forEach(btn => {
             btn.addEventListener("click", function () {
                 const product = {
@@ -1005,15 +488,36 @@
                     maxPrice: parseFloat(this.dataset.productMaxprice),
                     image: this.dataset.productImage
                 };
-
                 toggleWishlist(product);
             });
         });
 
-        // İlk yüklənmədə UI-ni və sayını yenilə
         updateUI();
         updateWishlistCount();
     });
+
+    // 3D Mouse Parallax Effect removed as requested
+
+    // ===== Hero Slider (OwlCarousel) =====
+    document.addEventListener("DOMContentLoaded", function () {
+        if ($('.hero-slider').length) {
+            $('.hero-slider').owlCarousel({
+                items: 1,
+                loop: true,
+                autoplay: true,
+                autoplayTimeout: 8000,
+                autoplayHoverPause: true,
+                animateOut: 'fadeOut',
+                animateIn: 'fadeIn',
+                smartSpeed: 1200,
+                nav: true,
+                navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                dots: true,
+                mouseDrag: true,
+                touchDrag: true
+            });
+        }
+    });
+
+
 </script>
-
-

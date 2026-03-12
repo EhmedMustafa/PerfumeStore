@@ -47,6 +47,7 @@ builder.Services.AddScoped(typeof(ICartRepository), typeof(CartRepository));
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped(typeof(IProductVariantRepository), typeof(ProductVariantRepository));
 
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(1);
@@ -55,7 +56,6 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
-builder.Services.AddDistributedMemoryCache();
 
 
 

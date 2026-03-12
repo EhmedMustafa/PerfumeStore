@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +10,6 @@ namespace PerfumeStore.Application.Interfaces.IProductVariant
     public interface IProductVariantRepository
     {
         Task<ProductVariant> GetVariantWithDetailsByIdAsync(int id);
+        Task<List<ProductVariant>> GetVariantsByProductIdAsync(int productId);
     }
 }

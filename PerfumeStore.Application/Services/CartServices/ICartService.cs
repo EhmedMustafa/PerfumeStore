@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +19,6 @@ namespace PerfumeStore.Application.Services.CartServices
         Task AddItemAsync(AddToCartRequest addToCartRequest);
 
         Task<GetByIdCartDto> GetCartByUserIdWithItemsAsync(int userId);
+        Task<int> CreateCartAsync();
     }
 }

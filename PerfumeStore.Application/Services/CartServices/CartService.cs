@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -94,6 +94,19 @@ namespace PerfumeStore.Application.Services.CartServices
             var values = await _cartRepository.GetCartByUserIdWithItemsAsync(userId);
             var map = _mapper.Map<GetByIdCartDto>(values);
             return map;
+        }
+
+        public async Task<int> CreateCartAsync()
+        {
+            var cart = new Cart
+            {
+                Createddate = DateTime.Now,
+                TotalAmount = 0,
+                CartItems = new List<CartItem>()
+            };
+            await _genericRepository.AddAsync(cart);
+            await _genericRepository.SaveChangesAsync();
+            return cart.CartId;
         }
     }
 }

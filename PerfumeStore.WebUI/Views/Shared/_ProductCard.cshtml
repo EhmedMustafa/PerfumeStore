@@ -1,0 +1,96 @@
+@model ResultProductDto
+
+@{
+    var minPrice = Model.ProductVariants?.Any() == true
+        ? Model.ProductVariants.Min(x => x.CurrentPrice) : 0;
+
+    var maxPrice = Model.ProductVariants?.Any() == true
+        ? Model.ProductVariants.Max(x => x.CurrentPrice) : 0;
+
+    var gender = Model?.CategoryName;
+    string iconclass = gender switch
+    {
+        "Men" => "fas fa-mars",
+        "Women" => "fas fa-venus",
+        "Unisex" => "fas fa-venus-mars",
+        _ => ""
+    };
+}
+
+<div class="col-lg-3">
+    <article class="modern-product-card animate-in">
+        
+        <div class="modern-card-img-wrapper">
+            @if (Model.IsNew)
+            {
+                <span class="modern-badge">Yeni</span>
+            }
+            else if (Model.IsBestseller)
+            {
+                <span class="modern-badge">Çox Satılır</span>
+            }
+
+            @if (!string.IsNullOrEmpty(iconclass))
+            {
+                <div class="modern-gender-icon" title="@gender">
+                    <i style="color:white" class="@iconclass"></i>
+                </div>
+            }
+
+            <a asp-controller="kataloq" asp-action="Detail" asp-route-id="@Model.ProductId">
+                <img src="@Model.ImageUrl" alt="@Model.Name">
+            </a>
+
+            <div class="modern-card-actions">
+                <button type="button"
+                        class="modern-action-btn add-to-cart"
+                        data-productid="@Model.ProductId"
+                        data-quantity="1"
+                        title="Səbətə əlavə et">
+                    <i class="fa fa-shopping-bag"></i>
+                </button>
+                
+                <button type="button" 
+                        class="modern-action-btn favorite-btn" 
+                        title="İstək siyahısına əlavə et"
+                        data-product-id="@Model.ProductId"
+                        data-product-name="@Model.Name"
+                        data-product-minprice="@minPrice"
+                        data-product-maxprice="@maxPrice"
+                        data-product-image="@Model.ImageUrl">
+                    <i class="fa fa-heart-o"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="modern-card-info">
+            <div class="modern-card-rating">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                }
+            </div>
+
+            <h4 class="modern-card-title">
+                <a asp-controller="kataloq" asp-action="Detail" asp-route-id="@Model.ProductId">@Model.Name</a>
+            </h4>
+
+            @if (!string.IsNullOrEmpty(Model.BrandName))
+            {
+                <p class="modern-card-brand">@Model.BrandName</p>
+            }
+
+            <div class="modern-card-price">
+                @if (minPrice == maxPrice)
+                {
+                    <span class="current_price">@minPrice.ToString("0.##") ₼</span>
+                }
+                else
+                {
+                    <span class="price-range">@minPrice.ToString("0.##") ₼ - @maxPrice.ToString("0.##") ₼</span>
+                }
+            </div>
+        </div>
+
+    </article>
+</div>

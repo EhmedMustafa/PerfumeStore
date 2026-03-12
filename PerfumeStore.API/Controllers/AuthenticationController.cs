@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +27,8 @@ namespace PerfumeStore.API.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("registor")]
-        public async Task<IActionResult> Registor([FromBody] RegisterDto registorDto) 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registorDto) 
         {
             if (!ModelState.IsValid) 
             {
@@ -99,7 +99,7 @@ namespace PerfumeStore.API.Controllers
         public async Task<IActionResult> GetUserProfile() 
         {
             var username = User.Identity.Name;//Token-dən istifadəçi adı (User.Identity.Name) tapılır və bazadan axtarılır.
-            var user= await _userManager.FindByIdAsync(username);
+            var user= await _userManager.FindByNameAsync(username);
             if (user == null)  return NotFound(new { Message = "İstifadəçi tapılmadı!" });
             return Ok(new
             {

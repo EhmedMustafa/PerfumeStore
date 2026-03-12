@@ -1,4 +1,4 @@
-﻿using System.Net.WebSockets;
+using System.Net.WebSockets;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.CartDtos;
 using PerfumeStore.Application.Dtos.CartItemDtos;
@@ -13,6 +13,8 @@ namespace PerfumeStore.WebUI.Controllers
         private readonly ICartItemService _cartItemService;
         private readonly ICartService _cartService;
         private readonly IProductService _productService;
+        private const string CartSessionKey = "CartId";
+
         public CartController(ICartItemService cartItemService, ICartService cartService, IProductService productService)
         {
             _cartItemService = cartItemService;
@@ -20,19 +22,34 @@ namespace PerfumeStore.WebUI.Controllers
             _productService = productService;
         }
 
+        /// <summary>
+        /// Session-dan CartId götürür, yoxdursa yeni səbət yaradır
+        /// </summary>
+        private async Task<int> GetOrCreateCartIdAsync()
+        {
+            var cartId = HttpContext.Session.GetInt32(CartSessionKey);
+            if (cartId.HasValue)
+                return cartId.Value;
+
+            // Yeni səbət yarat
+            var newCartId = await _cartService.CreateCartAsync();
+            HttpContext.Session.SetInt32(CartSessionKey, newCartId);
+            return newCartId;
+        }
+
         public async Task<IActionResult> Index()
         {
-            var userId = 1;
-            var values = await _cartService.GetCartByUserIdWithItemsAsync(userId);
+            var cartId = await GetOrCreateCartIdAsync();
+            var values = await _cartService.GetCartByUserIdWithItemsAsync(cartId);
        
             return View(values);
         }
 
         public async Task<IActionResult> RefreshCartDropdown()
         {
-            var userId = 1;
-            var cart = await _cartService.GetCartByUserIdWithItemsAsync(userId);
-            return ViewComponent("CartMenu", new { userId = userId }); // ViewComponent çağır
+            var cartId = await GetOrCreateCartIdAsync();
+            var cart = await _cartService.GetCartByUserIdWithItemsAsync(cartId);
+            return ViewComponent("CartMenu", new { userId = cartId }); // ViewComponent çağır
         }
 
 
@@ -42,7 +59,7 @@ namespace PerfumeStore.WebUI.Controllers
 
             try
             {
-                int cartId = 1; // ya userId-dən səbəti tap, ya statik, ya da sessiondan götür
+                int cartId = await GetOrCreateCartIdAsync();
 
                 await _cartItemService.AddCartItemAsync(cartId, model);
 

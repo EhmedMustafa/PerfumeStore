@@ -1,13 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.ProductDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
-using Stripe;
-using Stripe.Climate;
-using Product = PerfumeStore.Domain.Entities.Product;
 
 namespace PerfumeStore.API.Controllers
 {
@@ -71,7 +68,7 @@ namespace PerfumeStore.API.Controllers
         [HttpGet("Search")]
         public async Task<IActionResult> SearchProducts([FromQuery] string search) 
         {
-            var value= await _productService.GetProductBySearch(search);
+            var value= await _productService.GetProductBySearchAsync(search);
             if (value==null)
             {
                 return NotFound("Tapilmadi");

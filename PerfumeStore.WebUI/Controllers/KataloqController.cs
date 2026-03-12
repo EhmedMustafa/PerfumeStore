@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.ProductDtos;
+using PerfumeStore.Application.Interfaces.IProductVariant;
 using PerfumeStore.Application.Services.BrandServices;
 using PerfumeStore.Application.Services.FragranceFamilyService;
 using PerfumeStore.Application.Services.FragranceNoteServices;
 using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
-using PerfumeStore.Infrastructure.Data;
 
 namespace PerfumeStore.WebUI.Controllers
 {
@@ -17,15 +16,15 @@ namespace PerfumeStore.WebUI.Controllers
         private readonly IFragranceFamilyService _fragranceFamily;
         private readonly IBrandService _brandService;
         private readonly IFragranceNoteService _fragranceNoteService;
-        private readonly AppDbContext _appDbContext;
+        private readonly IProductVariantRepository _productVariantRepository;
 
-        public KataloqController(IProductService productService, IFragranceFamilyService fragranceFamily, IBrandService brandService, IFragranceNoteService fragranceNoteService, AppDbContext appDbContext)
+        public KataloqController(IProductService productService, IFragranceFamilyService fragranceFamily, IBrandService brandService, IFragranceNoteService fragranceNoteService, IProductVariantRepository productVariantRepository)
         {
             _productService = productService;
             _fragranceFamily = fragranceFamily;
             _brandService = brandService;
             _fragranceNoteService = fragranceNoteService;
-            _appDbContext = appDbContext;
+            _productVariantRepository = productVariantRepository;
         }
 
         public async Task<IActionResult> Index(List<int> categoryId , List<int> brandId, List<int> fragranceFamilyId,List<int> fragranceNoteId ,int? minPrice,int? maxPrice, int page = 1)
@@ -82,19 +81,17 @@ namespace PerfumeStore.WebUI.Controllers
         [HttpGet("/ProductVariants/GetByProductId/{productId}")]
         public async Task<IActionResult> GetByProductId(int productId)
         {
-            var variants = await _appDbContext.ProductVariants
-                .Where(v => v.ProductId == productId)
-                .Select(v => new
-                {
-                    id = v.Id,
-                    size = v.Size,
-                    originalPrice = v.OriginalPrice,
-                    currentPrice = v.CurrentPrice,
-                    stockQuantity = 100 // Müvəqqəti olaraq 100 təyin edirəm, sonra database-dən gətirə bilərsiniz
-                })
-                .ToListAsync();
+            var variants = await _productVariantRepository.GetVariantsByProductIdAsync(productId);
+            var result = variants.Select(v => new
+            {
+                id = v.Id,
+                size = v.Size,
+                originalPrice = v.OriginalPrice,
+                currentPrice = v.CurrentPrice,
+                stockQuantity = 100 // Müvəqqəti olaraq 100 təyin edirəm, sonra database-dən gətirə bilərsiniz
+            }).ToList();
 
-            return Ok(variants);
+            return Ok(result);
         }
 
     }
