@@ -147,29 +147,45 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="video_carousel owl-carousel">
             <!-- Video 1 -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="shorts-wrapper">
-                    <!-- YouTube Shorts Embed Yeri -->
-                    <iframe src="https://assets.pinterest.com/ext/embed.html?id=928867491907363183" height="1167" width="600" frameborder="0" scrolling="no"></iframe>
-                </div>
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=928867491907363183" height="600" width="340" frameborder="0" scrolling="no"></iframe>
             </div>
 
             <!-- Video 2 -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="shorts-wrapper">
-                    <!-- YouTube Shorts Embed Yeri -->
-                    <iframe src="https://assets.pinterest.com/ext/embed.html?id=10977592837457499" height="899" width="450" frameborder="0" scrolling="no"></iframe>
-                </div>
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=10977592837457499" height="600" width="340" frameborder="0" scrolling="no"></iframe>
             </div>
 
             <!-- Video 3 -->
-            <div class="col-lg-4 col-md-6 mb-4 d-md-none d-lg-block">
-                <div class="shorts-wrapper">
-                    <!-- YouTube Shorts Embed Yeri -->
-                    <iframe src="https://assets.pinterest.com/ext/embed.html?id=861032022553685212" height="900" width="450" frameborder="0" scrolling="no"></iframe>
-                </div>
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=861032022553685212" height="600" width="340" frameborder="0" scrolling="no"></iframe>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=928867491907363183" height="600" width="340" frameborder="0" scrolling="no"></iframe>
+            </div>
+
+            <!-- Video 5 -->
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=10977592837457499" height="600" width="340" frameborder="0" scrolling="no"></iframe>
+            </div>
+
+            <!-- Video 6 -->
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=861032022553685212" height="600" width="340" frameborder="0" scrolling="no"></iframe>
+            </div>
+
+            <!-- Video 7 -->
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=928867491907363183" height="600" width="340" frameborder="0" scrolling="no"></iframe>
+            </div>
+
+            <!-- Video 8 -->
+            <div class="shorts-wrapper">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=10977592837457499" height="600" width="340" frameborder="0" scrolling="no"></iframe>
             </div>
         </div>
 
@@ -515,6 +531,30 @@
                 dots: true,
                 mouseDrag: true,
                 touchDrag: true
+            });
+        }
+
+        // ===== Video Carousel (OwlCarousel) =====
+        if ($('.video_carousel').length) {
+            $('.video_carousel').owlCarousel({
+                items: 4,
+                loop: true,
+                margin: 20,
+                nav: true,
+                navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                smartSpeed: 800,
+                mouseDrag: true,
+                touchDrag: true,
+                responsive: {
+                    0: { items: 1, margin: 10 },
+                    576: { items: 2, margin: 15 },
+                    768: { items: 3, margin: 15 },
+                    992: { items: 4, margin: 20 }
+                }
             });
         }
     });
