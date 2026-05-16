@@ -1,16 +1,15 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using PerfumeStore.Domain.Entities;
-//using Stripe.Climate;
 
 namespace PerfumeStore.Application.Interfaces.IOrderRepository
 {
     public interface IOrderRepository
     {
-        Task <Order> GetOrderByIdWithOrderItems(int id);
+        Task<Order> GetOrderByIdWithOrderItems(int id);
         Task<List<Order>> GetOrderWithOrderItems();
+
+        // Sifariş yaratmaq üçün məhsulları variant və brand ilə yüklə
+        Task<List<Product>> GetProductsWithVariantsAsync(List<int> productIds);
     }
 }

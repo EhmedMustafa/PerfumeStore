@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +25,45 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() 
+        public async Task<IActionResult> GetAll()
         {
             var product= await _productService.GetAllWithNotesAsync();
             return Ok(product);
+        }
+
+        // GET /api/Product/paged?page=1&pageSize=24&minPrice=&maxPrice=&categoryIds=1&brandIds=2,3
+        // Frontend pagination üçün — bütün məhsulları yox, 24-24 yükləmək
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPaged(
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 24,
+            [FromQuery] int? minPrice = null,
+            [FromQuery] int? maxPrice = null,
+            [FromQuery] string categoryIds = null,
+            [FromQuery] string brandIds = null,
+            [FromQuery] string familyIds = null,
+            [FromQuery] string noteIds = null)
+        {
+            if (page < 1) page = 1;
+            if (pageSize < 1 || pageSize > 100) pageSize = 24;
+
+            List<int> Parse(string s) => string.IsNullOrWhiteSpace(s)
+                ? new List<int>()
+                : s.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                   .Select(x => int.TryParse(x.Trim(), out var n) ? n : 0)
+                   .Where(n => n > 0).ToList();
+
+            var result = await _productService.GetPagedProductsAsync(
+                Parse(categoryIds),
+                Parse(brandIds),
+                Parse(familyIds),
+                Parse(noteIds),
+                page,
+                pageSize,
+                minPrice,
+                maxPrice);
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -66,9 +104,9 @@ namespace PerfumeStore.API.Controllers
             return Ok(value);
         }
         [HttpGet("Search")]
-        public async Task<IActionResult> SearchProducts([FromQuery] string search) 
+        public async Task<IActionResult> SearchProducts([FromQuery] string q)
         {
-            var value= await _productService.GetProductBySearchAsync(search);
+            var value= await _productService.GetProductBySearchAsync(q);
             if (value==null)
             {
                 return NotFound("Tapilmadi");

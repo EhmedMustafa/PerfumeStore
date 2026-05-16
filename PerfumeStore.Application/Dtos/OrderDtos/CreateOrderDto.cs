@@ -1,24 +1,34 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PerfumeStore.Application.Dtos.OrderItemDtos;
-using PerfumeStore.Domain.Entities.Identity;
-using PerfumeStore.Domain.Entities;
-using PerfumeStore.Domain.Enums;
 
 namespace PerfumeStore.Application.Dtos.OrderDto
 {
     public class CreateOrderDto
     {
-       
-        public int UserId { get; set; }
-        //public AppUser User { get; set; }
-       // public DateTime OrderDate { get; set; } = DateTime.UtcNow;
-       // public decimal TotalAmount { get; set; }
-        //public OrderStatus Status { get; set; } = OrderStatus.Pending;
-       
-        public ICollection<CreateOrderItemDto> createOrderItemDtos { get; set; }
+        // UserId artıq client-dən GƏLMİR — token-dən götürülür.
+
+        // Çatdırılma məlumatları
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Note { get; set; }
+
+        public string PaymentMethod { get; set; } = "cash";
+        public string GiftOption { get; set; } = "none";
+        public string GiftMessage { get; set; }
+        public string PromoCode { get; set; }
+
+        public ICollection<CreateOrderItemDto> Items { get; set; } = new List<CreateOrderItemDto>();
+
+        // Frontend uyğunluğu üçün köhnə ad da dəstəklənir
+        public ICollection<CreateOrderItemDto> createOrderItemDtos
+        {
+            get => Items;
+            set => Items = value;
+        }
     }
 }

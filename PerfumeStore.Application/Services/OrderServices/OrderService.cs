@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using PerfumeStore.Application.Dtos.OrderDto;
 using PerfumeStore.Application.Dtos.OrderDtos;
-using PerfumeStore.Application.Dtos.OrderItemDtos;
 using PerfumeStore.Application.Interfaces;
 using PerfumeStore.Application.Interfaces.IOrderRepository;
 using PerfumeStore.Application.Services.OrderServices;
@@ -18,163 +15,188 @@ namespace PerfumeStore.Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
+        // Promo və çatdırılma qaydaları — config-dən gələ bilər
+        private const string PROMO_CODE = "OMAR15";
+        private const decimal PROMO_DISCOUNT = 0.15m;
+        private const decimal FREE_SHIPPING_THRESHOLD = 50m;
+        private const decimal SHIPPING_COST = 5m;
+
         private readonly IGenericRepository<Order> _orderRepository;
-        private readonly IGenericRepository<OrderItem> _orderItemRepository;
-        private readonly IGenericRepository<Product> _productRepository;
-        private readonly IOrderRepository _order;
+        private readonly IOrderRepository _orderReadRepository;
         private readonly IMapper _mapper;
 
-        public OrderService(IGenericRepository<Order> orderRepository, IGenericRepository<OrderItem> orderItemRepository,
-        IGenericRepository<Product> productRepository,IMapper mapper,IOrderRepository order)
+        public OrderService(
+            IGenericRepository<Order> orderRepository,
+            IOrderRepository orderReadRepository,
+            IMapper mapper)
         {
             _orderRepository = orderRepository;
-            _orderItemRepository = orderItemRepository;
-            _productRepository = productRepository;
+            _orderReadRepository = orderReadRepository;
             _mapper = mapper;
-            _order = order;
         }
 
-
-        public async Task<IEnumerable<Order>> FindAsync(Expression<Func<Order, bool>> predicate)
+        public async Task<int> CreateOrderAsync(int userId, CreateOrderDto dto)
         {
-            return await _orderRepository.FindAsync(predicate);
-        }
-        public async Task<Order> CreateOrderAsync(int userId, List<ResultOrderItemDto> orderItems)
-        {
-            // 1️⃣ Yeni sifariş obyekti yaradılır.
-            var order = new Order
+            if (dto == null || dto.Items == null || !dto.Items.Any())
+                throw new InvalidOperationException("Sifariş boş ola bilməz");
+
+            if (string.IsNullOrWhiteSpace(dto.FirstName) ||
+                string.IsNullOrWhiteSpace(dto.LastName) ||
+                string.IsNullOrWhiteSpace(dto.Phone) ||
+                string.IsNullOrWhiteSpace(dto.Address) ||
+                string.IsNullOrWhiteSpace(dto.City))
             {
-                UserId = userId,              // İstifadəçi ID-si sifarişə bağlanır.
-                OrderDate = DateTime.UtcNow,  // Sifarişin yaradılma tarixi.
-                Status = OrderStatus.Pending, // Başlanğıc status (Gözləyən/Pending).
-                TotalAmount = 0               // Ümumi məbləğ sıfırdan başlayır.
-            };
-
-            var orderItemsList = new List<OrderItem>(); // Sifariş məhsullarını saxlamaq üçün siyahı.
-
-            // 2️⃣ Gələn hər bir məhsulu yoxlayırıq və sifarişə əlavə edirik.
-            foreach (var item in orderItems)
-            {
-                // 2.1. Məhsulun bazada olub-olmadığını yoxlayırıq.
-                //var product = await _productRepository.GetByIdAsync(item.ProductId);
-                //if (product == null)
-                //    throw new Exception("Product not found!"); // Məhsul yoxdursa, xəta qaytarılır.
-
-                //// 2.2. Yeni OrderItem (Sifariş Məhsulu) obyekti yaradılır.
-                //var orderItem = new OrderItem
-                //{
-                //    ProductId = product.ProductId,   // Məhsulun ID-si
-                //    Quantity = item.Quantity, // Sifariş olunan miqdar
-                //    TotalPrice = product.OriginalPrice,    // Məhsulun cari qiyməti
-                //    Order = order             // Sifarişə bağlanır
-                //};
-
-                // 2.3. Sifarişin ümumi məbləği yenilənir.
-                //order.TotalAmount += orderItem.Quantity * orderItem.TotalPrice;
-
-                //// 2.4. Sifariş məhsulu siyahıya əlavə edilir.
-                //orderItemsList.Add(orderItem);
+                throw new InvalidOperationException("Çatdırılma məlumatları natamamdır");
             }
 
-            // 3️⃣ Sifariş məhsulları order obyektinə əlavə edilir.
-            order.OrderItems = orderItemsList;
+            // Bütün lazımi məhsul və variantları bir dəfəyə yüklə
+            var productIds = dto.Items.Select(i => i.ProductId).Distinct().ToList();
+            var products = await _orderReadRepository.GetProductsWithVariantsAsync(productIds);
 
-            // 4️⃣ Sifarişi bazaya əlavə edirik və yadda saxlayırıq.
-            await _orderRepository.AddAsync(order);
-            await _orderRepository.SaveChangesAsync();
+            var orderItems = new List<OrderItem>();
+            decimal subtotal = 0m;
 
-            // 5️⃣ Yaradılmış sifariş qaytarılır.
-            return order;
-        }
-      
-        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
-        {
-            return await _orderRepository.FindAsync(o => o.UserId == userId);
-        }
-        public async Task<bool> UpdateOrderStatusAsync(int orderId, OrderStatus status)
-        {
-            var order = await _orderRepository.GetByIdAsync(orderId);
-            if (order == null)
-                return false;
-
-            order.Status = status;
-            await _orderRepository.UpdateAsync(order);
-            await _orderRepository.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task CreateOrderAsync(CreateOrderDto createOrderDto)
-        {
-
-            var order = new Order
-            {
-                UserId = createOrderDto.UserId,
-                OrderDate = DateTime.Now,
-                Status = OrderStatus.Pending,
-                OrderItems = new List<OrderItem>()
-
-            };
-            decimal totalAmout = 0;
-            foreach (var item in createOrderDto.createOrderItemDtos)
+            foreach (var item in dto.Items)
             {
                 if (item.Quantity <= 0) continue;
-                var product = await _productRepository.GetByIdAsync(item.ProductId);
-                if (product == null|| item.Quantity<=0) continue;
-                var orderitem = new OrderItem
+
+                var product = products.FirstOrDefault(p => p.ProductId == item.ProductId);
+                if (product == null) continue;
+
+                // Variant seçimi: Size verilibsə uyğun variant, yoxdursa ilk variant
+                ProductVariant variant = null;
+                if (!string.IsNullOrWhiteSpace(item.Size))
                 {
-                    ProductId = item.ProductId,
+                    variant = product.ProductVariants?.FirstOrDefault(v => v.Size == item.Size);
+                }
+                variant ??= product.ProductVariants?.FirstOrDefault();
+                if (variant == null) continue;
+
+                var unitPrice = variant.CurrentPrice;
+                var lineTotal = unitPrice * item.Quantity;
+                subtotal += lineTotal;
+
+                orderItems.Add(new OrderItem
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.Name,
+                    BrandName = product.Brand?.Name,
+                    Size = variant.Size,
                     Quantity = item.Quantity,
-                   // TotalPrice = product.OriginalPrice * item.Quantity
-                };
-
-                totalAmout += orderitem.TotalPrice;
-                order.OrderItems.Add(orderitem);
-
+                    UnitPrice = unitPrice,
+                    TotalPrice = lineTotal
+                });
             }
 
-            if (!order.OrderItems.Any())
-                throw new Exception("Heç bir məhsul əlavə edilməyib.");
+            if (!orderItems.Any())
+                throw new InvalidOperationException("Heç bir keçərli məhsul tapılmadı");
 
-            order.TotalAmount = totalAmout;
+            // Çatdırılma
+            decimal shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0m : SHIPPING_COST;
+
+            // Hədiyyə qablaşdırma
+            decimal giftCost = dto.GiftOption switch
+            {
+                "gift-box" => 5m,
+                "premium-box" => 10m,
+                _ => 0m
+            };
+
+            // Promo kod (server-side validasiya — client-dəkinə güvənmirik)
+            decimal discountAmount = 0m;
+            if (!string.IsNullOrWhiteSpace(dto.PromoCode) &&
+                string.Equals(dto.PromoCode.Trim(), PROMO_CODE, StringComparison.OrdinalIgnoreCase))
+            {
+                discountAmount = Math.Round(subtotal * PROMO_DISCOUNT, 2);
+            }
+
+            decimal totalAmount = subtotal + shippingCost + giftCost - discountAmount;
+
+            var order = new Order
+            {
+                UserId = userId,
+                OrderDate = DateTime.UtcNow,
+                Status = OrderStatus.Pending,
+
+                FirstName = dto.FirstName?.Trim(),
+                LastName = dto.LastName?.Trim(),
+                Email = dto.Email?.Trim(),
+                Phone = dto.Phone?.Trim(),
+                Address = dto.Address?.Trim(),
+                City = dto.City?.Trim(),
+                ZipCode = dto.ZipCode?.Trim(),
+                Note = dto.Note?.Trim(),
+
+                PaymentMethod = string.IsNullOrWhiteSpace(dto.PaymentMethod) ? "cash" : dto.PaymentMethod,
+                GiftOption = string.IsNullOrWhiteSpace(dto.GiftOption) ? "none" : dto.GiftOption,
+                GiftMessage = dto.GiftMessage?.Trim(),
+                PromoCode = dto.PromoCode?.Trim(),
+
+                Subtotal = subtotal,
+                ShippingCost = shippingCost,
+                DiscountAmount = discountAmount,
+                GiftCost = giftCost,
+                TotalAmount = totalAmount,
+
+                UpdatedAt = DateTime.UtcNow,
+                OrderItems = orderItems
+            };
 
             await _orderRepository.AddAsync(order);
-          
             await _orderRepository.SaveChangesAsync();
+
+            return order.OrderId;
         }
 
         public async Task<IEnumerable<ResultOrderDto>> GetAllOrderAsync()
         {
-            var vallues= await _order.GetOrderWithOrderItems();
-            var map = _mapper.Map<IEnumerable<ResultOrderDto>>(vallues);
-            return map;
+            var values = await _orderReadRepository.GetOrderWithOrderItems();
+            return _mapper.Map<IEnumerable<ResultOrderDto>>(values);
         }
 
-        async Task<GetByIdOrderDto> IOrderService.GetOrderByIdAsync(int Id)
+        public async Task<GetByIdOrderDto> GetOrderByIdAsync(int id)
         {
-            var values = await _order.GetOrderByIdWithOrderItems(Id);
-            var map= _mapper.Map<GetByIdOrderDto>(values);
-            return map;
+            var values = await _orderReadRepository.GetOrderByIdWithOrderItems(id);
+            return _mapper.Map<GetByIdOrderDto>(values);
         }
 
-      
+        public async Task<IEnumerable<ResultOrderDto>> GetOrdersByUserIdAsync(int userId)
+        {
+            var all = await _orderReadRepository.GetOrderWithOrderItems();
+            var mine = all.Where(o => o.UserId == userId).ToList();
+            return _mapper.Map<IEnumerable<ResultOrderDto>>(mine);
+        }
 
         public async Task UpdateOrderAsync(UpdateOrderDto updateOrderDto)
         {
-            var values = await _orderRepository.GetByIdAsync(updateOrderDto.OrderId);
+            var order = await _orderRepository.GetByIdAsync(updateOrderDto.OrderId);
+            if (order == null) return;
 
-            values.OrderDate = updateOrderDto.OrderDate;
-            values.TotalAmount = updateOrderDto.TotalAmount;
-            values.Status=updateOrderDto.Status;
-            values.UserId = updateOrderDto.UserId;
+            order.Status = updateOrderDto.Status;
+            if (!string.IsNullOrWhiteSpace(updateOrderDto.Note))
+                order.Note = updateOrderDto.Note;
+            order.UpdatedAt = DateTime.UtcNow;
 
-            await _orderRepository.UpdateAsync(values);
+            await _orderRepository.UpdateAsync(order);
             await _orderRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteOrderAsync(int Id)
+        public async Task<bool> UpdateOrderStatusAsync(int orderId, OrderStatus status)
         {
-            var values= await _orderRepository.GetByIdAsync(Id);
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null) return false;
+
+            order.Status = status;
+            order.UpdatedAt = DateTime.UtcNow;
+            await _orderRepository.UpdateAsync(order);
+            await _orderRepository.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task DeleteOrderAsync(int id)
+        {
+            var values = await _orderRepository.GetByIdAsync(id);
+            if (values == null) return;
             await _orderRepository.DeleteAsync(values);
             await _orderRepository.SaveChangesAsync();
         }

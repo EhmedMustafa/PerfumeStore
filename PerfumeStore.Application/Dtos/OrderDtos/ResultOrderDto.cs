@@ -1,11 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PerfumeStore.Application.Dtos.OrderItemDtos;
-using PerfumeStore.Domain.Entities.Identity;
-using PerfumeStore.Domain.Entities;
 using PerfumeStore.Domain.Enums;
 
 namespace PerfumeStore.Application.Dtos.OrderDto
@@ -14,10 +9,31 @@ namespace PerfumeStore.Application.Dtos.OrderDto
     {
         public int OrderId { get; set; }
         public int UserId { get; set; }
-        public AppUser User { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
+
+        // Müştəri sifariş anında verdiyi məlumatlar
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Note { get; set; }
+
+        public string PaymentMethod { get; set; }
+        public string GiftOption { get; set; }
+        public string GiftMessage { get; set; }
+        public string PromoCode { get; set; }
+
+        public decimal Subtotal { get; set; }
+        public decimal ShippingCost { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal GiftCost { get; set; }
         public decimal TotalAmount { get; set; }
+
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
+
         public ICollection<ResultOrderItemDto> OrderItems { get; set; } = new List<ResultOrderItemDto>();
     }
 }

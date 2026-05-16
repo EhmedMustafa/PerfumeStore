@@ -43,6 +43,9 @@ namespace PerfumeStore.Infrastructure.Data
 
         public DbSet<ProductVariant> ProductVariants { get; set; }
 
+        public DbSet<NewsletterSubscriber> NewsletterSubscribers { get; set; }
+        public DbSet<ContactMessage> ContactMessages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

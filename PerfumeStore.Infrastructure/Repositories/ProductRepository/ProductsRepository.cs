@@ -32,7 +32,9 @@ namespace PerfumeStore.Infrastructure.Repositories.ProductRepository
                .Include(p => p.Family)
                .Include(p => p.Category)
                .Include(p => p.ProductNotes)
-               .ThenInclude(pn => pn.FragranceNote).ToListAsync();
+
+               .ThenInclude(pn => pn.FragranceNote)
+               .Include(p => p.ProductVariants).ToListAsync();
         }
 
         public async Task<List<Product>> GetBestsellerProductsAsync(int count)
