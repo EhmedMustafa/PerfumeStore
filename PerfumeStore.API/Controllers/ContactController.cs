@@ -77,5 +77,17 @@ namespace PerfumeStore.API.Controllers
             await _db.SaveChangesAsync();
             return Ok(new { message = "Oxundu" });
         }
+
+        // DELETE /api/Contact/{id} — Yalnız Admin
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var m = await _db.ContactMessages.FindAsync(id);
+            if (m == null) return NotFound();
+            _db.ContactMessages.Remove(m);
+            await _db.SaveChangesAsync();
+            return Ok(new { message = "Silindi" });
+        }
     }
 }

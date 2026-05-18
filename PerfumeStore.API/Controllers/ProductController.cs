@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.ProductDtos;
@@ -123,13 +124,15 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateProductDto product) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([FromBody] CreateProductDto product)
         {
             await _productService.CreateProductAsync(product);
             return Ok("Mehsul yüklendi");
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(UpdateProductDto product)
         {
           await _productService.UpdateProductAsync(product);
@@ -137,7 +140,8 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete (int Id) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete (int Id)
         {
             await _productService.DeleteProductAsync(Id);
             return Ok("Mehsul Silindi");

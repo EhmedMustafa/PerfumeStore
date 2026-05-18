@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.FragrancefamilyDtos;
 using PerfumeStore.Application.Services.FragranceFamilyService;
@@ -31,6 +32,7 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateFragranceFamilyDto model)
         {
             await _fagranceFamilyService.AddFragranceFamilyAsync(model);
@@ -38,6 +40,7 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(UpdateFragranceFamilyDto model)
         {
             await _fagranceFamilyService.UpdateFragranceFamilyAsync(model);
@@ -45,7 +48,8 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int Id) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int Id)
         {
             await _fagranceFamilyService.DeleteFragranceFamilyAsync(Id);
             return Ok("Silindi");

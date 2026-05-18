@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.CategoryDtos;
 using PerfumeStore.Application.Interfaces;
@@ -37,6 +38,7 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateCategoryDto category)
         {
             if (category == null)
@@ -47,6 +49,7 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(UpdateCategoryDto category)
         {
             await _categoryService.UpdateCategoryAsync(category);
@@ -54,6 +57,7 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryService.DeleteCategoryAsync(id);

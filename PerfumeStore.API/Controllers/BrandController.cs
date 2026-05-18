@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.BrandDtos;
 using PerfumeStore.Application.Services.BrandServices;
@@ -36,6 +37,7 @@ namespace PerfumeStore.API.Controllers
             return Ok(values);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateBrandDto createBrandDto)
         {
             await _brandService.AddBrandAsync(createBrandDto);
@@ -43,14 +45,16 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateBrandDto updateBrandDto) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(UpdateBrandDto updateBrandDto)
         {
             await _brandService.UpdateBrandAsync(updateBrandDto);
             return Ok("Brend yenilenmesi uğurla oldu");
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int Id) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int Id)
         {
             await _brandService.DeleteBrandAsync(Id); ; return Ok("Brend silinmə uğurlu oldu");
         }

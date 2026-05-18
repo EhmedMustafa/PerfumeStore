@@ -127,6 +127,30 @@ using (var scope = app.Services.CreateScope())
 
     // Apply any pending migrations
     context.Database.Migrate();
+
+    // ===== Roles + Admin seed =====
+    // appsettings.json -> "AdminSeed": { "Email": "you@mail.com" }
+    // O e-poçtla qeydiyyatdan keçmiş user avtomatik Admin olur.
+    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+    foreach (var roleName in new[] { "Admin", "User" })
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new AppRole { Name = roleName });
+        }
+    }
+
+    var adminEmail = con["AdminSeed:Email"];
+    if (!string.IsNullOrWhiteSpace(adminEmail))
+    {
+        var admin = await userManager.FindByEmailAsync(adminEmail);
+        if (admin != null && !await userManager.IsInRoleAsync(admin, "Admin"))
+        {
+            await userManager.AddToRoleAsync(admin, "Admin");
+        }
+    }
 }
 
 if (app.Environment.IsDevelopment())
@@ -138,6 +162,9 @@ else
     app.UseCors("AllowFrontend");
 }
 app.UseHttpsRedirection();
+
+// Static files (wwwroot/uploads/...) — admin upload etdiyi şəkillər
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
