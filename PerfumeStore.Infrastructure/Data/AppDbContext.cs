@@ -46,6 +46,7 @@ namespace PerfumeStore.Infrastructure.Data
         public DbSet<NewsletterSubscriber> NewsletterSubscribers { get; set; }
         public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
