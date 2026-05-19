@@ -38,7 +38,8 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task<GetByIdProductDto> GetByIdProductAsync(int id)
         {
-            var product= await _productRepository.GetByIdAsync(id);
+            // Variant və notlarla birgə yüklə — admin edit form-u və məhsul detal səhifəsi üçün
+            var product = await _repository.GetProductByIdWithNotes(id);
             var map = _mapper.Map<GetByIdProductDto>(product);
             return map;
         }
@@ -49,13 +50,12 @@ namespace PerfumeStore.Infrastructure.Services
             {
                 Name = productdto.Name,
                 Description = productdto.Description,
-                //Size = productdto.Size,
-                //CurrentPrice = productdto.CurrentPrice,
-                //OriginalPrice = productdto.OriginalPrice,
                 ImageUrl = productdto.ImageUrl,
                 IsNew = productdto.IsNew,
                 IsBestseller = productdto.IsBestseller,
                 Disclaimer = productdto.Disclaimer,
+                Season = productdto.Season,
+                Occasion = productdto.Occasion,
                 BrandId = productdto.BrandId,
                 FamilyId = productdto.FamilyId,
                 CategoryId = productdto.CategoryId,
@@ -78,21 +78,40 @@ namespace PerfumeStore.Infrastructure.Services
 
         public async Task UpdateProductAsync(UpdateProductDto model)
         {
-            //var products = await _productRepository.GetByIdAsync(model.Id);
-            //products.Name = model.Name;
-            //products.ImageUrl = model.ImageUrl;
-            //products.Price = model.Price;
-            //products.Size = model.Size;
-            //products.Brand = model.Brand;
-            //products.TopNotes = model.TopNotes;
-            //products.MiddleNotes = model.MiddleNotes;
-            //products.BaseNotes = model.BaseNotes;
-            //products.StockQuantity = model.StockQuantity;
-            //products.Discount = model.Discount;
-            //products.Description = model.Description;
-            
+            // Variant və notlarla birgə yüklə — köhnələri silib təzələri yazacağıq
+            var product = await _repository.GetProductByIdWithNotes(model.ProductId);
+            if (product == null) throw new InvalidOperationException("Məhsul tapılmadı");
 
-            //wait _productRepository.UpdateAsync(products);
+            // Skalar sahələr
+            product.Name = model.Name;
+            product.Description = model.Description;
+            product.ImageUrl = model.ImageUrl;
+            product.IsNew = model.IsNew;
+            product.IsBestseller = model.IsBestseller;
+            product.Disclaimer = model.Disclaimer;
+            product.Season = model.Season;
+            product.Occasion = model.Occasion;
+            product.BrandId = model.BrandId;
+            product.FamilyId = model.FamilyId;
+            product.CategoryId = model.CategoryId;
+
+            // Variantları yenilə — köhnələri sil, təzələri əlavə et
+            product.ProductVariants = (model.ProductVariants ?? new List<ProductVariantCreateDto>())
+                .Select(v => new ProductVariant
+                {
+                    Size = v.Size,
+                    CurrentPrice = v.CurrentPrice,
+                    OriginalPrice = v.OriginalPrice
+                }).ToList();
+
+            // Notları yenilə (UpdateProductDto-da ProductNote tipindədir)
+            product.ProductNotes = (model.ProductNotes ?? new List<ProductNote>())
+                .Select(n => new ProductNote
+                {
+                    FragranceNoteId = n.FragranceNoteId,
+                    Type = n.Type
+                }).ToList();
+
             await _productRepository.SaveChangesAsync();
         }
 

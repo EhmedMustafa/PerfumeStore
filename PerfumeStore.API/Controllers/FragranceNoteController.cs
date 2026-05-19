@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PerfumeStore.Application.Dtos.FragranceNoteDtos;
 using PerfumeStore.Application.Services.FragranceNoteServices;
@@ -32,37 +33,40 @@ namespace PerfumeStore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateFragranceNoteDto model) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Create([FromBody] CreateFragranceNoteDto model)
         {
             await _fragranceNoteService.AddFragranceNoteAsync(model);
-            return Ok("Ətir notları elavə olundu");
+            return Ok(new { message = "Ətir notu əlavə olundu" });
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateFragranceNoteDto model) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(UpdateFragranceNoteDto model)
         {
             try
             {
                 await _fragranceNoteService.UpdateFragranceNoteAsync(model);
-                return Ok("Not uğurla yeniləndi.");
+                return Ok(new { message = "Not yeniləndi" });
             }
             catch (KeyNotFoundException)
             {
-                return NotFound("Not tapılmadı.");
+                return NotFound(new { message = "Not tapılmadı" });
             }
         }
 
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete(int Id) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int Id)
         {
             try
             {
                 await _fragranceNoteService.DeleteFragranceNoteAsync(Id);
-                return NotFound("Not tapılmadı.");
+                return Ok(new { message = "Not silindi" });
             }
             catch (KeyNotFoundException)
             {
-                return NotFound("Not tapılmadı.");
+                return NotFound(new { message = "Not tapılmadı" });
             }
         }
     }

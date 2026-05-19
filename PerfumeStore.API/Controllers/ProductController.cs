@@ -127,24 +127,54 @@ namespace PerfumeStore.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] CreateProductDto product)
         {
-            await _productService.CreateProductAsync(product);
-            return Ok("Mehsul yüklendi");
+            if (product == null) return BadRequest(new { message = "Boş sorğu" });
+            // Defensive: null collection-ları boş listlə əvəz et
+            if (product.ProductVariants == null) product.ProductVariants = new List<Application.Dtos.ProductVariantDtos.ProductVariantCreateDto>();
+            if (product.ProductNotes == null) product.ProductNotes = new List<Application.Dtos.ProductDtos.ProductNoteDto>();
+
+            try
+            {
+                await _productService.CreateProductAsync(product);
+                return Ok(new { message = "Məhsul yaradıldı" });
+            }
+            catch (Exception ex)
+            {
+                var detail = ex.InnerException?.Message ?? ex.Message;
+                return StatusCode(500, new { message = "Məhsul yaradılmadı: " + detail });
+            }
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Update(UpdateProductDto product)
+        public async Task<IActionResult> Update([FromBody] UpdateProductDto product)
         {
-          await _productService.UpdateProductAsync(product);
-            return Ok("Mehsul yeniləndi");
+            if (product == null) return BadRequest(new { message = "Boş sorğu" });
+            try
+            {
+                await _productService.UpdateProductAsync(product);
+                return Ok(new { message = "Məhsul yeniləndi" });
+            }
+            catch (Exception ex)
+            {
+                var detail = ex.InnerException?.Message ?? ex.Message;
+                return StatusCode(500, new { message = "Yenilənmədi: " + detail });
+            }
         }
 
         [HttpDelete]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete (int Id)
         {
-            await _productService.DeleteProductAsync(Id);
-            return Ok("Mehsul Silindi");
+            try
+            {
+                await _productService.DeleteProductAsync(Id);
+                return Ok(new { message = "Məhsul silindi" });
+            }
+            catch (Exception ex)
+            {
+                var detail = ex.InnerException?.Message ?? ex.Message;
+                return StatusCode(500, new { message = "Silinmədi: " + detail });
+            }
         }
     }
 }

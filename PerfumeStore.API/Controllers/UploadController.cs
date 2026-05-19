@@ -25,11 +25,19 @@ namespace PerfumeStore.API.Controllers
             _env = env;
         }
 
+        // Swashbuckle [FromForm]+IFormFile birbaşa istəmir — DTO-ya bürürük
+        public class ImageUploadDto
+        {
+            public IFormFile File { get; set; }
+        }
+
         // POST /api/Upload/image — multipart/form-data, field: file
         [HttpPost("image")]
         [RequestSizeLimit(10_000_000)] // 10 MB hard cap
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImage([FromForm] ImageUploadDto dto)
         {
+            var file = dto?.File;
             if (file == null || file.Length == 0)
                 return BadRequest(new { message = "Fayl seçilməyib" });
 

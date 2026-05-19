@@ -21,23 +21,14 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(255);
 
+            // Description uzun ola bilər (məhsul təsviri) — nvarchar(MAX)
             builder.Property(p => p.Description)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasColumnType("nvarchar(max)");
 
-            //builder.Property(p => p.Size)
-            //    .IsRequired()
-            //    .HasMaxLength(50);
-
-            //builder.Property(p=>p.CurrentPrice)
-            //    .IsRequired()
-            //    .HasColumnType("decimal(18.2)");
-
-            //builder.Property(p=>p.OriginalPrice)
-            //    .HasColumnType("decimal(18.2)");
-
+            // ImageUrl da uzun ola bilər (CDN URL-ləri)
             builder.Property(p => p.ImageUrl)
-              .HasMaxLength(255);
+                .HasColumnType("nvarchar(1000)");
 
             builder.Property(p => p.IsNew)
               .HasDefaultValue(false);

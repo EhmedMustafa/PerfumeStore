@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Admin-upload edilen sekiller (istifadeci mezmunu — commit edilmir)
+PerfumeStore.API/wwwroot/uploads/*
+!PerfumeStore.API/wwwroot/uploads/.gitkeep
+!PerfumeStore.API/wwwroot/uploads/products/.gitkeep

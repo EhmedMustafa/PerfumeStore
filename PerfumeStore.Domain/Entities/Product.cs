@@ -19,6 +19,13 @@ namespace PerfumeStore.Domain.Entities
         public bool IsBestseller { get; set; }
         public string Disclaimer { get; set; }  // Şəkil haqqında qeyd (məs: "Şəkil tanıtım xarakteri daşıyır")
 
+        // Quiz scoring üçün — admin tərəfindən seçilir
+        // Season: "yay" | "qış" | "yaz-payız" | "hər"
+        public string Season { get; set; }
+
+        // Occasion: "gündəlik" | "gecə" | "idman" | "hər"
+        public string Occasion { get; set; }
+
 
         // Foreign Keys - Digər cədvəllərlə əlaqə üçün
         public int BrandId { get; set; }  // Brend ID-si
