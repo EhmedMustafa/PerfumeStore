@@ -47,6 +47,8 @@ namespace PerfumeStore.Infrastructure.Data
         public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<Accessory> Accessories { get; set; }
+        public DbSet<AccessoryVariant> AccessoryVariants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
