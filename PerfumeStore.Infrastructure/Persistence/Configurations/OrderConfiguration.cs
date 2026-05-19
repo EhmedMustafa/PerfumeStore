@@ -26,6 +26,12 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
 
+            // Bütün məbləğ sahələri — decimal(18,2)
+            builder.Property(o => o.Subtotal).HasColumnType("decimal(18,2)");
+            builder.Property(o => o.ShippingCost).HasColumnType("decimal(18,2)");
+            builder.Property(o => o.DiscountAmount).HasColumnType("decimal(18,2)");
+            builder.Property(o => o.GiftCost).HasColumnType("decimal(18,2)");
+
             builder.Property(o => o.Status)
                 .IsRequired()
                 .HasConversion<string>()

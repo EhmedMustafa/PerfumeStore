@@ -21,6 +21,9 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");
 
+            builder.Property(oi => oi.UnitPrice)
+                .HasColumnType("decimal(18,2)");
+
             builder.Property(oi => oi.Quantity)
                 .IsRequired()
                 .HasDefaultValue(1);

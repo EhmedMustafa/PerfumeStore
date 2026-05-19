@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using PerfumeStore.API.Middleware;
 using PerfumeStore.Application;
 using PerfumeStore.Application.Services;
 using PerfumeStore.Domain.Entities.Identity;
@@ -88,6 +91,34 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ===== Rate Limiting =====
+// Login/register flood-a qarşı: IP başına 1 dəqiqədə 10 cəhd.
+// API ümumi: IP başına dəqiqədə 100 sorğu.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("auth", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+
+    options.AddPolicy("api", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            }));
+});
+
 
 // CORS — Development və Production üçün ayrı qaydalar
 builder.Services.AddCors(options =>
@@ -157,6 +188,9 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// Global exception handler — bütün exception-lar üçün standart JSON cavab
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("AllowAll");
@@ -164,11 +198,14 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseCors("AllowFrontend");
+    // HTTPS redirect yalnız production-da — dev mühitdə http qalır
+    app.UseHttpsRedirection();
 }
-app.UseHttpsRedirection();
 
 // Static files (wwwroot/uploads/...) — admin upload etdiyi şəkillər
 app.UseStaticFiles();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

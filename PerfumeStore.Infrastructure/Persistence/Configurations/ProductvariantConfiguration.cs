@@ -20,8 +20,12 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
             builder.Property(pv => pv.Size)
                 .IsRequired();
 
-            builder.Property(px=>px.CurrentPrice)
-                .IsRequired();
+            builder.Property(px => px.CurrentPrice)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            builder.Property(px => px.OriginalPrice)
+                .HasColumnType("decimal(18,2)");
 
             builder.HasOne(pv=>pv.Product)
                 .WithMany(p=>p.ProductVariants)
