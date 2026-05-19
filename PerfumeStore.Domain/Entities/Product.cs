@@ -26,6 +26,9 @@ namespace PerfumeStore.Domain.Entities
         // Occasion: "gündəlik" | "gecə" | "idman" | "hər"
         public string Occasion { get; set; }
 
+        // Aksessuar / hədiyyə qutusu — ətir deyil, ayrıca səhifədə görsənir
+        public bool IsAccessory { get; set; }
+
 
         // Foreign Keys - Digər cədvəllərlə əlaqə üçün
         public int BrandId { get; set; }  // Brend ID-si

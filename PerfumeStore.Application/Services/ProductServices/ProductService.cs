@@ -56,6 +56,7 @@ namespace PerfumeStore.Infrastructure.Services
                 Disclaimer = productdto.Disclaimer,
                 Season = productdto.Season,
                 Occasion = productdto.Occasion,
+                IsAccessory = productdto.IsAccessory,
                 BrandId = productdto.BrandId,
                 FamilyId = productdto.FamilyId,
                 CategoryId = productdto.CategoryId,
@@ -91,6 +92,7 @@ namespace PerfumeStore.Infrastructure.Services
             product.Disclaimer = model.Disclaimer;
             product.Season = model.Season;
             product.Occasion = model.Occasion;
+            product.IsAccessory = model.IsAccessory;
             product.BrandId = model.BrandId;
             product.FamilyId = model.FamilyId;
             product.CategoryId = model.CategoryId;

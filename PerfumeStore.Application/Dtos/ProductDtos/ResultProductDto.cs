@@ -22,6 +22,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public string Disclaimer { get; set; }  // Şəkil haqqında qeyd (məs: "Şəkil tanıtım xarakteri daşıyır")
         public string Season { get; set; }
         public string Occasion { get; set; }
+        public bool IsAccessory { get; set; }
 
         public int BrandId { get; set; }
         public string BrandName { get; set; }

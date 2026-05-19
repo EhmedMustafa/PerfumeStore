@@ -15,6 +15,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public string Disclaimer { get; set; }
         public string Season { get; set; }
         public string Occasion { get; set; }
+        public bool IsAccessory { get; set; }
 
         // Foreign Keys
         public int BrandId { get; set; }
