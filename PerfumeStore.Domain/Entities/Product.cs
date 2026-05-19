@@ -15,6 +15,8 @@ namespace PerfumeStore.Domain.Entities
         //public decimal CurrentPrice { get; set; }
         //public decimal OriginalPrice { get; set; }
         public string ImageUrl { get; set; }
+        // Əlavə qaleriya şəkilləri — JSON array kimi saxlanır: ["url1","url2",...]
+        public string GalleryImagesJson { get; set; }
         public bool IsNew { get; set; }
         public bool IsBestseller { get; set; }
         public string Disclaimer { get; set; }  // Şəkil haqqında qeyd (məs: "Şəkil tanıtım xarakteri daşıyır")

@@ -30,6 +30,10 @@ namespace PerfumeStore.Infrastructure.Persistence.Configurations
             builder.Property(p => p.ImageUrl)
                 .HasColumnType("nvarchar(1000)");
 
+            // Gallery images — JSON array, böyük ola bilər
+            builder.Property(p => p.GalleryImagesJson)
+                .HasColumnType("nvarchar(max)");
+
             builder.Property(p => p.IsNew)
               .HasDefaultValue(false);
 

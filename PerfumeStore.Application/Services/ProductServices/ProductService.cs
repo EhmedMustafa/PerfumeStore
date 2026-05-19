@@ -8,6 +8,7 @@ using PerfumeStore.Application.Services.ProductServices;
 using PerfumeStore.Domain.Entities;
 using System;
 using System.Linq.Expressions;
+using System.Text.Json;
 
 namespace PerfumeStore.Infrastructure.Services
 {
@@ -57,6 +58,7 @@ namespace PerfumeStore.Infrastructure.Services
                 Season = productdto.Season,
                 Occasion = productdto.Occasion,
                 IsAccessory = productdto.IsAccessory,
+                GalleryImagesJson = SerializeGallery(productdto.GalleryImages),
                 BrandId = productdto.BrandId,
                 FamilyId = productdto.FamilyId,
                 CategoryId = productdto.CategoryId,
@@ -93,6 +95,7 @@ namespace PerfumeStore.Infrastructure.Services
             product.Season = model.Season;
             product.Occasion = model.Occasion;
             product.IsAccessory = model.IsAccessory;
+            product.GalleryImagesJson = SerializeGallery(model.GalleryImages);
             product.BrandId = model.BrandId;
             product.FamilyId = model.FamilyId;
             product.CategoryId = model.CategoryId;
@@ -238,6 +241,15 @@ namespace PerfumeStore.Infrastructure.Services
         public async Task<Dictionary<int, int>> GetCategoryCountsAsync()
         {
             return await _repository.GetCategoryCount();
+        }
+
+        // Gallery URL siyahısını JSON-a çevir (DB-də saxlanır)
+        private static string SerializeGallery(List<string> images)
+        {
+            if (images == null || images.Count == 0) return null;
+            var clean = images.Where(u => !string.IsNullOrWhiteSpace(u)).Select(u => u.Trim()).ToList();
+            if (clean.Count == 0) return null;
+            return JsonSerializer.Serialize(clean);
         }
     }
 
