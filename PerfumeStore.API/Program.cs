@@ -186,6 +186,81 @@ using (var scope = app.Services.CreateScope())
             await userManager.AddToRoleAsync(admin, "Admin");
         }
     }
+
+    // ===== Blog seed (yalnız boş cədvəldə) =====
+    if (!await context.BlogArticles.AnyAsync())
+    {
+        var seedArticles = new[]
+        {
+            new PerfumeStore.Domain.Entities.BlogArticle
+            {
+                Slug = "parfum-notlari-nedir",
+                Title = "Parfüm notları nədir? Üst, orta və baza notlarına bələdçi",
+                Excerpt = "Hər ətrin öz \"piramida\"sı var — üst notlar, orta notlar və baza. Bu notların necə işlədiyini və bir-birini necə tamamladığını öyrən.",
+                Tag = "Bələdçi",
+                ImageUrl = "/images/rose.png",
+                BodyJson = System.Text.Json.JsonSerializer.Serialize(new[]
+                {
+                    "Parfüm bir təbəqədə deyil, üç təbəqədə açılır. Hər təbəqə \"not\" adlanır və müxtəlif vaxtlarda hiss olunur.",
+                    "## Üst notlar",
+                    "Üst notlar ətri sıxan kimi ilk 15 dəqiqədə hiss olunan komponentlərdir. Adətən yüngül, uçucu maddələrdən — sitruslardan (limon, berqamot), aromatik bitkilərdən (lavanda, nanə), ya da yüngül meyvələrdən ibarət olur. Bunlar ətrin \"salamlaşması\"dır.",
+                    "## Orta notlar (ürək)",
+                    "Üst notlar buxarlananda orta notlar ortaya çıxır. Bunlar ətrin \"şəxsiyyəti\"dir. Çiçəklər (qızılgül, yasəmən, ylang-ylang), ədviyyatlar (darçın, hil), və ya meyvələr (alma, şaftalı) olur. 2–4 saat davam edir.",
+                    "## Baza notlar",
+                    "Ən uzunömürlü komponentlər — oduncaqlar (sandal, ud), amber, vanil, mişk. Bunlar dəridə 6+ saat qala bilər və ətri \"yaddaqalan\" edir.",
+                    "Növbəti dəfə ətir alanda bu üç təbəqəni ayrı-ayrı dəyərləndir — bəzən üst notlar bəyənilməsə də, baza notlar səni heyran edə bilər."
+                }),
+                PublishedAt = new DateTime(2026, 4, 12, 0, 0, 0, DateTimeKind.Utc),
+                IsPublished = true
+            },
+            new PerfumeStore.Domain.Entities.BlogArticle
+            {
+                Slug = "mokvsumune-gore-etir-secimi",
+                Title = "Mövsümə görə ətir necə seçilir?",
+                Excerpt = "Yay üçün ağır oud, qış üçün təzə sitrus — niyə yanlış cütlük? Hər mövsümün öz qoxu profili var.",
+                Tag = "Məsləhət",
+                ImageUrl = "/images/citrus.png",
+                BodyJson = System.Text.Json.JsonSerializer.Serialize(new[]
+                {
+                    "Mövsüm ətrin necə açılmasına birbaşa təsir edir. İsti hava molekulları daha sürətli buxarlandırır, soyuq hava isə onları \"tutur\".",
+                    "## Yay (15–35°C)",
+                    "Yay üçün yüngül, sitrus və akva ailələri ideal seçimdir. Berqamot, limon, dəniz akkordları, yaşıl çay — bunlar isti havada təzəlik hissi verir. Ağır oud və amber yayda boğucu görünə bilər.",
+                    "## Yaz / payız",
+                    "Yumşaq çiçəkli kompozisiyalar, yüngül oduncaqlar (sandal, sidr) və meyvəli notlar — bu mövsüm ən geniş seçim verir.",
+                    "## Qış (5°C-dən aşağı)",
+                    "Soyuq havada güclü ətirlər daha yaxşı işləyir. Oud, amber, vanil, ədviyyatlar (mixək, darçın), gourmand notlar — bunların hamısı qışda daha \"dolğun\" hiss olunur.",
+                    "Qaydanın istisnası odur ki, fərdi zövq həmişə birinci yerdədir. Bəlkə də sənin \"imza\" ətrin bütün il boyu eyni qalır — və bu da gözəldir."
+                }),
+                PublishedAt = new DateTime(2026, 3, 28, 0, 0, 0, DateTimeKind.Utc),
+                IsPublished = true
+            },
+            new PerfumeStore.Domain.Entities.BlogArticle
+            {
+                Slug = "orijinal-parfum-nece-bilinir",
+                Title = "Orijinal parfümü saxtadan necə ayırmaq olar?",
+                Excerpt = "Saxta ətirlərin sayı çoxalıb. Qutu, batch kod, qoxunun davamlılığı — diqqət edilməli detalları sadalayırıq.",
+                Tag = "Bələdçi",
+                ImageUrl = "/images/vanilla.png",
+                BodyJson = System.Text.Json.JsonSerializer.Serialize(new[]
+                {
+                    "Saxta parfümlər tez-tez orijinala bənzəyir, amma incə detallarda fərq verir. Bunlara diqqət et:",
+                    "## 1. Qutu və selofan",
+                    "Orijinal qutular sıx karton, çap dəqiq, selofan tərəfdən bağlı və \"tab\"lı olur. Saxta qutularda selofan adətən səliqəsiz yapışdırılır.",
+                    "## 2. Batch kod",
+                    "Orijinal flakon və qutunun altında eyni batch kod yazılı olur. checkfresh.com kimi saytlarda kodu yoxlaya bilərsən.",
+                    "## 3. Şüşə və sprey",
+                    "Orijinal şüşə qalın, ağır, kənarları hamar. Sprey eyni və sıx duman buraxır — saxtalarda sprey \"tüpürür\" və ya zəif çıxır.",
+                    "## 4. Qoxunun açılışı",
+                    "Saxta ətirlər ilk dəqiqədə güclü olur amma 30 dəqiqədən sonra \"yox olur\". Orijinal ətirlər təbəqələnərək açılır.",
+                    "OMAR PERFUME-də hər məhsul rəsmi distribyutordan gəlir — orijinal olmayan heç bir məhsul satışa çıxmır."
+                }),
+                PublishedAt = new DateTime(2026, 3, 10, 0, 0, 0, DateTimeKind.Utc),
+                IsPublished = true
+            }
+        };
+        context.BlogArticles.AddRange(seedArticles);
+        await context.SaveChangesAsync();
+    }
 }
 
 // Global exception handler — bütün exception-lar üçün standart JSON cavab
