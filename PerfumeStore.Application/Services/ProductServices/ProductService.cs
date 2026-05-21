@@ -58,6 +58,7 @@ namespace PerfumeStore.Infrastructure.Services
                 Season = productdto.Season,
                 Occasion = productdto.Occasion,
                 IsAccessory = productdto.IsAccessory,
+                IsMonthlyFeatured = productdto.IsMonthlyFeatured,
                 GalleryImagesJson = SerializeGallery(productdto.GalleryImages),
                 BrandId = productdto.BrandId,
                 FamilyId = productdto.FamilyId,
@@ -95,6 +96,7 @@ namespace PerfumeStore.Infrastructure.Services
             product.Season = model.Season;
             product.Occasion = model.Occasion;
             product.IsAccessory = model.IsAccessory;
+            product.IsMonthlyFeatured = model.IsMonthlyFeatured;
             product.GalleryImagesJson = SerializeGallery(model.GalleryImages);
             product.BrandId = model.BrandId;
             product.FamilyId = model.FamilyId;

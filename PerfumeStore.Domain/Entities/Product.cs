@@ -31,6 +31,9 @@ namespace PerfumeStore.Domain.Entities
         // Aksessuar / hədiyyə qutusu — ətir deyil, ayrıca səhifədə görsənir
         public bool IsAccessory { get; set; }
 
+        // "Bu ayın seçimi" — admin tərəfindən bir məhsul seçilir, home səhifəsində böyük göstərilir
+        public bool IsMonthlyFeatured { get; set; }
+
 
         // Foreign Keys - Digər cədvəllərlə əlaqə üçün
         public int BrandId { get; set; }  // Brend ID-si
