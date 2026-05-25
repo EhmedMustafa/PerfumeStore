@@ -23,6 +23,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public string Occasion { get; set; }
         public bool IsAccessory { get; set; }
         public bool IsMonthlyFeatured { get; set; }
+        public bool IsPopular { get; set; }
         public List<string> GalleryImages { get; set; } = new List<string>();
 
         // Foreign Keys - Digər cədvəllərlə əlaqə üçün

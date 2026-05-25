@@ -34,6 +34,9 @@ namespace PerfumeStore.Domain.Entities
         // "Bu ayın seçimi" — admin tərəfindən bir məhsul seçilir, home səhifəsində böyük göstərilir
         public bool IsMonthlyFeatured { get; set; }
 
+        // "Populyar ətirlər" — home səhifəsində ayrıca slider; admin tərəfindən işarələnir
+        public bool IsPopular { get; set; }
+
 
         // Foreign Keys - Digər cədvəllərlə əlaqə üçün
         public int BrandId { get; set; }  // Brend ID-si

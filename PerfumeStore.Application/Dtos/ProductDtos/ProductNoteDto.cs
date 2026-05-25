@@ -10,7 +10,8 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
    public class ProductNoteDto
     {
         public int FragranceNoteId { get; set; }
-        public string FragranceNoteName { get; set; }
+        // Yalnız oxumaq üçün — frontend yalnız Id və Type göndərir
+        public string? FragranceNoteName { get; set; }
         public NoteType Type { get; set; }  // Enum: Top, Middle, Base
     }
 }

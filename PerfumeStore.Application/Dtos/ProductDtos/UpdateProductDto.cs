@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using PerfumeStore.Application.Dtos.ProductVariantDtos;
-using PerfumeStore.Domain.Entities;
 
 namespace PerfumeStore.Application.Dtos.ProductDtos
 {
@@ -17,6 +16,7 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public string Occasion { get; set; }
         public bool IsAccessory { get; set; }
         public bool IsMonthlyFeatured { get; set; }
+        public bool IsPopular { get; set; }
         public List<string> GalleryImages { get; set; } = new List<string>();
 
         // Foreign Keys
@@ -25,6 +25,6 @@ namespace PerfumeStore.Application.Dtos.ProductDtos
         public int CategoryId { get; set; }
 
         public IEnumerable<ProductVariantCreateDto> ProductVariants { get; set; }
-        public ICollection<ProductNote> ProductNotes { get; set; }
+        public ICollection<ProductNoteDto> ProductNotes { get; set; }
     }
 }

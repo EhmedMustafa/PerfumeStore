@@ -50,6 +50,7 @@ namespace PerfumeStore.Infrastructure.Data
         public DbSet<Accessory> Accessories { get; set; }
         public DbSet<AccessoryVariant> AccessoryVariants { get; set; }
         public DbSet<BlogArticle> BlogArticles { get; set; }
+        public DbSet<HomeBanner> HomeBanners { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

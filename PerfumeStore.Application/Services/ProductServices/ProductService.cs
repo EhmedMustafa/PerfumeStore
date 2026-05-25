@@ -59,6 +59,7 @@ namespace PerfumeStore.Infrastructure.Services
                 Occasion = productdto.Occasion,
                 IsAccessory = productdto.IsAccessory,
                 IsMonthlyFeatured = productdto.IsMonthlyFeatured,
+                IsPopular = productdto.IsPopular,
                 GalleryImagesJson = SerializeGallery(productdto.GalleryImages),
                 BrandId = productdto.BrandId,
                 FamilyId = productdto.FamilyId,
@@ -97,6 +98,7 @@ namespace PerfumeStore.Infrastructure.Services
             product.Occasion = model.Occasion;
             product.IsAccessory = model.IsAccessory;
             product.IsMonthlyFeatured = model.IsMonthlyFeatured;
+            product.IsPopular = model.IsPopular;
             product.GalleryImagesJson = SerializeGallery(model.GalleryImages);
             product.BrandId = model.BrandId;
             product.FamilyId = model.FamilyId;
@@ -111,8 +113,8 @@ namespace PerfumeStore.Infrastructure.Services
                     OriginalPrice = v.OriginalPrice
                 }).ToList();
 
-            // Notları yenilə (UpdateProductDto-da ProductNote tipindədir)
-            product.ProductNotes = (model.ProductNotes ?? new List<ProductNote>())
+            // Notları yenilə (UpdateProductDto-da ProductNoteDto)
+            product.ProductNotes = (model.ProductNotes ?? new List<ProductNoteDto>())
                 .Select(n => new ProductNote
                 {
                     FragranceNoteId = n.FragranceNoteId,
@@ -248,9 +250,10 @@ namespace PerfumeStore.Infrastructure.Services
         // Gallery URL siyahısını JSON-a çevir (DB-də saxlanır)
         private static string SerializeGallery(List<string> images)
         {
-            if (images == null || images.Count == 0) return null;
+            // DB sütunu NOT NULL — boş halda "[]" qaytarırıq
+            if (images == null || images.Count == 0) return "[]";
             var clean = images.Where(u => !string.IsNullOrWhiteSpace(u)).Select(u => u.Trim()).ToList();
-            if (clean.Count == 0) return null;
+            if (clean.Count == 0) return "[]";
             return JsonSerializer.Serialize(clean);
         }
     }
