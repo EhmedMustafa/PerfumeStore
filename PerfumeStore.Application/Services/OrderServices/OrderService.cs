@@ -15,24 +15,28 @@ namespace PerfumeStore.Infrastructure.Services
 {
     public class OrderService : IOrderService
     {
-        // Promo və çatdırılma qaydaları — config-dən gələ bilər
-        private const string PROMO_CODE = "OMAR15";
-        private const decimal PROMO_DISCOUNT = 0.15m;
+        // Çatdırılma qaydaları (promo artıq DB-dən gəlir)
         private const decimal FREE_SHIPPING_THRESHOLD = 50m;
         private const decimal SHIPPING_COST = 5m;
 
         private readonly IGenericRepository<Order> _orderRepository;
+        private readonly IGenericRepository<Promo> _promoRepository;
         private readonly IOrderRepository _orderReadRepository;
         private readonly IMapper _mapper;
+        private readonly IEmailService _email;
 
         public OrderService(
             IGenericRepository<Order> orderRepository,
+            IGenericRepository<Promo> promoRepository,
             IOrderRepository orderReadRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IEmailService email)
         {
             _orderRepository = orderRepository;
+            _promoRepository = promoRepository;
             _orderReadRepository = orderReadRepository;
             _mapper = mapper;
+            _email = email;
         }
 
         public async Task<int> CreateOrderAsync(int userId, CreateOrderDto dto)
@@ -102,12 +106,33 @@ namespace PerfumeStore.Infrastructure.Services
                 _ => 0m
             };
 
-            // Promo kod (server-side validasiya — client-dəkinə güvənmirik)
+            // Promo kod — DB-dən tap, bütün şərtləri yoxla (server-side validasiya)
             decimal discountAmount = 0m;
-            if (!string.IsNullOrWhiteSpace(dto.PromoCode) &&
-                string.Equals(dto.PromoCode.Trim(), PROMO_CODE, StringComparison.OrdinalIgnoreCase))
+            Promo appliedPromo = null;
+            if (!string.IsNullOrWhiteSpace(dto.PromoCode))
             {
-                discountAmount = Math.Round(subtotal * PROMO_DISCOUNT, 2);
+                var code = dto.PromoCode.Trim().ToUpperInvariant();
+                var found = await _promoRepository.FindAsync(p => p.Code.ToUpper() == code);
+                var promo = found?.FirstOrDefault();
+                if (promo != null && promo.IsActive)
+                {
+                    var now = DateTime.UtcNow;
+                    bool dateOk = (!promo.ValidFrom.HasValue || promo.ValidFrom <= now)
+                               && (!promo.ValidUntil.HasValue || promo.ValidUntil > now);
+                    bool limitOk = !promo.UsageLimit.HasValue || promo.UsedCount < promo.UsageLimit;
+                    bool minOk = !promo.MinOrderAmount.HasValue || subtotal >= promo.MinOrderAmount;
+                    bool firstOrderOk = true;
+                    if (promo.FirstOrderOnly)
+                    {
+                        var prev = await _orderRepository.FindAsync(o => o.UserId == userId);
+                        firstOrderOk = !(prev?.Any() ?? false);
+                    }
+                    if (dateOk && limitOk && minOk && firstOrderOk)
+                    {
+                        discountAmount = Math.Round(subtotal * promo.DiscountPercent / 100m, 2);
+                        appliedPromo = promo;
+                    }
+                }
             }
 
             decimal totalAmount = subtotal + shippingCost + giftCost - discountAmount;
@@ -145,6 +170,22 @@ namespace PerfumeStore.Infrastructure.Services
             await _orderRepository.AddAsync(order);
             await _orderRepository.SaveChangesAsync();
 
+            // Promo istifadə sayğacını artır
+            if (appliedPromo != null)
+            {
+                appliedPromo.UsedCount += 1;
+                await _promoRepository.UpdateAsync(appliedPromo);
+                await _promoRepository.SaveChangesAsync();
+            }
+
+            // Email — sifariş təsdiqi (səssiz uğursuz olur, SMTP konfiq yoxdursa)
+            if (!string.IsNullOrWhiteSpace(order.Email))
+            {
+                var fullName = $"{order.FirstName} {order.LastName}".Trim();
+                try { await _email.SendOrderConfirmationAsync(order.Email, order.OrderId, fullName, totalAmount); }
+                catch { /* email uğursuzluğu sifarişi pozmasın */ }
+            }
+
             return order.OrderId;
         }
 
@@ -172,6 +213,7 @@ namespace PerfumeStore.Infrastructure.Services
             var order = await _orderRepository.GetByIdAsync(updateOrderDto.OrderId);
             if (order == null) return;
 
+            var oldStatus = order.Status;
             order.Status = updateOrderDto.Status;
             if (!string.IsNullOrWhiteSpace(updateOrderDto.Note))
                 order.Note = updateOrderDto.Note;
@@ -179,6 +221,9 @@ namespace PerfumeStore.Infrastructure.Services
 
             await _orderRepository.UpdateAsync(order);
             await _orderRepository.SaveChangesAsync();
+
+            if (oldStatus != updateOrderDto.Status)
+                await SendStatusEmailAsync(order);
         }
 
         public async Task<bool> UpdateOrderStatusAsync(int orderId, OrderStatus status)
@@ -186,11 +231,31 @@ namespace PerfumeStore.Infrastructure.Services
             var order = await _orderRepository.GetByIdAsync(orderId);
             if (order == null) return false;
 
+            var oldStatus = order.Status;
             order.Status = status;
             order.UpdatedAt = DateTime.UtcNow;
             await _orderRepository.UpdateAsync(order);
             await _orderRepository.SaveChangesAsync();
+
+            if (oldStatus != status) await SendStatusEmailAsync(order);
             return true;
+        }
+
+        private async Task SendStatusEmailAsync(Order order)
+        {
+            if (string.IsNullOrWhiteSpace(order?.Email)) return;
+            var statusText = order.Status switch
+            {
+                OrderStatus.Pending => "Gözləmədə",
+                OrderStatus.Processing => "Hazırlanır",
+                OrderStatus.Shipped => "Yolda — çatdırılır",
+                OrderStatus.Delivered => "Çatdırıldı",
+                OrderStatus.Canceled => "Ləğv edildi",
+                _ => order.Status.ToString()
+            };
+            var fullName = $"{order.FirstName} {order.LastName}".Trim();
+            try { await _email.SendOrderStatusAsync(order.Email, order.OrderId, fullName, statusText); }
+            catch { /* email səssiz uğursuz */ }
         }
 
         public async Task DeleteOrderAsync(int id)

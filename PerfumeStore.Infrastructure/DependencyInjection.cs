@@ -43,6 +43,9 @@ namespace PerfumeStore.Infrastructure
             services.AddScoped(typeof(IBrandRepository), typeof(BrandRepository));
             services.AddScoped(typeof(IProductVariantRepository), typeof(ProductVariantRepository));
 
+            // Email service (MailKit + SMTP — appsettings:Email)
+            services.AddScoped<PerfumeStore.Application.Interfaces.IEmailService,
+                               PerfumeStore.Infrastructure.Services.MailKitEmailService>();
 
             return services;
         }

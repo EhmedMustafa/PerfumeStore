@@ -1,3 +1,4 @@
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -64,7 +65,64 @@ namespace PerfumeStore.API.Controllers
             return Ok(new { Token = token });
         }
 
+        // Google Sign-In — frontend ID token göndərir, biz JWT qaytarırıq
+        public class GoogleLoginDto
+        {
+            public string Credential { get; set; }
+        }
 
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)
+        {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Credential))
+                return BadRequest(new { Message = "Google credential boşdur" });
+
+            var clientId = _configuration["Google:ClientId"];
+            if (string.IsNullOrWhiteSpace(clientId))
+                return StatusCode(500, new { Message = "Google Client ID server-də konfiqurasiya edilməyib" });
+
+            GoogleJsonWebSignature.Payload payload;
+            try
+            {
+                payload = await GoogleJsonWebSignature.ValidateAsync(dto.Credential, new GoogleJsonWebSignature.ValidationSettings
+                {
+                    Audience = new[] { clientId }
+                });
+            }
+            catch
+            {
+                return Unauthorized(new { Message = "Google token etibarsızdır" });
+            }
+
+            if (string.IsNullOrWhiteSpace(payload.Email))
+                return BadRequest(new { Message = "Google hesabında email tapılmadı" });
+
+            // Mövcud user-i email ilə tap, yoxdursa yarat
+            var user = await _userManager.FindByEmailAsync(payload.Email);
+            if (user == null)
+            {
+                user = new AppUser
+                {
+                    UserName = payload.Email,
+                    Email = payload.Email,
+                    FirstName = payload.GivenName ?? "",
+                    LastName = payload.FamilyName ?? "",
+                    EmailConfirmed = payload.EmailVerified
+                };
+                // Şifrəsiz user — random güclü password (heç vaxt istifadə olunmur)
+                var randomPwd = Guid.NewGuid().ToString("N") + "Aa1!";
+                var createResult = await _userManager.CreateAsync(user, randomPwd);
+                if (!createResult.Succeeded)
+                    return BadRequest(new { Message = "Hesab yaradıla bilmədi", Errors = createResult.Errors });
+
+                // Default "User" rolu
+                if (await _roleManager.RoleExistsAsync("User"))
+                    await _userManager.AddToRoleAsync(user, "User");
+            }
+
+            var token = await GenerateJwtToken(user);
+            return Ok(new { Token = token });
+        }
 
 
         private async Task<string> GenerateJwtToken(AppUser user)
